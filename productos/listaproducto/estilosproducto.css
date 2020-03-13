@@ -1,0 +1,61 @@
+
+/* Color de fondo filas hover */
+/* .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    background-color: rgb(5, 105, 187);
+    color: white;
+  } */
+
+  #col-codbarras{
+      /* width: 133px; */
+      width: 12%;
+  }
+  #col-nombre{
+      width: 40%;
+  }
+  .col-accion{
+      display: flex;
+  }
+
+  .img-producto {
+    /* display:none;  */
+    text-align: center
+  }
+
+  #tableId {
+    width: 100%;
+  }
+
+  .spunidad {
+    color: darkcyan;
+    font-size: 0.6rem;
+  }
+
+  #paginacion {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  .cursor {
+    cursor: pointer;
+  }
+
+  #div-flotante{
+    position: fixed;
+    z-index: 100; /*Crea una capa nueva por encima, si tenemos una con valor 2 estará a una altura o por encima de una con 
+                  valor 1*/
+     margin-left: 70%; 
+     margin-top: 5%; 
+     /* Con este margen posicionamos el div donde queramos */
+     /* top: 30px;
+     bottom: 30px; */
+  }
+
+  #btn-agregar {
+    border-radius: 50%;
+  }
+  #btn-agregar i{
+    size: 50px;
+  }
+
+  

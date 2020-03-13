@@ -1,0 +1,18 @@
+<?php 
+
+$host = "localhost";
+$port = "5432";
+$dbname = "puntodeventa";
+$user = "postgres";
+$password = "admin";
+
+try{
+
+    $base_de_datos = new PDO ("pgsql:host=$host;port=$port;dbname=$dbname",$user,$password);
+   echo "Conectado correctamente a base de datos";
+
+}catch(PDOException $e){
+    echo "Ocurrió un error con la base de datos: " . $e->getMessage();
+}
+
+?>

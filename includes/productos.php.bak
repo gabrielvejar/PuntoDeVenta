@@ -1,0 +1,45 @@
+<?php 
+
+$ruta = "";
+while (!(file_exists ($ruta . "index.php"))) {
+    $ruta = "../" . $ruta;
+}
+
+include_once $ruta . "db/conexion.php";
+
+//Query Regiones
+$queryP  = 'SELECT * FROM public.producto';
+
+$stmtProductos = $base_de_datos->prepare($queryP);
+// $stmtRegiones->setFetchMode(PDO::FETCH_ASSOC);
+$stmtProductos->execute();
+
+#Cerrar conexion
+$base_de_datos=null;
+
+
+?>
+<div>
+    <table class="table table-hover">
+
+        <thead>
+            <tr>
+                <th>Codigo de Barras</th> 
+                <th>Nombre Producto</th>
+                <th>Precio</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php  while ($row = $stmtProductos->fetch()){ ?>
+                <tr>
+                    <td><?php echo $row["codigodebarras"]; ?></td>
+                    <td><?php echo $row["nombreproducto"]; ?></td>
+                    <td>$<?php echo $row["precio"]; ?></td>
+                    <td><img src="<?php echo $row["imagen"]; ?>"  width="50" height="50"></td>
+                </tr>
+            <?php } ?>
+        </tbody>
+
+    </table>
+</div>

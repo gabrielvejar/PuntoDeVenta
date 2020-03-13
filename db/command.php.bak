@@ -1,0 +1,255 @@
+<?php
+
+require "conexion.php";
+
+$cmd=$_REQUEST['cmd'];
+
+
+
+switch ($cmd) {    
+    case "tabla-productos":
+    $query     = "SELECT * FROM public.producto";
+    $params    = array();
+
+    $result    = pg_query_params($dbconn, $query, $params);
+
+    $html      = "";
+
+    while ($row = pg_fetch_row($result)) {
+        $html.= "<tr>";
+        $html.= "<td>".$row[2]."</td>";
+        $html.= "<td>".$row[1]."</td>";
+        $html.= "<td>".$row[3]."</td>";
+        $html.= '<td><img src="'.$row[4].'"  width="50" height="50"></td>';
+        $html.= "</tr>";
+    }
+
+    echo $html;
+
+    break;
+    case "listar-reservas":
+        $query     = "SELECT nombrecancha, nombreapellido, fechaarriendo, hora, idarriendo FROM public.vw_reservas";
+        $params    = array();
+
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $html      = "";
+
+        while ($row = pg_fetch_row($result)) {
+            $html.= "<tr>";
+            $html.= "<td>".$row[0]."</td>";
+            $html.= "<td>".$row[1]."</td>";
+            $html.= "<td>".date("d/m/Y", strtotime($row[2]))." ".$row[3]."</td>";
+            $html.= '<td> <button value='.$row[4].' onclick= "eliminarReserva(this.value)">Borrar</button></td>';
+            $html.= "</tr>";
+        }
+
+        echo $html;
+
+        break;
+
+    case "total-canchas":
+        $query  = "SELECT nombrecancha, porcentaje FROM public.vw_totalarriendo";
+        $params = array();
+
+        $result = pg_query_params($dbconn, $query, $params);
+
+        $html   = "";
+        $indice = 0;
+
+        while ($row = pg_fetch_row($result)) {
+            $html.= "<tr>";
+            $html.= "<td>".++$indice."</td>";
+            $html.= "<td>".$row[0]."</td>";
+
+            $html.= "<td>".number_format($row[1], 1, '.', '')."%</td>";
+            $html.= "</tr>";
+        }
+
+        echo $html;
+
+        break;
+
+    case "combo-canchas":
+        $query    = "SELECT * FROM cancha";
+        $params = array();
+        $result   = pg_query_params($dbconn, $query, $params);
+
+        $html     = '<option value=""></option>';
+
+        while ($row = pg_fetch_row($result)) {
+            $html.= '<option value="'.$row[0].'">'.$row[1].'</option>';
+        }
+
+        echo $html;
+
+        break;
+
+    case "disponibilidad-cancha":
+        $camposVacios = false;
+
+        if (empty($_REQUEST['idCancha'])) {
+            $camposVacios = true;
+        }
+        if (empty($_REQUEST['fecha'])) {
+            $camposVacios = true;
+        }
+        if (empty($_REQUEST['hora'])) {
+            $camposVacios = true;
+        }
+
+        if (!($camposVacios)) {
+
+            $idCancha = $_REQUEST['idCancha'];
+            $fecha    = $_REQUEST['fecha'];
+            $hora     = $_REQUEST['hora'];
+
+            // transformar string a date
+            $fecha    = strtotime($fecha);
+            $fecha    = date('d/m/Y', $fecha);
+
+            $query    = "SELECT * FROM arriendo WHERE idcancha=$1 AND fechaarriendo=$2 AND hora=$3";
+            $params   = array($idCancha, $fecha, $hora);
+            $result   = pg_query_params($dbconn, $query, $params);
+
+            if (!$result) {
+                echo "Ocurri� un error.\n";
+                exit;
+            }
+
+            $contador=0;
+            while ($row = pg_fetch_row($result)) {
+                $contador++;
+            }
+
+            echo $contador;
+
+        } else {
+            echo "campos_vacios";
+        }
+
+        break;
+
+    case "insertar-reserva":
+        $rut         = trim(pg_escape_string($_REQUEST['rut']));
+        $nombre      = trim(pg_escape_string($_REQUEST['nombre']));
+        $cancha      = $_REQUEST['cancha']*1;
+        $fecha       = trim(pg_escape_string($_REQUEST['fecha']));
+        $hora        = trim(pg_escape_string($_REQUEST['hora']));
+        $fono        = trim(pg_escape_string($_REQUEST['fono']));
+        $email       = trim(pg_escape_string($_REQUEST['email']));
+        $web         = $_REQUEST['web'];
+        $tv          = $_REQUEST['tv'];
+        $rrss        = $_REQUEST['rrss'];
+        $amigos      = $_REQUEST['amigos'];
+
+
+        $camposVacios = false;
+
+        if (empty($rut)) {
+            $camposVacios = true;
+        }
+        if (empty($nombre)) {
+            $camposVacios = true;
+        }
+        if (empty($cancha)) {
+            $camposVacios = true;
+        }
+        if (empty($fecha)) {
+            $camposVacios = true;
+        }
+        if (empty($hora)) {
+            $camposVacios = true;
+        }
+        if (empty($fono)) {
+            $camposVacios = true;
+        }
+        if (empty($email)) {
+            $camposVacios = true;
+        }
+        if (empty($web)) {
+            $camposVacios = true;
+        }
+        if (empty($tv)) {
+            $camposVacios = true;
+        }
+        if (empty($rrss)) {
+            $camposVacios = true;
+        }
+        if (empty($amigos)) {
+            $camposVacios = true;
+        }
+
+
+        if (!($camposVacios)) {
+
+            // transformar string a date
+            $fecha  = strtotime($fecha);
+            $fecha  = date('d/m/Y', $fecha);
+
+            $params = array($rut, $nombre, $cancha, $fecha, $hora, $fono, $web, $rrss, $tv, $amigos, $email);
+
+            $query  = "SELECT public.fn_cancha_iu($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)";
+
+            $result = pg_query_params($dbconn, $query, $params);
+
+            //Respuesta de base de datos
+            // 0: No insert� ni actualiz�
+            // 1: Registro insertado
+            // 2: Registro actualizado
+            $row = pg_fetch_row($result);
+            echo $row['0'];
+
+        } else {
+            echo "campos_vacios";
+        }
+
+        break;
+
+    case "eliminar-reserva":
+        $id           = trim(pg_escape_string($_REQUEST['id']));
+
+        $camposVacios = false;
+
+        if (empty($id)) {
+            $camposVacios = true;
+        }
+
+        if (!($camposVacios)) {
+            
+            $params       = array($id);
+
+            $querySelect  = "SELECT idarriendo FROM public.arriendo WHERE idarriendo=$1";
+
+            $resultSelect = pg_query_params($dbconn, $querySelect, $params);
+
+            $contador     = 0;
+
+            while ($row = pg_fetch_row($resultSelect)) {
+                $contador++;
+            }
+
+            if ($contador > 0) {
+
+                $queryDelete  = "SELECT fn_cancha_d($1)";
+
+                $resultDelete = pg_query_params($dbconn, $queryDelete, $params);
+
+                echo 1;
+    
+            } else {
+                echo 0;
+            }
+
+        } else {
+            echo "campos_vacios";
+        }
+
+        break;
+    default:
+        echo "sin_comando_valido";
+        
+        break;
+}
+
+?>
