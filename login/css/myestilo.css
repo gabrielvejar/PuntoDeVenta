@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+html {
+  min-height: 100%;
+  position: relative;
+}
+
+body {
+  background-color: white;
+  color: black;
+  margin: 150px;
+  margin-bottom: 40px;
+  position:relative; // ubica al frente de la página el encabezado
+  z-index:2
+}
+
+#header{
+  color: white;
+  background-color: #428bca;
+  position: fixed; /*Fijar el encabezado de la página*/
+  left:0px; /*Fija a la derecha encabezado*/
+  top: 0px; /*Fija hacia arriba encabezado*/
+  width: 100%;
+  position: fixed;
+  z-index:9999;
+}
+
+#footer {
+   background-color: #428bca;
+   color: white;
+   position:fixed;
+   left:0px;
+   bottom:0px;
+   height:50px;
+   width:100%;
+
+}

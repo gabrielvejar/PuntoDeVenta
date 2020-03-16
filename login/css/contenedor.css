@@ -1,0 +1,202 @@
+@charset "UTF-8";
+
+/* Cambios sobre un selector img*/
+#logo {
+  width: 80px;
+  height: 80px;
+  margin-top: 10px;
+  border: 1px;
+  display: block;
+}
+
+/* Cambios sobre un selector figure*/
+figcaption {
+  text-align: left;
+  font-size: 30px;
+  color: black;
+  font-family: arial;
+}
+
+body{
+  background: grey;
+}
+
+/* Cambios contenedor del encabezado*/
+header{
+  background: orange;
+  margin-bottom: 10px; /* margen encima del encabezado*/
+  margin-top: 0px; /* margen debajo del encabezado*/
+  margin-left: 0px; /* margen izquierdo del encabezado*/
+  margin-right: 0px; /* margen derecho del encabezado*/
+  padding-top: 20px; /* espaciado dentro del encabezado (abajo)*/
+  padding-bottom: 10px; /* espaciado dentro del encabezado (arriba)*/
+  position: fixed; /*Fijar el encabezado de la página*/
+  left:0; /*Fija a la derecha encabezado*/
+  top: 0; /*Fija hacia arriba encabezado*/
+  width: 100%;
+}
+
+section{
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+div.contenido{
+  background: white;
+  width: 1000px; /* ancho del contenedor*/
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 180px;
+  padding-bottom: 20px;
+}
+
+nav{
+  background: rgba(158, 148, 149, 0.71); /* color de fondo contenedor menu*/
+  height: 60px; /* alto del contenedor del menu*/
+  margin-top: 20px; /* espaciado desde afuera del contenedor*/
+  padding-top: 20px; /* espaciado hacia adentro del contenedor desde arriba*/
+  padding-bottom: 10px;
+}
+
+nav ul{
+  padding: 0;
+}
+
+nav.navegacion {
+  background:rgb(22, 87, 96); /*color de fondo del menu*/
+}
+
+ul.menu {
+  border: 0px solid #7C7C7C;
+  list-style: none; /* sin estilo de viñetas*/
+  margin: 0; /* cero espacio en margen afuera*/
+  padding: 0; /* cero espaciado al interior*/
+  overflow: hidden; /* ancho del contenedor menu*/
+}
+
+ul.menu li{
+  float: left; /* Ubica en forma horizontal el menu*/
+  width: 20%; /* ancho de cada item horizontal el menu*/
+}
+
+ul.menu li a {
+  color: rgb(231, 234, 242);
+  font-family: sans-serif, serif;
+  padding: .3em;
+  text-decoration: none; /*Quita el subrayado del link*/
+}
+
+/*Grupo de selectores aplicando margen a la izquierda y hacia abajo*/
+h1, h2, p, a{
+  margin-left: 10px;
+  margin-bottom: 40px;
+}
+
+footer{
+  background: orange;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+footer h3 {
+  text-align: center;
+}
+
+foter nav{
+  background: transparent;
+}
+
+
+/*Organiza el panel principal*/
+main.contenido-principal{
+  width: 700px;
+  float: left;
+}
+
+/*Organiza el panel secundario*/
+aside.contenido-secundario{
+  width: 300px;
+  float: right;
+}
+
+
+
+/*Configura las propiedades del panel introuddción*/
+section#introduccion{
+  background-color: rgb(110, 149, 223);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  border-bottom: 2px;
+  border-left: 2px;
+  border-right: 2px;
+  border-top: 2px;
+  float: left;
+}
+
+/*Configura las propiedades del panel Nuestros Cursos*/
+section#cursos{
+  background-color: rgb(144, 214, 120);
+  width: 100%;
+  padding: 20px; /* espacio alredeor del contorno de la sección*/
+  box-sizing: border-box; /*reajusta la dimesión del padding o margin*/
+  border-bottom: 2px;
+  border-left: 2px;
+  border-right: 2px;
+  border-top: 2px;
+  border-style: dashed; /*Linea punteada*/
+  border-color: rgb(50, 85, 91);
+  float: right; /*Ordena las cajas de secciones */
+}
+
+/*Configura las propiedades del panel Noticias*/
+section#noticias{
+  background-color: rgb(6, 242, 93);
+  width: 100%;
+  padding: 20px; /* espacio alredeor del contorno de la sección*/
+  box-sizing: border-box; /*reajusta la dimesión del padding o margin*/
+  border-bottom: 2px;
+  border-left: 2px;
+  border-right: 2px;
+  border-top: 2px;
+  border-style: dashed;
+  border-color: rgb(50, 85, 91);
+  float: left;
+}
+
+aside#contenido-secundario{
+  background-color: rgb(110, 149, 223);
+  width: 290px;
+  padding: 10px;
+  box-sizing: border-box;
+  margin-top: 5px;
+  height: 520px;
+  float: right;
+}
+
+/* mediante selector iniversal reajustar todos los box en su
+ referencia width, no importa si trabajas con border o
+  padding y cuanto incrementas*/
+*, *::before, *::after{
+  box-sizing: border-box;
+}
+
+.contenedor{
+  background: white;
+  padding-bottom: 0px;
+}
+
+/*Limpia los contenedores*/
+.clearfix::before,
+.clearfix::after{
+  content: '';
+  display: table;
+}
+
+.clearfix::after{
+  clear: both;
+}

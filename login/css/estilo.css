@@ -1,0 +1,176 @@
+@charset "UTF-8";
+
+/* Cambios sobre un seleccionador ID */
+#titulo{
+  color: rgb(174, 179, 175);
+  font-size: 30px;
+}
+
+/* Cambios sobre un seleccionador ID & clases*/
+#titulo.titulo {
+  font-size: 60px;
+  text-align: center;
+}
+
+#noticias{
+  color: rgb(60, 128, 97);
+  font-family: verdana, arial, sans-serif;
+  font-size: 20px !important;
+}
+
+
+/* Cambios en un elemento con dos clases*/
+.titulo.subtitulo{
+  color: orange;
+  text-align: center;
+}
+.titulo.subtitulo{
+  color: white;
+  text-align: center;
+}
+
+div.noticias{
+    font-size: 60px;
+}
+
+figcaption {
+  text-align: center;
+  font-size: 30px;
+  color: rgba(65, 140, 25, 0.95);
+  font-family: verdana;
+}
+
+/* Cambios sobre un selector img*/
+#logo {
+  width: 120px;
+  height: 120px;
+  margin-top: 50px;
+  border: 1px;
+  display: block;
+  margin: auto;
+}
+
+
+/* Cambios sobre elementos HTML */
+/* HTML (Titulos) */
+
+h2 {
+  font-size: 18px; /*tamaño de letra*/
+  color:rgba(247, 240, 237, 0.82); /*color de backgroud*/
+  text-transform: uppercase; /*mayusculas*/
+  background: rgba(108, 116, 106, 0.9); /*color de fondo*/
+  padding: 20px; /*espaciado*/
+}
+
+/* HTML (párrafos) */
+p {
+  font-size: 18px;
+  font-style: italic;
+}
+
+/* HTML (Cuerpo) */
+body{
+  background:white;
+}
+
+/* HTML (Tabla) */
+table {
+  border-collapse:collapse;
+  border:1px solid rgba(#3a4bbb, 0.53);
+  margin: auto;
+}
+
+/* Selectores de grupos:
+Espacio de relleno en celdas y cabeceras */
+
+td, th {
+  padding:10px;
+
+}
+
+/* Modificación de estilos en cabeceras */
+th {
+  background: rgb(17, 18, 15);
+  color:#FFF;
+  text-transform:uppercase;
+}
+
+/* Modificación de estilos en celdas */
+tfoot, td {
+  text-align:center;
+  border-top:1px solid #111;
+  color:#333;
+  font-size:18px;
+}
+
+
+/* Selectores descendientes */
+/* Cambios estilo sobre elemento (Menu) */
+ul.menu {
+
+  border: 0px solid #7C7C7C;
+  list-style: none; /* sin estilo de viñetas*/
+  margin: 0; /* margen*/
+  padding: 0; /* espaciado*/
+  overflow: hidden; /* ancho*/
+  width: auto;
+  /*display: inline; /* despliega en una linea el menu*/*/
+}
+
+ul.menu li{
+  float: left;
+  width: 20%;
+}
+
+ul.menu li a {
+  color: rgb(0, 0, 0);
+  display: block;
+  padding: .3em;
+  text-decoration: none;
+}
+
+nav.navegacion {
+  background:rgb(195, 199, 192) ;
+}
+
+/* Selector con hijos */
+section#cursos > ul {
+  border: 1px solid black;
+}
+
+ul.lista-curso ul > li {
+  color: rgb(37, 124, 226);
+}
+
+
+/* Selector universal */
+ {
+  color:rgb(121, 117, 125);
+  font-size: 16px; /*Define nivel de importancia de asignación de valor*/
+}
+
+#lista-curso *{
+ color: red;
+}
+
+/* Selector para enlaces */
+a[href*="unemi.edu.ec"]{
+  background-color: orange;
+}
+
+/* Selector de atributo */
+img[id=logo]{
+  margin-top: 0;
+}
+
+[class="seccion"]{
+  background-color:rgb(215, 213, 223);
+}
+
+/* Selector con Pseudo Clases */
+div.menu nav ul li a:focus,
+div.menu nav ul li a:visited,
+div.menu nav ul li a:active
+{
+  color: blue;
+}
