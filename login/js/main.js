@@ -16,7 +16,6 @@ jQuery(document).on('submit','#formLg',function(event){
                   
                   location='index2.php';
 
-
                 }else {
                   $('.error').slideDown('slow');
                   setTimeout(function(){

@@ -1,3 +1,20 @@
+<?php 
+
+$ruta = "";
+while (!(file_exists ($ruta . "index.php"))) {
+    $ruta = "../" . $ruta;
+}
+
+    session_start();
+
+    if(!isset($_SESSION['usuario'])) {
+        header('Location: ' .$ruta. 'index.php');
+    }
+
+
+?>
+
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -13,3 +30,4 @@
 
 </head>
 <body>
+

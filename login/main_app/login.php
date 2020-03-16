@@ -1,8 +1,17 @@
 <?php
+$ruta = "";
+while (!(file_exists ($ruta . "index.php"))) {
+    $ruta = "../" . $ruta;
+}
 
 if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) & strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-    require('conexion.php');
+
+    require ($ruta . "db/conexion.php");
+    // require('conexion.php');
     sleep(2);
+
+    session_start();
+
     $usu 		 = $_POST['usuariolg'];
     $pass		= $_POST['passlg'];
 
@@ -15,6 +24,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) & strtolower($_SERVER['HTTP_X_REQU
 
     if (pg_num_rows($usuarios)==1):
         $datos = pg_fetch_assoc($usuarios);
+        $_SESSION['usuario'] = $datos;
         echo json_encode(array('error'=>false,'tipo'=>$datos['tipo_usuario']));
     else:
         echo json_encode(array('error'=>true));
