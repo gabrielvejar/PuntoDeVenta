@@ -14,6 +14,8 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) & strtolower($_SERVER['HTTP_X_REQU
 
     $usu 		 = $_POST['usuariolg'];
     $pass		= $_POST['passlg'];
+    
+    // $pass = hash('sha256', $pass);
 
     $query     = "SELECT nombre, tipo_usuario
     FROM public.usuario

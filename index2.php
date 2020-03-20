@@ -18,6 +18,10 @@ include_once "includes/header.php";
 <a class="iframe" data-fancybox data-type="iframe" data-src="productos/IUproducto/IUproducto.php?producto=1" href="javascript:;">
 <button class="btn btn-primary">Agregar Producto</button>
 </a>
+<a class="iframe" data-fancybox data-type="iframe" data-src="ventas/venta_temp/venta_temp.php" href="javascript:;">
+<button class="btn btn-primary">Nueva Venta</button>
+</a>
+<a href="ventas/venta_temp/venta_temp.php">nueva venta</a>
 
 
 <?php include_once "includes/footer.php"; ?>
