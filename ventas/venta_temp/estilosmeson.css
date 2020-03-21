@@ -20,8 +20,6 @@ input, img, button {
     box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.64);
 }
 
-#contenedor {
-}
 
 #color {
     height: 1024px;
@@ -36,12 +34,26 @@ input, img, button {
     padding: 10px;
     border-radius: 5px;
     /* background-color: rgb(0, 75, 75); */
-    background-color: rgb(51, 51, 51);
+    /* background-color: rgb(51, 51, 51); */
+    background-color: darkslategray;
+    box-shadow: 0px 9px 15px 5px rgba(0,0,0,0.64);
+}
+
+#precio-item {
+    /* display: none; */
+    border-radius: 5px;
+    /* background-color: rgb(0, 75, 75); */
+    /* background-color: rgb(51, 51, 51); */
+    background-color: darkslategrey;
     box-shadow: 0px 9px 15px 5px rgba(0,0,0,0.64);
 }
 
 #fila1 {
+    /* justify-content: space-around;s */
+}
 
+#fila2, #fila3 {
+ box-shadow: none;
 }
 
 #div1-1 {
@@ -66,6 +78,7 @@ input, img, button {
     width: 768px;
     display: flex;
     align-content: center;
+    justify-content: space-evenly;
 }
 #div3-1 {
     height: 115px;
@@ -75,11 +88,11 @@ input, img, button {
     justify-content: space-evenly;
 }
 #div4-1 {
-    height: 370px;
+    height: 290px;
     width: 768px;
 }
 #div-tabla-detalle {
-    height: 320px;
+    height: 240px;
     overflow: auto;
 }
 #div5-1 {
@@ -96,6 +109,11 @@ input, img, button {
     align-items: center;
     justify-content: space-evenly;
 }
+
+#final {
+    height: 30px;
+}
+
 .w100 {
     width: 100%;
 }
@@ -124,6 +142,7 @@ input, img, button {
  #img-producto {
     height: 164px;
     width: 164px;
+    /* display: none; */
  }
 
  div#div2-1 > * {
@@ -146,7 +165,7 @@ div#div3-1 > * {
     border-radius: 10px;
 }
 div#div3-1 > :not(button) {
-    font-size: 70px;
+    font-size: 60px;
 }
 
 div#div3-1 > input {
@@ -159,7 +178,7 @@ div#div3-1 > button {
 }
 
 div#div5-1 > * {
-    font-size: 75px;
+    font-size: 60px;
     border-radius: 10px;
 }
 div#div5-1 > input {
@@ -179,6 +198,7 @@ div#div5-1 > input {
 
 div#div6-1 > button {
     height: 110px;
+    border-radius: 10px;
 }
 #btn-imprimir {
     font-size: 50px;
@@ -186,6 +206,11 @@ div#div6-1 > button {
 }
 #btn-cancelar {
     font-size: 20px;
+}
+
+.btn-borrar-detalle {
+    box-shadow: none;
+    border-radius: 5px;
 }
 
   @media only screen and (min-width: 768px) {
