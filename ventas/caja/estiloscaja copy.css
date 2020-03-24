@@ -2,8 +2,10 @@
     box-sizing: border-box;
   }
 
-div {
-    /* border: 1px solid red; */
+#encabezado > h1{
+    font-size: 48px;
+    margin: 0;
+    margin-bottom: 3px;
 }
 
 
@@ -11,10 +13,6 @@ input {
     border-style: none;
 }
 
-/* .btn-primary {
-    background-color: rgb(43, 73, 63);
-    border:none;
-} */
 
 input, img, button {
     box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.64);
@@ -22,14 +20,16 @@ input, img, button {
 
 
 #color {
-    height: 1024px;
-    width: 768px;
+    /* width: 1024px;
+    height: 768px; */
     padding: 20px;
+    display: flex;
     /* background-color: rgb(38, 0, 255); */
 }
 
 .fila {
     display: flex;
+    /* width: 768px; */
     margin-bottom: 10px;
     padding: 10px;
     border-radius: 5px;
@@ -54,6 +54,10 @@ input, img, button {
 
 #fila2, #fila3 {
  box-shadow: none;
+}
+
+div#fila5 {
+    display: block;
 }
 
 #div1-1 {
@@ -88,20 +92,23 @@ input, img, button {
     justify-content: space-evenly;
 }
 #div4-1 {
-    height: 290px;
-    width: 768px;
+    /* height: 600px; */
+    width: 50vw;
+    /* width: 600px; */
 }
 #div-tabla-detalle {
-    height: 240px;
+    height: 69vh;
     overflow: auto;
 }
 #div5-1 {
     height: 120px;
-    width: 768px;
+    /* width: 768px; */
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-between;
+    padding: 16px;
 }
+
 #div6-1 {
     height: 120px;
     width: 768px;
@@ -121,17 +128,20 @@ input, img, button {
 
 
  #div1-1 > input {
-     margin-bottom: 7px;
+     margin-bottom: 15px;
      padding-left: 10px;
      border-radius: 5px;
      color: black;
  }
  #codigo {
-    font-size: 40px;
+    font-size: 21px;
     border-radius: 10px;
 }
+ #nombre {
+    font-size: 26px;
+}
 
- #div1-3 > button {
+ #div1-3 > button, #btn-buscar {
      width: 100%;
      height: 40%;
      font-size: 20px;
@@ -142,6 +152,7 @@ input, img, button {
  #img-producto {
     height: 164px;
     width: 164px;
+    border-radius: 10px;
     /* display: none; */
  }
 
@@ -188,7 +199,7 @@ div#div5-1 > input {
 
 
 #col-nombre{
-    width: 330px;
+    width: 300px;
 }
 
 #tbl-detalle{
@@ -196,14 +207,25 @@ div#div5-1 > input {
 }
 
 
-div#div6-1 > button {
+/* div#div6-1 > button {
     height: 110px;
     border-radius: 10px;
+} */
+.btn-abajo {
+    height: 110px;
+    border-radius: 10px;
+
 }
-#btn-imprimir {
+
+.btn-pago {
     font-size: 50px;
-    width: 400px;
+    width: 240px;
 }
+
+
+
+
+
 #btn-cancelar {
     font-size: 20px;
 }
@@ -213,9 +235,56 @@ div#div6-1 > button {
     border-radius: 5px;
 }
 
-  @media only screen and (min-width: 768px) {
+.x-detalle {
+    color: firebrick;
+    font-size: 25px;
+    cursor: pointer;
+}
+.x-detalle:hover {
+    color: red;
+}
+
+  /* @media only screen and (min-width: 768px) {
     .flex-container {
         display: flex;
         justify-content: center;
       }
-  }
+  } */
+
+
+
+
+
+
+
+  #suggestions {
+    box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.3);
+    height: auto;
+    position: absolute;
+    top: 180px;
+    z-index: 9999;
+    width: 340px;
+}
+ 
+#suggestions .suggest-element {
+    /* font-size: 26px; */
+    color: black;
+    background-color: #EEEEEE;
+    border-top: 1px solid #d6d4d4;
+    cursor: pointer;
+    padding: 10px 0 0 15px;
+    width: 100%;
+    height: 60px;
+    float: left;
+}
+
+
+
+
+
+.modal-backdrop {
+    width: 100%;
+    height: 100%;
+    /* background: none; */
+
+}

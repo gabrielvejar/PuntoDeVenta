@@ -22,8 +22,10 @@ if (file_exists ("index.php")) {
     <script src="<?php echo $ruta?>js/bootbox.min.js"></script>
     <script src="<?php echo $ruta?>js/bootbox.locales.min.js"></script>
     <script src="<?php echo $ruta?>js/bootstrap-paginator.min.js"></script>
-    <script src="<?php echo $ruta?>js/util.js"></script>
-    <script src="<?php echo $ruta2?>Controlador.js"></script>
-    Desarrollado por el Gabo en cuarentena 2020
+    <script src="<?php echo $ruta?>js/util.js?v=<?php echo rand() ?>"></script>
+    <script src="<?php echo $ruta2?>Controlador.js?v=<?php echo rand() ?>"></script>
+    <!-- <div>
+        <p>Desarrollado por el Gabo en cuarentena 2020</p>
+    </div> -->
 </body>
 </html>

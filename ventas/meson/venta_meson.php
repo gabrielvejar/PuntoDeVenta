@@ -33,18 +33,37 @@ include_once $ruta . "db/conexion.php";
         </div>
 
         <div id="div1-1">
-            <input type="number" name="codigo" id="codigo"class="form-control w100" placeholder="Código producto">
-            <input type="text" name="nombre" id="nombre"class="form-control w100" placeholder="Nombre" readonly>
-            <input type="text" name="promo" id="promo"class="form-control w100" placeholder="Promoción" readonly>
+            <input type="number" name="codigo" id="codigo" class="form-control w100" placeholder="Código producto">
+            <input type="text" name="nombre" id="nombre" class="form-control w100" placeholder="Nombre">
+                    <!-- autocompletar -->
+            <div id="suggestions"></div>
+            
+            <input type="text" name="promo" id="promo" class="form-control w100" placeholder="Promoción" readonly>
 
             <input type="hidden" id="idproducto" value="">
             <input type="hidden" id="idunidad" value="">
             <input type="hidden" id="nombreunidad" value="">
             <input type="hidden" id="id_promocion" value="">
+            <input type="hidden" id="promo_cantidad" value="">
+            <input type="hidden" id="promo_tipo_desc" value="">
+            <input type="hidden" id="promo_monto_desc" value="">
+            <input type="hidden" id="promo_activo" value="">
+            <input type="hidden" id="promo_aplica" value="">
         </div>
 
+
+
         <div id="div1-3">
-            <button id="btn-buscar" class="btn btn-primary">Buscar</button>
+            <!-- <button id="btn-buscar" class="btn btn-primary">Buscar</button> -->
+
+            <a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
+                <button id="btn-buscar" class="btn btn-primary">Buscar</button>
+            </a>
+
+
+
+
+
             <button id="btn-borrar" class="btn btn-primary">Borrar</button>
         </div>
 
@@ -57,7 +76,13 @@ include_once $ruta . "db/conexion.php";
     <div id="fila2" class="fila">
         <div id="div2-1">
             <!-- <label for="">$</label><input type="number" id="precio_producto" class="calctotal"><label for="">x</label><button class="btn btn-primary" id="btn-menos">-</button><input type="number" id="cantidad" class="calctotal" min=0 step="0.001"><button class="btn btn-primary" id="btn-mas">+</button> -->
-            <label for="">$</label><input type="number" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.001" placeholder="1"><span id="unidad_producto"></span>
+            <label for="">$</label><input type="number" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>
+        </div>
+    </div>
+    <div id="fila2" class="fila descuento collapse">
+        <div id="div2-1">
+            <!-- <label for="">$</label><input type="number" id="precio_producto" class="calctotal"><label for="">x</label><button class="btn btn-primary" id="btn-menos">-</button><input type="number" id="cantidad" class="calctotal" min=0 step="0.001"><button class="btn btn-primary" id="btn-mas">+</button> -->
+            <label for="">descuento $</label><input type="number" id="monto_descuento" value="0" readonly>
         </div>
     </div>
 
@@ -102,8 +127,8 @@ include_once $ruta . "db/conexion.php";
 
     <div id="fila6" class="fila">
         <div id="div6-1">
-        <button id="btn-imprimir" class="btn btn-success">Imprimir</button>
-        <button id="btn-cancelar" class="btn btn-danger">Cancelar</button>
+        <button id="btn-imprimir" class="btn btn-success btn-abajo" value="<?php echo $ruta?>">Imprimir</button>
+        <button id="btn-cancelar" class="btn btn-danger btn-abajo" value="<?php echo $ruta?>">Cancelar</button>
         </div>
     </div>    
 

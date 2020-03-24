@@ -17,7 +17,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) & strtolower($_SERVER['HTTP_X_REQU
     
     // $pass = hash('sha256', $pass);
 
-    $query     = "SELECT nombre, tipo_usuario
+    $query     = "SELECT id_usuario, nombre, tipo_usuario
     FROM public.usuario
     WHERE usuario = $1 AND password = $2";
     $params    = array($usu, $pass);

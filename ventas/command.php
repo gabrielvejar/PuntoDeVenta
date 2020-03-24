@@ -1,4 +1,11 @@
 <?php
+session_start();
+
+if(!isset($_SESSION['usuario'])) {
+    die();
+} else {
+    $usuario = $_SESSION['usuario'];
+}
 
 $ruta = "";
 while (!(file_exists ($ruta . "index.php"))) {
@@ -46,7 +53,75 @@ switch ($cmd) {
 
 
         
-        break;
+    break;
+    case 'ingresar-venta-temporal':
+
+        // codigo
+        // nombre
+        // precio
+        // cantidad
+        // monto
+        // idproducto
+        // unidad
+        // idunidad
+        // idpromocion
+
+        $detalle = json_decode($_POST['detalle'], true);
+
+        // echo $detalle[0]['codigo'];
+
+
+        $query     = "SELECT * FROM public.fn_venta_temporal_i($1)";
+
+        $params    = array($usuario['id_usuario']);
+
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+
+        $id_venta_temp = $row['0'];
+
+
+        foreach ($detalle as $linea) {
+            // echo $linea['codigo'];
+            // __id_venta_temp 	ALIAS FOR $1;
+            // __id_producto 		ALIAS FOR $2;
+            // __cantidad 			ALIAS FOR $3;
+            // __id_usuario 		ALIAS FOR $4;
+            // __monto 			ALIAS FOR $5;
+            // __id_promocion 		ALIAS FOR $6;
+            $id_promocion = $linea['idpromocion'];
+            if ($id_promocion == "") {
+                $id_promocion = 0;
+            }
+
+            $query     = "SELECT * FROM public.fn_venta_detalle_i($1, $2, $3, $4, $5, $6)";
+
+            $params    = array($id_venta_temp, $linea['idproducto'], $linea['cantidad'], $usuario['id_usuario'], $linea['monto'], $id_promocion);
+
+            $result    = pg_query_params($dbconn, $query, $params);
+
+        }
+
+
+        $query     = "SELECT id_diario FROM public.venta_temporal WHERE id_venta_temp = $1";
+
+        $params    = array($id_venta_temp);
+
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+
+        $id_diario = $row['0'];
+
+        echo $id_diario;
+
+        // TODO imprimir ticket
+
+
+
+
+    break;
 }
 
 ?>
