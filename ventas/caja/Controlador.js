@@ -6,6 +6,20 @@ function agre_canc_collapse () {
     $('#precio-item').collapse('hide');
 }
 
+function calc_vuelto () {
+    var total = parseInt($('#input-total').val());
+    var efectivo = parseInt($('#input-efectivo').val());
+    $('#input-vuelto').val('');
+
+    if (!(isNaN(total) || isNaN(efectivo))) {
+        if(efectivo >= total && total>0) {
+            $('#input-vuelto').val(efectivo-total);
+        }
+        
+    }
+
+}
+
 
 $(function() {
 
@@ -30,5 +44,14 @@ $(function() {
     $(document).on('click', '#btn-agregar', function(event) {
         agre_canc_collapse();
     });
+
+
+    $(document).on('input', '#input-efectivo', function(event) {
+        if(event.keyCode==13){ //enter
+            event.preventDefault();
+         }
+         calc_vuelto();
+
+     });
 
 });

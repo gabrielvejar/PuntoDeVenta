@@ -9,8 +9,8 @@
 #encabezado {
     display: flex;
     justify-content: center;
-    padding: 0 1rem;
-    font-size: 2.5rem;
+    padding: 0 16px;
+    font-size: 40px;
 }
 
 
@@ -19,12 +19,12 @@
 }
 #btn-cerrar {
     /* float: right; */
-    border-radius: 3.125rem;
-    font-size: 1.25rem;
-    width: 2.8125rem;
-    height: 2.8125rem;
+    border-radius: 50px;
+    font-size: 20px;
+    width: 45px;
+    height: 45px;
     position: absolute;
-    right: 1.25rem;
+    right: 20px;
 }
 
 
@@ -34,31 +34,31 @@ input {
 
 .lam {
     margin-bottom: 1.25rem;
-    padding: 1.25rem;
-    border-radius: 0.3125rem;
+    padding: 20px;
+    border-radius: 5px;
     /* background-color: darkslategray; */
-    box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    box-shadow: 0px 9px 15px 5px rgba(0,0,0,0.64);
     /* border: 0.125rem solid white; */
 }
 
 
 input, img, button {
-    box-shadow: 0rem 0.5rem 0.625rem 0rem rgba(0,0,0,0.64);
+    box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.64);
 }
  #contenedor{
      display: flex;
-     width: 64rem;
+     width: 1024px;
  }
  .columna {
     /* padding: 0 16px; */
-    margin: 0 0.5rem;
+    margin: 0 8px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
  }
 /* TODO */
 #columna1 {
-    width: 43.75rem;
+    width: 700px;
 }
 
 #fila1{
@@ -72,38 +72,38 @@ input, img, button {
 }
 
 #div-tabla-detalle {
-    height: 32rem;
+    height: 512px;
     overflow: auto;
     background-color: gainsboro;
-    border-radius: 0.625rem;
+    border-radius: 10px;
 }
 
 #tbl-detalle{
-    font-size: 0.8125rem;
+    font-size: 13px;
     color: black;
 }
 
 th#col-nombre {
-    width: 18.75rem;
+    width: 300px;
 }
 
 #div-boton-detalle{
-    padding: 0.625rem 0;
+    padding: 10px 0;
 }
 
 
 #columna2 {
-    width: 26.5rem;
+    width: 424px;
 }
 
 #div1-1 {
-    padding: 0 1rem;
+    padding: 0 16px;
 }
 
 #div1-1 > input {
-    margin-bottom: 0.9375rem;
-    padding-left: 0.625rem;
-    border-radius: 0.3125rem;
+    margin-bottom: 15px;
+    padding-left: 10px;
+    border-radius: 5px;
     color: black;
     width: 100%;
 }
@@ -113,11 +113,11 @@ th#col-nombre {
 }
 
 #codigo {
-   font-size: 1.3125rem;
-   border-radius: 0.625rem;
+   font-size: 21px;
+   border-radius: 10px;
 }
 #nombre {
-   font-size: 1.625rem;
+   font-size: 26px;
 }
 
 
@@ -131,15 +131,15 @@ th#col-nombre {
 }
 
 #div1-3 > button, #btn-buscar {
-    width: 6.25rem;
-    font-size: 1.25rem;
-    border-radius: 0.625rem;
+    width: 100px;
+    font-size: 20px;
+    border-radius: 10px;
 }
 
 #img-producto {
-   height: 10.25rem;
-   width: 10.25rem;
-   border-radius: 0.625rem;
+   height: 164px;
+   width: 164px;
+   border-radius: 10px;
    /* display: none; */
 }
 
@@ -151,32 +151,29 @@ div#div2-1{
 }
 
 div#div2-1 > * {
-    font-size: 2.9375rem;
-    border-radius: 0.625rem;
+    font-size: 47px;
+    border-radius: 10px;
 }
 
 div#div2-1 > input {
-    width: 13.5625rem;
-    height: 3.75rem;
+    width: 217px;
+    height: 60px;
     text-align: center;
 }
 
-/* div#div2-1 > button {
+div#div2-1 > button {
     width: 76.4px;
-} */
-
-
+}
 div#div3-1 {
     display: flex;
     justify-content: space-between;
 }
-
 div#div3-1 > * {
-    font-size: 2.5rem;
-    border-radius: 0.625rem;
+    font-size: 40px;
+    border-radius: 10px;
 }
 div#div3-1 > :not(button) {
-    font-size: 3.125rem;
+    font-size: 50px;
 }
 
 div#div3-1 > input {
@@ -192,33 +189,33 @@ div#div3-1 > input {
 
 
 .btn-pago {
-    height: 6.25rem;
-    font-size: 3.125rem;
+    height: 100px;
+    font-size: 50px;
 }
 
 #botonera button {
     width: 100%;
-    margin: 0.625rem 0;
-    border-radius: 0.625rem;
+    margin: 10px 0;
+    border-radius: 10px;
 }
 
 
 .total {
-    font-size: 1.875rem;
+    font-size: 30px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
 }
 /* TODO */
 input.input-total {
-    width: 11.5rem;
-    border-radius: 0.625rem;
-    font-size: 2.5rem;
+    width: 184px;
+    border-radius: 10px;
+    font-size: 40px;
     text-align: center;
 }
 
 .pago-efectivo {
-    margin-top: 1.25rem;
+    margin-top: 20px;
 }
 
 
@@ -228,10 +225,10 @@ input.input-total {
 /*-------------------------------------------------------------*/
 
   #suggestions {
-    box-shadow: 0.625rem 0.625rem 1.25rem 0.125rem rgba(0,0,0,0.3);
+    box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.3);
     height: auto;
     position: absolute;
-    top: 11.25rem;
+    top: 180px;
     z-index: 9999;
     width: 340px;
 }
@@ -240,11 +237,11 @@ input.input-total {
     /* font-size: 1.625rem; */
     color: black;
     background-color: #EEEEEE;
-    border-top: 0.0625rem solid #d6d4d4;
+    border-top: 1px solid #d6d4d4;
     cursor: pointer;
-    padding: 0.625rem 0 0 0.9375rem;
+    padding: 10px 0 0 15px;
     width: 100%;
-    height: 3.75rem;
+    height: 60px;
     float: left;
 }
 
@@ -268,9 +265,6 @@ input.input-total {
       }
 }
 @media only screen and (max-width: 767px) and (orientation: portrait){
-    html {
-        font-size: 12px;
-    }
     #contenedor {
         flex-direction: column;
     }
