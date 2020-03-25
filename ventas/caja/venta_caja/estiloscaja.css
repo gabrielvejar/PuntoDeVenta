@@ -89,8 +89,16 @@ th#col-nombre {
 
 #div-boton-detalle{
     padding: 0.625rem 0;
+    text-align: center;
 }
-
+.x-detalle {
+    color: firebrick;
+    font-size: 25px;
+    cursor: pointer;
+}
+.x-detalle:hover {
+    color: red;
+}
 
 #columna2 {
     width: 26.5rem;

@@ -16,6 +16,7 @@ include_once $ruta . "db/conexion.php";
 
 
 ?>
+<input type="hidden" id="ruta" value="<?php echo $ruta?>">
 
 <span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span>
 

@@ -28,7 +28,7 @@ include_once $ruta . "db/conexion.php";
     
 
 <div id="encabezado" class="flex-container">
-        <span id="titulo">CAJA - ID ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
+        <span id="titulo">CAJA - N° DE ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
 </div>
 
 <div id="" class="flex-container"> 
@@ -126,7 +126,7 @@ include_once $ruta . "db/conexion.php";
         <div id="columna2" class="columna">
             <div id="totales" class="lam">
                 <div id="total" class="total">
-                    <span>Total $</span><input type="number" name="total" id="input-total" class="input-total">
+                    <span>Total $</span><input type="number" name="total" id="input-total" class="input-total" readonly>
                 </div>
                 
                 <div id="pago-efectivo" class="collapse">

@@ -144,6 +144,10 @@ switch ($cmd) {
         
     break;
 
+    case 'ventas-temporales':
+        //SELECT id_venta_temp, id_diario FROM public.venta_temporal 
+  WHERE pagado IS NOT TRUE
+
 }
 
 ?>
