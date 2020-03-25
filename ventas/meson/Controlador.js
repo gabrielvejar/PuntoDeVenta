@@ -411,27 +411,23 @@ $(function() {
      });
 
 
-
-
-
-
      $(document).on('input', '#total_producto', function(event) {
         calcular_kilos_producto();
     });
 
-     $(document).on('click', '#btn-mas', function(event) {
-        $('#cantidad').val($('#cantidad').val()*1+1);
-        calcular_total_producto();
-    });
+    //  $(document).on('click', '#btn-mas', function(event) {
+    //     $('#cantidad').val($('#cantidad').val()*1+1);
+    //     calcular_total_producto();
+    // });
 
-    $(document).on('click', '#btn-menos', function(event) {
-         if ($('#cantidad').val()*1 >= 1) {
-            $('#cantidad').val($('#cantidad').val()*1-1);
-         } else {
-            $('#cantidad').val('0');
-         }
-         calcular_total_producto();
-    });
+    // $(document).on('click', '#btn-menos', function(event) {
+    //      if ($('#cantidad').val()*1 >= 1) {
+    //         $('#cantidad').val($('#cantidad').val()*1-1);
+    //      } else {
+    //         $('#cantidad').val('0');
+    //      }
+    //      calcular_total_producto();
+    // });
 
 
     
@@ -522,7 +518,7 @@ $(function() {
         var dataString = 'key='+key;
 	$.ajax({
             type: "POST",
-            url: "ajax.php",
+            url: "../autocompletar.php",
             data: dataString,
             success: function(data) {
                 //Escribimos las sugerencias que nos manda la consulta

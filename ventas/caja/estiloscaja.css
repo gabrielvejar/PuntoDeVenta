@@ -2,9 +2,9 @@
     box-sizing: border-box;
   }
 
-  /* div {
-      border: 0.0625rem solid red;
-  } */
+  div {
+      /* border: 0.0625rem solid red; */
+  }
 
 #encabezado {
     display: flex;
@@ -79,7 +79,7 @@ input, img, button {
 }
 
 #tbl-detalle{
-    font-size: 0.8125rem;
+    font-size: 1rem;
     color: black;
 }
 
@@ -124,7 +124,7 @@ th#col-nombre {
 
 
 #div1-3 {
-    width: 100px;
+    width: 6.25rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -209,7 +209,7 @@ div#div3-1 > input {
     justify-content: flex-end;
     align-items: center;
 }
-/* TODO */
+
 input.input-total {
     width: 11.5rem;
     border-radius: 0.625rem;
@@ -221,9 +221,26 @@ input.input-total {
     margin-top: 1.25rem;
 }
 
+div#billetes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+}
 
+.btn-billete {
+    width: 6.25rem;
+    margin-bottom: 0.625rem;
+}
 
+button#billete-2000 {
+    background-color: #af47eb;
+    border-color: #7713b1;
+}
 
+button#billete-10000 {
+    background-color: #1953cf;
+    border-color: #1548b6;
+}
 
 /*-------------------------------------------------------------*/
 
@@ -231,9 +248,9 @@ input.input-total {
     box-shadow: 0.625rem 0.625rem 1.25rem 0.125rem rgba(0,0,0,0.3);
     height: auto;
     position: absolute;
-    top: 11.25rem;
+    top: 13.75rem;
     z-index: 9999;
-    width: 340px;
+    width: 17.5rem;
 }
  
 #suggestions .suggest-element {

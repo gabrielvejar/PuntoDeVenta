@@ -122,6 +122,28 @@ switch ($cmd) {
 
 
     break;
+
+    case 'buscar-venta-temporal':
+
+        $id_venta_temp = $_REQUEST['id_venta_temp'] ;
+
+        $query     = "SELECT * FROM public.vw_detalle_venta_temp WHERE id_venta_temp = $1";
+        $params    = array($id_venta_temp);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+        
+    break;
+
 }
 
 ?>

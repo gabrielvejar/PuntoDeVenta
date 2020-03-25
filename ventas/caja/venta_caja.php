@@ -1,5 +1,10 @@
 <?php 
 
+if(!isset($_REQUEST['id'])) {
+    die();
+} else {
+    $id_venta_temp = $_REQUEST['id'];
+}
 
 $titulo = "Caja - Punto de Venta";
 $css = "estiloscaja.css";
@@ -13,9 +18,8 @@ include_once $ruta . "includes/header.php";
 
 include_once $ruta . "db/conexion.php";
 
-
-
 ?>
+<input type="hidden" id="id_venta_temp" value="<?php echo $id_venta_temp?>">
 <input type="hidden" id="ruta" value="<?php echo $ruta?>">
 
     <div><span><?php echo date("d/m/Y") ?> | </span><span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span></div>
@@ -23,12 +27,8 @@ include_once $ruta . "db/conexion.php";
 
     
 
-
-
-
-
 <div id="encabezado" class="flex-container">
-        <span id="titulo">CAJA - ID ATENCIÓN: <span><b>21</span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
+        <span id="titulo">CAJA - ID ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
 </div>
 
 <div id="" class="flex-container"> 
@@ -114,7 +114,7 @@ include_once $ruta . "db/conexion.php";
                         </tbody>
                     </table>
                 </div>
-                <div id="div-boton-detalle">
+                <div id="div-boton-detalle" class="collapse show">
                     <button id="btn-agregar-prod" class="btn btn-primary">Agregar Producto</button>
                 </div>
             </div>
@@ -136,8 +136,15 @@ include_once $ruta . "db/conexion.php";
                     <div id="vuelto" class="total pago-efectivo">
                         <span>Vuelto $</span><input type="number" name="total" id="input-vuelto" class="input-total" readonly>
                     </div>
-                    <!-- TODO -->
-                    <div id="billetes"></div>
+                    
+                    <div id="billetes" class="pago-efectivo">
+                        <button id="billete-1000" class="btn-billete btn btn-success" value="1000">$1.000</button>
+                        <button id="billete-2000" class="btn-billete btn" value="2000">$2.000</button>
+                        <button id="billete-5000" class="btn-billete btn btn-danger" value="5000">$5.000</button>
+                        <button id="billete-10000" class="btn-billete btn btn-info" value="10000">$10.000</button>
+                        <button id="billete-20000" class="btn-billete btn btn-primary" value="20000">$20.000</button>
+                    
+                    </div>
 
                 </div>
             </div>
