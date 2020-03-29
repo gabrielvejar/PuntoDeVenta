@@ -13,8 +13,10 @@
 <html lang="es">
   <head>
     <meta charset="utf-8">
-    <title>Login</title>
+    <title>Login - Punto de Venta</title>
     <link rel="stylesheet" href="login/css/main.css">
+    <meta name="viewport" content="width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
   </head>
   <body>
     <div class="error">

@@ -28,6 +28,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) & strtolower($_SERVER['HTTP_X_REQU
         $datos = pg_fetch_assoc($usuarios);
         $_SESSION['usuario'] = $datos;
         echo json_encode(array('error'=>false,'tipo'=>$datos['tipo_usuario']));
+
+
+        
     else:
         echo json_encode(array('error'=>true));
     endif;

@@ -19,10 +19,7 @@ include_once $ruta . "db/conexion.php";
 
 ?>
 
-<!-- 
-<div id="div-flotante">
-    boton
-</div> -->
+<?php include $ruta . "includes/nav.php"; ?>
 
     <div class="container">
 

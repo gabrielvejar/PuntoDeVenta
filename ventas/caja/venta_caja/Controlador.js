@@ -1,9 +1,9 @@
+
 var listaDetalleDB = [];
 var listaDetalle = [];
+var id_venta = document.getElementById('id_venta_temp').value;
 
 function buscarDetalle() {
-
-    var id_venta = document.getElementById('id_venta_temp').value;
 
     var ruta   = "../../command.php";
     var cmd    = "buscar-venta-temporal";
@@ -144,7 +144,22 @@ function borrarLineaDetalledb (indice, id) {
         callback: function(result){ 
             if (result) {
                 //TODO Eliminar linea de detalle en db
-                alert('Eliminar detalle id: '+id);
+                console.log('entro paso 1');
+                
+                $.ajax({
+                    type: "POST",
+                    url: "../../command.php",
+                    data: {
+                        'cmd': 'eliminar-detalle-db',
+                        'id_detalle': id
+                    },
+                    success: function (response) {
+                        buscarDetalle();
+                        listarDetalle();
+                    }
+                });
+
+
                 // listaDetalle.splice(indice, 1);
                 // listarDetalle();
                 // calcular_total_venta();
@@ -220,9 +235,9 @@ function buscarProducto() {
             // $('#img-producto').show();
 
             if (respuesta[0]["imagen"] != '' ) {
-                $("#img-producto").attr("src","../../img/productos/"+respuesta[0]["imagen"]);
+                $("#img-producto").attr("src","../../../img/productos/"+respuesta[0]["imagen"]);
             } else {
-                $("#img-producto").attr("src","../../img/productos/sinimagen.jpg");
+                $("#img-producto").attr("src","../../../img/productos/sinimagen.jpg");
             }
 
             if (respuesta[0]["id_promocion"] != '' && respuesta[0]["promo_activo"] == 't') {
@@ -251,7 +266,7 @@ function buscarProducto() {
             console.log('producto no encontrado');
             $('#precio-item').collapse('hide');
             $('.descuento').collapse('hide');
-            $("#img-producto").attr("src","../../img/logopanaderia.PNG");
+            $("#img-producto").attr("src","../../../img/logopanaderia.PNG");
             $("#precio_producto").val('');
             $("#cantidad").val('');
             $("#total_producto").val('');
@@ -352,6 +367,10 @@ function agre_canc_collapse () {
     $('#btns-pago-efectivo').collapse('hide');
     $('#row1').collapse('hide');
     $('#precio-item').collapse('hide');
+    $('#div-boton-detalle').collapse('show');
+    if (id_venta != 0) {
+        $('#div-tabla-detalle').css('height', '31rem');
+    }
 }
 
 function sumarBillete (valor) {
@@ -380,7 +399,155 @@ function calc_vuelto () {
 }
 
 
+function imprimir_recibo () {
+
+        if (listaDetalle.length > 0 || listaDetalleDB.length > 0) {
+    
+            var totalVenta = $('#input-total').val();
+    
+            // var dataString = 'key='+key;
+            $.ajax({
+                    type: "POST",
+                    url: rutaraiz+"print/recibo_venta.php",
+                    data: {
+                        'total': totalVenta,
+                        'detalle1':JSON.stringify(listaDetalleDB),
+                        'detalle2':JSON.stringify(listaDetalle)},
+                    success: function(data) {
+                        
+                        console.log(data);
+                        location.replace(rutaraiz+'ventas/caja/caja.php');
+
+                        // setTimeout(() => {
+                        //     location.replace(rutaraiz+'ventas/caja/caja.php');
+                        // }, 5000);
+
+                        // bootbox.alert({
+                        //     title: "",
+                        //     message: "<b>Recibo impreso</b>",
+                        //     centerVertical: true,
+                        //     callback: function (result) {
+                        //         location.replace(rutaraiz+'ventas/caja/caja.php');
+                        //     }
+                        // });
+    
+                    }
+                });
+    
+    
+            // bootbox.alert("Ticket impreso", function(){
+    
+            //     // location.reload();
+                
+            //     var ruta = $('#btn-imprimir').val();
+    
+            //     location.replace(ruta);
+            // })
+    
+        } else {
+    
+            bootbox.alert("No hay productos agregados");
+    
+        }
+    
+    
+    
+    
+}
+
+function pagar (id_tipo_pago) {
+    // id_tipo_pago
+    // 1 efectivo
+    // 2 tarjeta
+
+    var cantItems = listaDetalle.length + listaDetalleDB.length;
+
+    if (cantItems > 0) {
+
+        var id_venta = document.getElementById('id_venta_temp').value;
+        var monto_venta = document.getElementById('input-total').value;
+        
+        if (listaDetalle.length > 0) {
+
+                var datos = {
+                    'cmd': 'ingresar-venta-temporal-caja',
+                    'id_venta_temp': id_venta,
+                    'detalle':JSON.stringify(listaDetalle)
+                };
+    
+                $.ajax({
+                    type: "POST",
+                    url: "../../command.php",
+                    data: datos,
+                    async: false,
+                    success: function(data) {
+                        id_venta = data;
+                    }
+                });
+                    
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "../../command.php",
+            data: {
+                'cmd': 'pagar-venta',
+                'id_venta_temp': id_venta,
+                'monto_venta': monto_venta,
+                'id_tipo_pago': id_tipo_pago
+            },
+            success: function(data) {
+
+                if(data == 0) {
+                    bootbox.alert({
+                        title: "",
+                        message: "<b>Imprimiendo recibo</b>",
+                        centerVertical: true,
+                        callback: function (result) {
+                            
+                        }
+                    });
+                    imprimir_recibo();
+
+                } else {
+                    bootbox.alert({
+                        title: "",
+                        message: "<b>Error al pagar venta</b>",
+                        centerVertical: true,
+                        callback: function (result) {
+                            
+                        }
+                    });
+                }
+                
+                
+            }
+        });
+
+    
+    } else {
+        bootbox.alert("No hay productos agregados");
+    }
+
+
+        // bootbox.alert("Ticket impreso", function(){
+
+        //     // location.reload();
+            
+        //     var ruta = $('#btn-imprimir').val();
+
+        //     location.replace(ruta);
+        // })
+
+
+
+
+
+}
+
+
 $(function() {
+    
     buscarDetalle();
     listarDetalle();
     $('#input-total').val( calcular_total_venta());
@@ -429,12 +596,30 @@ $(function() {
 
         $('#input-total').val( calcular_total_venta());
     });
+
+//TODO
+    if (id_venta == 0) {
+        $('#div-boton-detalle').removeClass('collapse');
+        $('#div-boton-detalle').css('display', 'none');
+        $('#btn-cancelar').css('display', 'none');
+        $('#div1-3').css('justify-content', 'space-around');
+        $('#row1').removeClass('collapse');
+        $('#div-tabla-detalle').css('transition', 'none');
+        $('#div-tabla-detalle').css('height', '20rem');
+    }
+
+
     $(document).on('click', '#btn-agregar-prod', function(event) {
         $('#botonera').collapse('hide');
         $('#pago-efectivo').collapse('hide');
         $('#row1').collapse('show');
         document.getElementById("codigo").focus();
+        $('#div-boton-detalle').collapse('hide');
+        $('#div-tabla-detalle').css('height', '21rem');
     });
+
+
+
     $(document).on('click', '#btn-cancelar', function(event) {
         $('#codigo').val('');
         buscarProducto();
@@ -446,6 +631,45 @@ $(function() {
     $(document).on('click', '.btn-billete', function(event) {
         sumarBillete(this.value);
     });
+    $(document).on('click', '#btn-cerrar', function(event) {
+        bootbox.confirm({ 
+            size: "small",
+            title: "Volver",
+            message: '<p>Desea volver a la ventana anterior?</b></p>',
+            centerVertical: true,
+            callback: function(result){ 
+                if (result) {
+                    window.location.replace('../caja.php');
+                }
+            }
+        })
+    });
+
+
+    $(document).on('click', '#btn-pagar', function(event) {
+
+        if (listaDetalle.length > 0 || listaDetalleDB.length > 0) {
+            
+            bootbox.confirm({ 
+                size: "small",
+                title: "Pagar?",
+                message: '<p>Finalizar venta?</b></p>',
+                centerVertical: true,
+                callback: function(result){ 
+                    if(result) {
+                        pagar(1);
+                    }
+                }
+            })
+
+        } else {
+            bootbox.alert("No hay productos agregados");
+        }
+
+    });
+
+
+
     $(document).on('focus', '#input-efectivo', function(event) {
         $('#input-efectivo').val('');
         calc_vuelto();
@@ -497,7 +721,7 @@ $(function() {
         var dataString = 'key='+key;
 	$.ajax({
             type: "POST",
-            url: "../autocompletar.php",
+            url: "../../autocompletar.php",
             data: dataString,
             success: function(data) {
                 //Escribimos las sugerencias que nos manda la consulta

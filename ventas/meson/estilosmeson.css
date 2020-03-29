@@ -235,12 +235,19 @@ div#div5-1 > input {
 }
 
   @media only screen and (min-width: 768px) {
-    .flex-container {
+    #contenedor {
         display: flex;
         justify-content: center;
       }
   }
 
+
+  @media only screen and (max-width: 767px) {
+
+    #nav-bar, .navbar-brand, .dropdown-item {
+    font-size: 1.6em;
+    }
+}
 
 
 
@@ -251,9 +258,9 @@ div#div5-1 > input {
     box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.3);
     height: auto;
     position: absolute;
-    top: 180px;
+    top: 195px;
     z-index: 9999;
-    width: 340px;
+    width: 341px;
 }
  
 #suggestions .suggest-element {

@@ -16,13 +16,12 @@ include_once $ruta . "db/conexion.php";
 
 
 ?>
-<input type="hidden" id="ruta" value="<?php echo $ruta?>">
-
-<span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span>
 
 
 
-<div id="contenedor" class="flex-container">
+<div id="contenedor">
+
+<?php include $ruta . "includes/nav.php" ?>
 
 <div id="color">
 
@@ -34,8 +33,8 @@ include_once $ruta . "db/conexion.php";
         </div>
 
         <div id="div1-1">
-            <input type="number" name="codigo" id="codigo" class="form-control w100" placeholder="Código producto">
-            <input type="text" name="nombre" id="nombre" class="form-control w100" placeholder="Nombre">
+            <input type="number" name="codigo" id="codigo" class="form-control w100" placeholder="Código producto"  autocomplete="off">
+            <input type="text" name="nombre" id="nombre" class="form-control w100" placeholder="Nombre"  autocomplete="off">
                     <!-- autocompletar -->
             <div id="suggestions"></div>
             
@@ -62,10 +61,7 @@ include_once $ruta . "db/conexion.php";
             </a>
 
 
-
-
-
-            <button id="btn-borrar" class="btn btn-primary">Borrar</button>
+            <button id="btn-borrar" class="btn btn-primary">Limpiar</button>
         </div>
 
 

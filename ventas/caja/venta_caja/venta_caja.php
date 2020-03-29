@@ -1,13 +1,9 @@
 <?php 
 
-if(!isset($_REQUEST['id'])) {
-    die();
-} else {
-    $id_venta_temp = $_REQUEST['id'];
-}
+
 
 $titulo = "Caja - Punto de Venta";
-$css = "estiloscaja.css";
+$css = "estilosventa_caja.css";
 
 $ruta = "";
 while (!(file_exists ($ruta . "index.php"))) {
@@ -18,20 +14,45 @@ include_once $ruta . "includes/header.php";
 
 include_once $ruta . "db/conexion.php";
 
+include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
+
+
+if(!isset($_REQUEST['id'])) {
+    $id_venta_temp = 0;
+} else {
+    $id_venta_temp = $_REQUEST['id'];
+
+    $query     = " SELECT venta_temporal.id_venta_temp
+                            FROM venta_temporal
+                            WHERE venta_temporal.pagado IS NOT TRUE 
+                            AND venta_temporal.id_venta_temp = $1";
+    $params    = array($id_venta_temp);
+    $result    = pg_query_params($dbconn, $query, $params);
+
+    if($rows = pg_num_rows($result) == 0) {
+        header('Location:'.$ruta.'ventas/caja/caja.php');
+    }
+
+}
+
 ?>
 <input type="hidden" id="id_venta_temp" value="<?php echo $id_venta_temp?>">
-<input type="hidden" id="ruta" value="<?php echo $ruta?>">
-
-    <div><span><?php echo date("d/m/Y") ?> | </span><span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span></div>
 
 
-    
+    <!-- <div><span><?php echo date("d/m/Y") ?> | </span><span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span></div> -->
 
-<div id="encabezado" class="flex-container">
+
+
+
+
+<?php include $ruta . "includes/nav.php" ?>
+
+<div id="encabezado">
         <span id="titulo">CAJA - N° DE ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
 </div>
 
-<div id="" class="flex-container"> 
+<div id="contcont">   
+<!-- <div id="" class="flex-container">    -->
     <div id="contenedor" class="">
 
         <div id="columna1" class="columna">
@@ -45,7 +66,7 @@ include_once $ruta . "db/conexion.php";
 
                     <div id="div1-1">
                         <input type="number" name="codigo" id="codigo" class="form-control w100" placeholder="Código producto">
-                        <input type="text" name="nombre" id="nombre" class="form-control w100" placeholder="Nombre">
+                        <input type="text" name="nombre" id="nombre" class="form-control w100" placeholder="Nombre"  autocomplete="off">
                                 <!-- autocompletar -->
                         <div id="suggestions"></div>
                         
@@ -68,7 +89,7 @@ include_once $ruta . "db/conexion.php";
                         <a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
                             <button id="btn-buscar" class="btn btn-primary">Buscar</button>
                         </a>
-                        <button id="btn-borrar" class="btn btn-primary">Borrar</button>
+                        <button id="btn-borrar" class="btn btn-primary">Limpiar</button>
                         <button id="btn-cancelar" class="btn btn-primary">Cancelar</button>
                     </div>
 

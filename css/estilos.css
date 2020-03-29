@@ -1,7 +1,16 @@
 body {
 
 }
+hr {
+    border-top-color: darkgrey;
+}
 
+input[type="number"]
+{
+    -webkit-appearance: textfield !important;
+    -moz-appearance:textfield !important;
+    margin: 0;
+}
 
 .fancybox-slide--iframe .fancybox-content {
     /* width  : 800px;
@@ -10,3 +19,8 @@ body {
     max-height : 100%;
     /* margin: 0; */
 }
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+  }

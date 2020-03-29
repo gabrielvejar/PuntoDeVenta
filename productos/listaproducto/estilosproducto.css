@@ -31,9 +31,8 @@
   }
 
   #paginacion {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
   }
 
   .cursor {

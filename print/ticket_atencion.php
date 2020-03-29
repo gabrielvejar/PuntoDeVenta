@@ -41,7 +41,9 @@ $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-$logo = EscposImage::load("logopanaderia.jpg", false);
+
+// $logo = EscposImage::load("logopanaderia.jpg", false);
+$logo = EscposImage::load("resized.png", false);
 
 $printer->bitImage($logo);
 

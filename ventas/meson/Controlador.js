@@ -1,4 +1,4 @@
-var rutaraiz = $('#ruta').val();
+// var rutaraiz = $('#ruta').val();
 
 
 var listaDetalle = [];
@@ -318,14 +318,18 @@ function terminarVenta() {
                 type: "POST",
                 url: "../command.php",
                 data: {
-                    'cmd': 'ingresar-venta-temporal',
+                    'cmd': 'ingresar-venta-temporal-meson',
                     'total': totalVenta,
                     'detalle':JSON.stringify(listaDetalle)},
                 success: function(data) {
 
                     console.log(data);
-                    
-                    imprimirTicket(data, totalVenta);
+
+                    // imprimirTicket(data, totalVenta); FIXME volver a habilitar
+
+                    setTimeout(() => {
+                        location.reload();
+                    }, 3000);
 
                     bootbox.alert({
                         title: "Ticket",
@@ -333,7 +337,8 @@ function terminarVenta() {
                         centerVertical: true,
                         callback: function (result) {
                             var ruta = $('#btn-imprimir').val();
-                            location.replace(ruta);
+                            // location.replace(ruta);
+                            location.reload();
                         }
                     });
 
