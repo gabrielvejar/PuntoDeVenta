@@ -30,7 +30,7 @@ $hora = $date->format('H:i:s');
 <?php include $ruta . "includes/nav.php"; ?>
 <div class="container">
     <h1>Caja</h1>
-    <p>ID apertura: <?php echo $_SESSION['apertura']['id_apertura'] ?> - Usuario: <?php echo $_SESSION['apertura']['nombre'] ?> - Fecha apertura: <?php echo $fecha ?> - Hora apertura:  <?php echo $hora ?></p>
+    <p>Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?> - Usuario: <?php echo $_SESSION['apertura']['nombre'] ?> - Fecha apertura: <?php echo $fecha ?> - Hora apertura:  <?php echo $hora ?></p>
     <div id="div1">
         <div id="div1-1">
             <h3>Menú</h3>
@@ -44,7 +44,7 @@ $hora = $date->format('H:i:s');
                     </div>
                 <button class="btn btn-info btn-menu color-fondo hoverceleste" type="button" data-toggle="collapse" data-target="#collapseSalidas" aria-expanded="false" aria-controls="collapseSalidas">Salidas de dinero</button>
                     <div class="collapse" id="collapseSalidas" data-parent="#menu">
-                        <a href=""><button class="btn btn-secondary btn-menu btn-sub-menu">Gastos</button></a>
+                        <a href="gastos/gastos/gastos.php"><button class="btn btn-secondary btn-menu btn-sub-menu">Gastos</button></a>
                         <a href=""><button class="btn btn-secondary btn-menu btn-sub-menu">Dinero en custodia</button></a>
                     </div>
                 </div>
@@ -56,7 +56,7 @@ $hora = $date->format('H:i:s');
             </div>
         </div>
         <div id="div1-2">
-            <h3>Ventas por Pagar</h3>
+            <h3>Ventas por pagar</h3>
             <div id="ventas" class="lam columna"></div>
         </div>
     </div>

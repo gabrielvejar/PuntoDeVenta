@@ -287,7 +287,7 @@ switch ($cmd) {
 
         $id_venta_temp = $_REQUEST['id_venta_temp'] ;
 
-        $query     = "SELECT * FROM public.vw_detalle_venta_temp WHERE id_venta_temp = $1";
+        $query     = "SELECT * FROM public.vw_detalle_venta_temp WHERE id_venta_temp = $1 AND anulado IS NOT TRUE";
         $params    = array($id_venta_temp);
         $result    = pg_query_params($dbconn, $query, $params);
 
@@ -306,7 +306,7 @@ switch ($cmd) {
 
     case 'ventas-temp_impagas':
 
-        $query     = "SELECT id_venta_temp, id_diario FROM public.vw_ventas_temporales_impagas";
+        $query     = "SELECT id_venta_temp, id_diario FROM public.vw_ventas_temporales_impagas WHERE anulado IS NOT TRUE";
         $params    = array();
         $result    = pg_query_params($dbconn, $query, $params);
 
@@ -321,6 +321,53 @@ switch ($cmd) {
         $json = json_encode($filas);
         echo $json;
     
+    break;
+
+    case 'ventas-temp_impagas_anuladas':
+        //TODO implementar ventas impagas anuladas
+
+        $query     = "SELECT id_venta_temp, id_diario FROM public.vw_ventas_temporales_impagas WHERE anulado IS TRUE";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+    
+    break;
+
+    case 'anular-venta-temp':
+
+        $id_venta_temp = $_REQUEST['id_venta_temp'];
+        
+        $query     = "SELECT * FROM public.fn_venta_temporal_d($1)";
+        $params    = array($id_venta_temp);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+
+        echo $row[0];
+
+    break;
+    case 'anular-venta-temp-logico':
+
+        $id_venta_temp = $_REQUEST['id_venta_temp'];
+        
+        $query     = "SELECT * FROM public.fn_venta_temporal_anular($1)";
+        $params    = array($id_venta_temp);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+
+        echo $row[0];
+
     break;
 
     case 'pagar-venta':
@@ -360,9 +407,6 @@ switch ($cmd) {
             echo '2'; //error al insertar
         }
 
-
-        
-        //TODO agregar confimacion de exito
     break;
 
 }

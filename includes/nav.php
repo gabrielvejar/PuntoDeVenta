@@ -14,7 +14,7 @@
 
 </style>
 <nav id="nav-bar" class="navbar navbar-expand-md navbar-dark fixed-top">
-        <a class="navbar-brand" href="<?php echo $ruta?>">Panadería Mingo</a>
+        <a class="navbar-brand" href="<?php echo $ruta?>"><img src="<?php echo $ruta?>img/logopanaderia.PNG" alt="" style="width: 40px;     border-radius: 4px;"> Panadería Mingo</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#miNavbar" aria-controls="miNavbar" aria-expanded="false" aria-label="Mostrar u ocultar menú">
         <span class="navbar-toggler-icon"></span>
       </button>

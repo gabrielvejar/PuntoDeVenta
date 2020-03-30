@@ -27,19 +27,21 @@ function buscarVentas () {
 
 
 function cambiarTamanioBotones() {
-  var cols = document.getElementsByClassName('btn-venta');
-  var ancho = document.querySelectorAll('.btn-venta')[document.querySelectorAll('.btn-venta').length-1].offsetWidth +'px';
-  for(i = 0; i < cols.length; i++) {
-    document.getElementsByClassName('btn-venta')[i].style.height = ancho;
-    document.getElementsByClassName('btn-venta')[i].style.width = ancho;
-  }
+  var btns = document.getElementsByClassName('btn-venta');
+  if (btns.length > 0) {
+      var ancho = document.querySelectorAll('.btn-venta')[document.querySelectorAll('.btn-venta').length-1].offsetWidth +'px';
+      for(i = 0; i < btns.length; i++) {
+          document.getElementsByClassName('btn-venta')[i].style.height = ancho;
+          document.getElementsByClassName('btn-venta')[i].style.width = ancho;
+        }
+    }
 }
 
 
 $(function() {
 
     buscarVentas();
-    // setInterval(buscarVentas, 3000);
+    setInterval(buscarVentas, 3000);
 
 
 

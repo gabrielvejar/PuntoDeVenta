@@ -1,0 +1,92 @@
+/* input, img, button {
+    box-shadow: 0px 8px 10px 0px rgba(0,0,0,0.64);
+} */
+/* div {
+    border: 1px solid red;
+} */
+h1 {
+    text-align: center;
+}
+
+div#inferior-tabla {
+    /* background-color: darkcyan; */
+    padding: 1rem;
+    margin: 3rem 0;
+    border-radius: 10px;
+}
+
+.td-acciones {
+    /* display: flex;
+    justify-content: space-between; */
+    font-size: 20px;
+}
+
+.td-acciones i {
+    margin: 0 1rem;
+}
+
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+}
+
+.usuario {
+    color: cornflowerblue;
+}
+
+.modificar {
+    color: indigo;
+}
+
+.eliminar {
+    color: darkred;
+}
+
+.nowrap {
+    white-space:nowrap;
+}
+
+#inferior-tabla {
+    text-align: center;
+}
+
+.txt-left {
+    text-align: left;
+    padding: 0 0.5rem;
+    width: 50%;
+}
+
+table {
+    min-height: 77px;
+}
+
+thead {
+    background-color: dodgerblue;
+}
+
+tbody {
+    color: black;
+    background-color: lavender;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    color: white;
+    background-color: darkcyan;
+}
+
+tbody th, td {
+    padding: 0.5rem 1rem !important;
+}
+
+table i:hover {
+    color: white;
+}
+
+#btn-fontsize {
+    text-align: right;
+}
+#btn-fontsize i {
+    margin-left: 10px;
+}
+

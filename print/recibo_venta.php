@@ -41,7 +41,8 @@ $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
-$logo = EscposImage::load("logopanaderia.jpg", false);
+// $logo = EscposImage::load("logopanaderia.jpg", false);
+$logo = EscposImage::load("logopanaderia2.jpg", false);
 
 
 $printer->bitImage($logo);
@@ -94,7 +95,7 @@ $printer->bitImage($timbre);
 
 
 $printer->feed(2);
-
+$printer->setJustification(Printer::JUSTIFY_CENTER);
 $printer->text("Gracias por su preferencia :)\n");
 
 

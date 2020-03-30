@@ -24,3 +24,7 @@ input[type="number"]
     display: flex;
     justify-content: center;
   }
+
+  .cursor {
+    cursor: pointer;
+  }

@@ -501,7 +501,7 @@ function pagar (id_tipo_pago) {
                 if(data == 0) {
                     bootbox.alert({
                         title: "",
-                        message: "<b>Imprimiendo recibo</b>",
+                        message: "<b>Imprimiendo recibo...</b>",
                         centerVertical: true,
                         callback: function (result) {
                             
@@ -511,7 +511,7 @@ function pagar (id_tipo_pago) {
 
                 } else {
                     bootbox.alert({
-                        title: "",
+                        title: "Error",
                         message: "<b>Error al pagar venta</b>",
                         centerVertical: true,
                         callback: function (result) {
@@ -640,6 +640,42 @@ $(function() {
             callback: function(result){ 
                 if (result) {
                     window.location.replace('../caja.php');
+                }
+            }
+        })
+    });
+    $(document).on('click', '#btn-cancelar', function(event) {
+        bootbox.confirm({ 
+            size: "small",
+            title: "Anular Venta",
+            message: '<p>Esta seguro que desea anular esta venta?</p>',
+            centerVertical: true,
+            callback: function(result){ 
+                if (result) {
+                    var cantItems = listaDetalle.length + listaDetalleDB.length;
+
+                    if (id_venta == 0) {
+                        window.location.replace('../caja.php');
+                    } else {
+                        //TODO reconciderar el tema de anular logicamente
+                        $.ajax({
+                            type: "POST",
+                            url: "../../command.php",
+                            data: {
+                                'cmd': 'anular-venta-temp-logico',
+                                'id_venta_temp': id_venta
+                            },
+                            success: function (response) {
+                                if (response == id_venta) {
+                                    location.replace('../caja.php');
+                                } else {
+                                    bootbox.alert('Error al anular');
+                                }
+
+                            }
+                        });
+                    }
+
                 }
             }
         })
