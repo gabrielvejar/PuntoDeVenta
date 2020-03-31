@@ -28,3 +28,8 @@ input[type="number"]
   .cursor {
     cursor: pointer;
   }
+
+
+  .nowrap {
+    white-space:nowrap;
+}

@@ -1,5 +1,11 @@
 <?php 
 
+$nav = 1;
+if(isset($_REQUEST['nav'])) {
+    $nav = $_REQUEST['nav'];
+    
+}
+
 $titulo = "Gastos diarios - Punto de Venta";
 $css = "estilosgastos.css";
 
@@ -16,10 +22,15 @@ include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
 
 ?>
 
-<?php include $ruta . "includes/nav.php"; ?>
+<?php 
+if (!($nav ==0)) {
+    include $ruta . "includes/nav.php"; 
+}
+?>
+
 <div class="container">
-    <h1>Gastos <?php echo date('d-m-Y') ?> / Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?></h1>
-    <div id="superior-ingreso">
+    <h1 class="">Gastos <?php echo date('d-m-Y') ?> / Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?></h1>
+    <div id="superior-ingreso" class="">
         <!-- <h4>Ingreso / modificación de gasto</h4> -->
 
         <div class="row">
@@ -91,30 +102,30 @@ include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
 
     <div id="inferior-tabla" class="table-responsive">
 
-    <div id="btn-fontsize">
-        <i class="fa fa-minus" aria-hidden="true" id="achicar"></i>   <i class="fa fa-plus" aria-hidden="true" id="agrandar"></i>
-    </div>
+        <div id="btn-fontsize">
+            <i class="fa fa-minus" aria-hidden="true" id="achicar"></i>   <i class="fa fa-plus" aria-hidden="true" id="agrandar"></i>
+        </div>
 
-    <table class="table table-hover table-sm table-bordered collapse">
-        <thead>
+        <table class="table table-hover table-sm table-bordered collapse">
+            <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Monto</th>
+                    <th scope="col">Custodia</th>
+                    <th scope="col">Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tabla-gastos-body" class="" style="font-size: 16px;">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Monto</th>
-                <th scope="col">Custodia</th>
-                <th scope="col">Acciones</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
             </tr>
-        </thead>
-        <tbody id="tabla-gastos-body" class="" style="font-size: 16px;">
-        <tr>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
     <!-- <button id="achicar" class="btn btn-danger">Achicar letra</button><button id="agrandar" class="btn btn-success">Agrandar letra</button> -->
 
 

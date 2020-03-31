@@ -19,7 +19,11 @@ div#inferior-tabla {
     /* display: flex;
     justify-content: space-between; */
     font-size: 20px;
+    min-width: 180px;
 }
+/* .td-descripcion {
+    min-width: 180px;
+} */
 
 .td-acciones i {
     margin: 0 1rem;
@@ -43,9 +47,7 @@ div#inferior-tabla {
     color: darkred;
 }
 
-.nowrap {
-    white-space:nowrap;
-}
+
 
 #inferior-tabla {
     text-align: center;

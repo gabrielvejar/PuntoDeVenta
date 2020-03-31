@@ -1,5 +1,10 @@
 <?php 
 
+$nav = 1;
+if(isset($_REQUEST['nav'])) {
+    $nav = $_REQUEST['nav'];
+    
+}
 
 
 $titulo = "Caja - Punto de Venta";
@@ -45,7 +50,11 @@ if(!isset($_REQUEST['id'])) {
 
 
 
-<?php include $ruta . "includes/nav.php" ?>
+<?php 
+if (!($nav ==0)) {
+    include $ruta . "includes/nav.php"; 
+}
+?>
 
 <div id="encabezado">
         <span id="titulo">CAJA - N° DE ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>

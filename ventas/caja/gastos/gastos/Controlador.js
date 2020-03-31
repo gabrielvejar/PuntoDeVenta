@@ -42,8 +42,8 @@ function tablaGastos() {
                     // html += '<option value="'+element['id_tipo_gasto']+'">'+element['nombre_tipo_gasto']+'</option>';
                     html += '<tr>';
                     html += '<th scope="row">'+i+'</th>';
-                    html += '<td class="nowrap txt-left">'+element['descripcion']+'</th>';
-                    html += '<td>'+element['monto']+'</th>';
+                    html += '<td class="td-descripcion nowrap txt-left">'+element['descripcion']+'</th>';
+                    html += '<td>$'+separadorMiles(element['monto'])+'</th>';
                     
                     if (element['id_dinero_custodia'] == null) {
                         html += '<td>No</th>';

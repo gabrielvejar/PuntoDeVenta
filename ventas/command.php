@@ -409,6 +409,129 @@ switch ($cmd) {
 
     break;
 
+
+    case 'valores-cierre-caja':
+        $id_apertura = $_SESSION['apertura']['id_apertura'];
+
+        $efectivo_apertura;
+        $total_ventas_efectivo;
+        $total_ventas_tarjeta;
+        $total_gastos;
+
+        // efectivo apertura
+        $query     = "SELECT id_apertura, efectivo FROM public.vw_efectivo_apertura WHERE id_apertura = $1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+       
+        $efectivo_apertura = pg_fetch_assoc($result);
+
+
+        // total ventas efectivo
+        $query     = "SELECT id_apertura, id_tipo_pago, total_ventas FROM public.vw_ventas_totales WHERE id_apertura = $1
+                            AND id_tipo_pago = 1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+       
+        $total_ventas_efectivo = pg_fetch_assoc($result);
+
+        // total ventas tarjeta
+        $query     = "SELECT id_apertura, id_tipo_pago, total_ventas FROM public.vw_ventas_totales WHERE id_apertura = $1
+                            AND id_tipo_pago = 2";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+       
+        $total_ventas_tarjeta = pg_fetch_assoc($result);
+
+
+
+        // total gastos
+        $query     = "SELECT id_apertura, total_gastos FROM public.vw_total_gastos WHERE id_apertura = $1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+        
+        $total_gastos = pg_fetch_assoc($result);
+        
+        
+        
+        
+        // $filas= [$efectivo_apertura, $total_ventas, $total_gastos];
+
+        $valores = array(
+            'efectivo_apertura' => $efectivo_apertura['efectivo'], 
+            'total_ventas_efectivo' => $total_ventas_efectivo['total_ventas'],
+            'total_ventas_tarjeta' => $total_ventas_tarjeta['total_ventas'],
+            'total_gastos' => $total_gastos['total_gastos']      
+        );
+
+        $json = json_encode($valores);
+        echo $json;
+
+    break;
+
+
+    case 'valores-cierre-caja_backup':
+        $id_apertura = $_SESSION['apertura']['id_apertura'];
+
+        $efectivo_apertura;
+        $total_ventas_efectivo;
+        $total_ventas_tarjeta;
+        $total_gastos;
+
+        // efectivo apertura
+        $query     = "SELECT id_apertura, efectivo FROM public.vw_efectivo_apertura WHERE id_apertura = $1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+       
+        $efectivo_apertura = pg_fetch_assoc($result);
+
+
+        // total ventas efectivo
+        $query     = "SELECT id_apertura, id_tipo_pago, total_ventas FROM public.vw_ventas_totales WHERE id_apertura = $1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+       
+        // $total_ventas = pg_fetch_assoc($result);
+        // echo $total_ventas["id_tipo_pago"];
+        // die();
+
+        // $rows = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $total_ventas['medio_pago_'.$row["id_tipo_pago"]] = $row;
+            $i++;
+        }
+
+
+
+        // total gastos
+        $query     = "SELECT id_apertura, id_tipo_gasto, total_gastos FROM public.vw_total_gastos WHERE id_apertura = $1";
+        $params    = array($id_apertura);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $total_gastos['tipo_gasto_'.$row["id_tipo_gasto"]] = $row;
+            $i++;
+        }
+        
+        
+        
+        
+        // $filas= [$efectivo_apertura, $total_ventas, $total_gastos];
+
+        $filas = array(
+            'efectivo_apertura' => $efectivo_apertura, 
+            'total_ventas' => $total_ventas,
+            'total_gastos' => $total_gastos        
+        );
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
 }
 
 ?>

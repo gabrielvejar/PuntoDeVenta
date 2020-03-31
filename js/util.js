@@ -157,31 +157,64 @@ function ajax(ruta, params, metodo, async, json, callback) {
 }
 
 // separador de miles
-var formatNumber = {
-	separador: ".", // separador para los miles
-	sepDecimal: ',', // separador para los decimales
-	formatear:function (num){
-	num +='';
-	var splitStr = num.split('.');
-	var splitLeft = splitStr[0];
-	var splitRight = splitStr.length > 1 ? this.sepDecimal + splitStr[1] : '';
-	var regx = /(\d+)(\d{3})/;
-	while (regx.test(splitLeft)) {
-	splitLeft = splitLeft.replace(regx, '$1' + this.separador + '$2');
+function separadorMiles (valor) {
+	if (!(isNaN(valor))){
+		return new Intl.NumberFormat("de-DE").format(valor);
+	} else {
+		return valor;
 	}
-	return this.simbol + splitLeft +splitRight;
-	},
-	new:function(num, simbol){
-	this.simbol = simbol ||'';
-	return this.formatear(num);
-	}
-   }
+}
 
+
+//    TODO aplicar formateador
+   function formatearDinero (selector) {
+    // selector #input-efectivo
+    var valor = $(selector).val();
+    valor = valor.replace("$", "");
+    valor = valor.split(".").join("");
+    valor = valor.split(",").join("");
+
+    if (isNaN(valor)) {
+        bootbox.alert('Ingrese sólo números')
+    } else {
+       var valorFormateado = new Intl.NumberFormat("de-DE").format(valor);
+       $(selector).val('$'+valorFormateado);
+    }
+
+}
+
+function limpiarNumero(valor) {
+    valor = valor.replace("$", "");
+    valor = valor.split(".").join("");
+    valor = valor.split(",").join("");
+    return valor;
+}
 
    $(function() {
+	   
 	   if($("#nav-bar").length) {
-		   $("body").css('padding-top', $("#nav-bar").height());
+		   $("body").css('padding-top', document.getElementById('nav-bar').offsetHeight+"px");
 	   }
+
+
+	   $('[data-fancybox]').fancybox({
+        toolbar  : false,
+        smallBtn : true,
+        iframe : {
+            preload : false
+        }
+	})
+	
+	// desplazamiento animado anchor
+	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+		anchor.addEventListener('click', function (e) {
+			e.preventDefault();
+	
+			document.querySelector(this.getAttribute('href')).scrollIntoView({
+				behavior: 'smooth'
+			});
+		});
+	});
+	
+
    });
-
-
