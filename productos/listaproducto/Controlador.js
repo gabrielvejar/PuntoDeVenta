@@ -36,10 +36,18 @@
                 cuerpo += "<td>" + respuesta[i][5] + "</td>";
                 cuerpo += "<td>" + respuesta[i][1] + "</td>";
                 var precio = respuesta[i][3]*1;
-                precio = formatNumber.new(precio,'$');
+                // precio = formatNumber.new(precio,'$');  
+                precio = '$'+separadorMiles(precio);
                 
                 cuerpo += "<td>" + precio + '<span class="spunidad">/' + respuesta[i][6] +'</span></td>';
 
+                //modificar y eliminar sin botones
+                // var btnMod1 = '<a class="iframe" data-fancybox data-type="iframe" data-src="../IUproducto/IUproducto.php?producto=2&codigo=';
+                // var btnMod2 = '" href="javascript:;"><i class="fa fa-pencil-square-o" aria-hidden="true" title="Modificar"></i></a>';
+                // var btnElim1 = '<a ><i class="fa fa-trash-o" aria-hidden="true" title="Eliminar" onClick="elim(';
+                // var btnElim2 = ')"></i></a>'
+
+                //modificar y eliminar con botones
                 var btnMod1 = '<a class="iframe" data-fancybox data-type="iframe" data-src="../IUproducto/IUproducto.php?producto=2&codigo=';
                 var btnMod2 = '" href="javascript:;"><button class="btn btn-info mx-2" title="Modificar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>';
                 var btnElim1 = '<button class="btn btn-danger mx-2" title="Eliminar" onClick="elim(';

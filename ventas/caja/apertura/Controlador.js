@@ -13,7 +13,7 @@ function ultimoCierre() {
             cierre = response;
 
             $('#input-fecha-uc').val(response[0]['fecha']);
-            $('#inputEfectivoCierre').val(response[0]['efectivo']);
+            $('#inputEfectivoCierre').val(response[0]['efectivo_cierre']);
             
         }
     });

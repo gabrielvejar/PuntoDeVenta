@@ -14,8 +14,9 @@ h1 {
 .lam {
     margin-bottom: 1.25rem;
     padding: 1.25rem;
-    border-radius: 0.3125rem;
-    box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    border-radius: 0.6rem;
+    /* box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64); */
+    border: 2px solid;
 }
 
 #btn-fontsize {
@@ -43,6 +44,12 @@ input {
 .inputs-bal  {
     width: 200px;
     /* height: 100%; */
+    background: transparent;
+    color: white;
+    border: none;
+    border-bottom: 2px solid;
+    border-color: darkcyan;
+    padding: 7px;
 }
 
 #div-input-entrega {
@@ -58,12 +65,27 @@ div#divinputs .row {
     border-top: 4px solid;
 }
 
-.input-sumador {
-    width: 100%;
+#input-balance{
+    transition: 1s;
 }
 
+.input-sumador {
+    width: 100%;
+    background: transparent;
+    color: white;
+    border:none;
+    border-bottom: 2px solid white;
+    padding: 7px;
+    /* border-radius: 10px; */
+}
+#tbl-sumador {
+    font-size: 17px !important;
+    /* font-weight: bold; */
+}
+
+
 .multiplo {
-    width: 50px;
+    width: 90px;
     text-align: center;
 }
 
@@ -75,6 +97,8 @@ div#divinputs .row {
 #div-sumador {
     border: 2px solid;
     border-radius: 10px;
+    padding: 20px;
+    background-color: darkslateblue;
 }
 
 #icon-calc {
@@ -82,4 +106,26 @@ div#divinputs .row {
 }
 #icon-calc:hover {
     color: darkcyan;
+}
+
+
+.pt {
+    padding-top: 19px !important;
+}
+
+i#icon-balance {
+    font-size: 140px;
+    transition: 1s;
+}
+
+#div-icono-balance{
+    text-align: center;
+}
+
+#btn-cierre {
+    width: 100%;
+    background-color: darkcyan;
+}
+#btn-cierre:hover {
+    background-color: cornflowerblue;
 }

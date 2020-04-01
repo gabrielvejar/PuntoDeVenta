@@ -27,9 +27,7 @@ switch ($cmd) {
         $query     = "SELECT 
                                 cc.id_cierre,
                                 cc.id_apertura,
-                                cc.efectivo,
-                                cc.tarjetas,
-                                cc.entrega,
+                                cc.efectivo_cierre,
                                 cc.id_usuario,
                                 cc.time_cierre,
                                 to_char(ca.fecha, 'DD-MM-YYYY') fecha
@@ -114,6 +112,96 @@ switch ($cmd) {
     break;
 
     case "cerrar-caja":
+        // retornos
+        // e0: faltan parametros
+        // e1: no hay caja abierta
+        // e2: error en db al ejecutar funcion
+
+        $id_apertura = $_SESSION['apertura']['id_apertura'];
+        $id_usuario = $usuario['id_usuario'];
+
+        if (isset($_REQUEST['efectivo_apertura'])) {
+            $efectivo_apertura = $_REQUEST['efectivo_apertura'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+        if (isset($_REQUEST['efectivo_cierre'])) {
+            $efectivo_cierre = $_REQUEST['efectivo_cierre'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+        if (isset($_REQUEST['ventas_efectivo'])) {
+            $ventas_efectivo = $_REQUEST['ventas_efectivo'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+        if (isset($_REQUEST['ventas_tarjetas'])) {
+            $ventas_tarjetas = $_REQUEST['ventas_tarjetas'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+        if (isset($_REQUEST['entrega'])) {
+            $entrega = $_REQUEST['entrega'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+        if (isset($_REQUEST['gastos'])) {
+            $gastos = $_REQUEST['gastos'];
+        } else {
+            echo "e0";
+            die();
+        }
+
+
+
+        // verificar que no haya caja abierta
+        $query     = "SELECT * FROM public.fn_verificar_caja_apertura()";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+
+        if($row['0'] == 0){
+
+            echo 'e1'; //no hay caja abierta
+
+            
+        } else {
+            // abrir caja
+            $query     = "SELECT * FROM public.fn_caja_cierre_i($1, $2, $3, $4, $5, $6, $7, $8)";
+
+            $params    = array(
+                $id_apertura,  
+                $efectivo_apertura, 
+                $efectivo_cierre, 
+                $ventas_efectivo, 
+                $ventas_tarjetas, 
+                $entrega, 
+                $gastos, 
+                $id_usuario);
+
+            $result    = pg_query_params($dbconn, $query, $params);
+
+            $row = pg_fetch_row($result);
+
+            if ($row['0'] > 0) {
+                echo $row['0']; // id de cierre de caja
+            } else {
+                echo "e2"; // error en db al ejecutar funcion
+            }
+            
+
+        }
 
     break;
 

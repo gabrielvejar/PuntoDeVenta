@@ -39,6 +39,10 @@ if (file_exists ("index.php")) {
     <script src="<?php echo $ruta?>js/jquery-ui.js"></script>
     <link rel="stylesheet" href="<?php echo $ruta?>css/jquery-ui.css">
 
+    <link rel="stylesheet" href="<?php echo $ruta?>css/iconate.min.css">
+    <script type="text/javascript" src="<?php echo $ruta?>js/iconate.js"></script>
+    
+
 </head>
 <body class="animated fadeIn">
 

@@ -6,6 +6,10 @@ h1 {
     text-align: center;
 }
 
+input {
+    text-align: center;
+}
+
 .lam {
     margin-bottom: 1.25rem;
     padding: 1.25rem;

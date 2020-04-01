@@ -42,9 +42,9 @@
             <form class="form-inline my-2 my-lg-0">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="menuDesplegable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><?php echo $_SESSION['usuario']['nombre'] ?></a>
+                            <a class="nav-link dropdown-toggle" href="#" id="menuDesplegable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user" aria-hidden="true"></i> <?php echo $_SESSION['usuario']['nombre'] ?></a>
                             <div class="dropdown-menu drop2" aria-labelledby="menuDesplegable">
-                                <a class="dropdown-item" href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a>
+                                <a class="dropdown-item" href="<?php echo $ruta?>login/main_app/logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> Cerrar Sesión</a>
                             </div>
                     </li>
                 </ul>

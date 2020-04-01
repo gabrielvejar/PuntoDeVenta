@@ -175,7 +175,7 @@ function separadorMiles (valor) {
     valor = valor.split(",").join("");
 
     if (isNaN(valor)) {
-        bootbox.alert('Ingrese sólo números')
+        // bootbox.alert('Ingrese sólo números')
     } else {
        var valorFormateado = new Intl.NumberFormat("de-DE").format(valor);
        $(selector).val('$'+valorFormateado);
@@ -191,7 +191,7 @@ function limpiarNumero(valor) {
 }
 
    $(function() {
-	   
+
 	   if($("#nav-bar").length) {
 		   $("body").css('padding-top', document.getElementById('nav-bar').offsetHeight+"px");
 	   }
