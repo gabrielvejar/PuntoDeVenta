@@ -12,15 +12,34 @@ include_once $ruta . "includes/header.php";
 
 include_once $ruta . "db/conexion.php";
 
+// validar que usuario tenga permiso para acceder a pagina
+if ($_SESSION['permisos']['caja'] !='t') {
+    header('Location: '.$ruta);
+ }
+
 include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
 
 ?>
 
-<?php include $ruta . "includes/nav.php"; ?>
+
+
+<?php 
+
+if (isset($_REQUEST['sb'])) {
+    if ($_REQUEST['sb'] != 'no'){
+        include $ruta . "includes/sidebarinicio.php"; 
+    } 
+} else {
+    include $ruta . "includes/sidebarinicio.php"; 
+}
+
+?>
+
 <div id="contenedor" class="container lam">
 
 
-    <h1><i class="fa fa-bar-chart" aria-hidden="true"></i> Cierre de Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?> / <?php echo date('d-m-Y') ?></h1>
+    <h1><i class="fas fa-money-check-alt"></i> Cierre de Caja</h1>
+    <h4>Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?> / <?php echo date('d-m-Y') ?></h4>
 
 
 
@@ -43,25 +62,25 @@ include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
                             <th scope="row">1</th>
                             <td>Efectivo Apertura</td>
                             <td id="td-efectivo-apertura"></td>
-                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">Ver más</a></td>
+                            <td><a id="enlace-apertura" class="cursor" onclick="valoresApertura ();">Ver más</a></td>
                         </tr>
                         <tr>
                             <th scope="row">2</th>
                             <td>Ventas Efectivo</td>
                             <td id="td-ventas-efectivo">500000</td>
-                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">Ver más</a></td>
+                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\registro_ventas\registro_ventas.php?id=<?php echo $_SESSION['apertura']['id_apertura'] ?>&sb=no" href="javascript:;">Ver más</a></td>
                         </tr>
                         <tr>
                             <th scope="row">3</th>
                             <td>Ventas Tarjeta</td>
                             <td id="td-ventas-tarjeta">0</td>
-                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">Ver más</a></td>
-                        </tr>
+                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\registro_ventas\registro_ventas.php?id=<?php echo $_SESSION['apertura']['id_apertura'] ?>&sb=no" href="javascript:;">Ver más</a></td>
+                            </tr>
                         <tr>
                             <th scope="row">4</th>
                             <td>Gastos</td>
                             <td id="td-gastos">12312213</td>
-                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\caja\gastos\gastos\gastos.php?nav=0" href="javascript:;">Ver más</a></td>
+                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\caja\gastos\gastos\gastos.php?sb=no" href="javascript:;">Ver más</a></td>
                         </tr>
                     
                     </tbody>
@@ -69,7 +88,9 @@ include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
 
 
                 <div id="div-balance" class="row">
-                    <div class="col"></div>
+                    <div id="div-icono-balance" class="col">
+                        <i id="icon-balance" class="fa" aria-hidden="true"></i>
+                    </div>
                     <div id="divinputs" class="col-md-8">
                         <div class="row">
                             <div id="efectivocierrel" class="col"><a data-toggle="collapse" href="#div-sumador"><i class="fa fa-calculator" id="icon-calc" aria-hidden="true" title="Sumador de efectivo"></i></a> Efectivo Cierre:</div>
@@ -164,9 +185,17 @@ include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
                             <div class="col"><input id="input-balance" class="inputs-bal" type="text" readonly></div>
                         </div>
                         <div id="div-icono-balance">
-                            <!-- TODO icono animación cambio signo -->
-                            <!-- <input type="checkbox" name="chk-cambio" id="chk-cambio"> -->
-                            <i id="icon-balance" class="fa" aria-hidden="true"></i>
+
+                            <!-- <i id="icon-balance" class="fa" aria-hidden="true"></i> -->
+
+                            <audio id="audio-bien" class="audios" controls>
+                                <source type="audio/wav" src="<?php echo $ruta ?>sound/bien.wav"> 
+                            </audio>
+
+                            <audio id="audio-mal" class="audios" controls>
+                                <source type="audio/wav" src="<?php echo $ruta ?>sound/mal.wav"> 
+                            </audio>
+
                         </div>
 
                         <div>

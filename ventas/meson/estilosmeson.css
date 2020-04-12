@@ -257,8 +257,10 @@ div#div5-1 > input {
   #suggestions {
     box-shadow: 10px 10px 20px 2px rgba(0,0,0,0.3);
     height: auto;
+    /* position: relative;
+    top: -17px; */
     position: absolute;
-    top: 195px;
+    top: 211px;
     z-index: 9999;
     width: 341px;
 }

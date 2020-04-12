@@ -2,7 +2,9 @@
     display: none;
 } */
 
-
+body {
+    background: rgb(14, 39, 62);
+}
 
 
 input, img, button {
@@ -14,6 +16,7 @@ input, img, button {
     padding: 1.25rem;
     border-radius: 0.3125rem;
     box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    background: #1c354c;
 }
 
 div#div1 {
@@ -39,13 +42,19 @@ div#div1 {
     display: flex;
     justify-content: space-around;
     align-items: center;
-    width: 700px;
     flex-flow: wrap;
     overflow: auto;
+    box-shadow: none;
+    background: #1f3b54;
 }
-
+div#div1-2 {
+    width: 100%;
+}
+div#encabezado {
+    text-align: center;
+}
 div#ventas button {
-    min-width: 100px;
+    min-width: 135px;
     height: 100px;
     font-size: 50px;
     border-radius: 10px;

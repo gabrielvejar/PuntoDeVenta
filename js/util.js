@@ -166,8 +166,8 @@ function separadorMiles (valor) {
 }
 
 
-//    TODO aplicar formateador
-   function formatearDinero (selector) {
+// TODO aplicar formateador
+   function formatearDinero (selector, signo) {
     // selector #input-efectivo
     var valor = $(selector).val();
     valor = valor.replace("$", "");
@@ -178,7 +178,7 @@ function separadorMiles (valor) {
         // bootbox.alert('Ingrese sólo números')
     } else {
        var valorFormateado = new Intl.NumberFormat("de-DE").format(valor);
-       $(selector).val('$'+valorFormateado);
+       $(selector).val(signo+valorFormateado);
     }
 
 }
@@ -189,6 +189,49 @@ function limpiarNumero(valor) {
     valor = valor.split(",").join("");
     return valor;
 }
+
+
+
+
+function salidaContenedor() {
+	// const boton = document.querySelector('#sidebarCollapse')
+	// boton.classList.remove('animated', boton.attributes.animacion.value, 'delay-1s')
+	// boton.classList.add('animated', 'fadeOut')
+	
+	$('#sidebarCollapse').fadeOut();
+
+	setTimeout(() => {
+		const content = document.querySelector('#content')
+		content.classList.remove('animated', content.attributes.animacion.value, 'delay-1s')
+		content.classList.add('animated', 'slideOutRight')
+	}, 5000);
+
+
+
+
+  }
+
+  function animateCSS(element, animationName, callback) {
+
+	// document.querySelector('#content').attributes.animacion.value
+    const node = document.querySelector(element)
+	node.classList.remove('animated', node.attributes.animacion.value)
+    node.classList.add('animated', animationName)
+
+    function handleAnimationEnd() {
+        node.classList.remove('animated', animationName)
+        node.removeEventListener('animationend', handleAnimationEnd)
+
+        if (typeof callback === 'function') callback()
+    }
+
+    node.addEventListener('animationend', handleAnimationEnd)
+}
+
+
+
+
+
 
    $(function() {
 
@@ -206,15 +249,15 @@ function limpiarNumero(valor) {
 	})
 	
 	// desplazamiento animado anchor
-	document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-		anchor.addEventListener('click', function (e) {
-			e.preventDefault();
+	// document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+	// 	anchor.addEventListener('click', function (e) {
+	// 		e.preventDefault();
 	
-			document.querySelector(this.getAttribute('href')).scrollIntoView({
-				behavior: 'smooth'
-			});
-		});
-	});
+	// 		document.querySelector(this.getAttribute('href')).scrollIntoView({
+	// 			behavior: 'smooth'
+	// 		});
+	// 	});
+	// });
 	
 
    });

@@ -3,19 +3,55 @@
 
 var listaDetalle = [];
 
+
+function verificarCajaAbierta() {
+    $.ajax({
+        type: "GET",
+        url: "../command.php",
+        data: {
+            'cmd': 'verificar-caja-abierta'
+        },
+        success: function (response) {
+            if (response == 0){
+                bootbox.alert('<br>No se ha realizado apertura de caja. <br>Presione Ok para volver a verificar<br>', function () {
+                    location.reload();
+                  });
+            }
+            
+        }
+    });
+}
+
+
+
+
+
+
 function agregarLinea() {
     
-    var getCodigo = $('#codigo').val();
+    // var getCodigo = $('#codigo').val();
+    var getCodigo = $('#cod_hidden').val();
     var getNombre = $('#nombre').val();
     if($('#cantidad').val() == "") {
         $('#cantidad').val('1');
     }
-    var getCantidad = parseFloat($('#cantidad').val()).toFixed(2);
+
+
+    if ( (parseFloat($('#cantidad').val()).toFixed(2) - parseInt($('#cantidad').val())) > 0 ) {
+        // es un float
+        var getCantidad = parseFloat($('#cantidad').val()).toFixed(2);
+    } else {
+        var getCantidad = parseInt($('#cantidad').val());
+    }
+
+
+
     // if (getCantidad == "") {
     //     getCantidad = "1";
     // }
-    var getPrecio = $('#precio_producto').val();
-    var getMonto = $('#total_producto').val();
+    var getPrecio = limpiarNumero($('#precio_producto').val());
+    var getMonto = limpiarNumero($('#total_producto').val());
+    // var getMonto = $('#total_producto').val();
     var getIdproducto = $('#idproducto').val();
     var getIdunidad = $('#idunidad').val();
     var getnombreunidad = $('#nombreunidad').val();
@@ -28,33 +64,165 @@ function agregarLinea() {
     if (estaVacio(getCodigo)){ return };
     if (estaVacio(getMonto) || getMonto == 0){ return };
 
+    var existeLinea = 0;
+    var indice = 0;
+
+    if (listaDetalle != "") {
+        
+        // listaDetalle.forEach(element => {
+        //     debugger;
+        //     if (element.codigo == getCodigo) {
+        //         existeLinea++;
+        //         console.log('existe producto');
+        //     }
+        //     indice ++;
+        // });
 
 
+// debugger;
 
-    var lineaDetalle = {
-
-        codigo: getCodigo,
-        nombre: getNombre,
-        precio: getPrecio,
-        cantidad: getCantidad,
-        monto: getMonto,
-        idproducto: getIdproducto,
-        unidad: getnombreunidad,
-        idunidad: getIdunidad,
-        idpromocion: getIdpromocion
-
+        for (indice; indice<listaDetalle.length; indice++){
+            if (listaDetalle[indice].codigo == getCodigo) {
+                existeLinea++;
+                // console.log('existe producto');
+                break;
+            }
+        }
+        // console.log('existeLinea: '+existeLinea);
+        // console.log('indice: '+indice);
+        
     }
 
-    listaDetalle.push(lineaDetalle);
+    if (existeLinea > 0) {
 
-    $('#codigo').val('');
-    buscarProducto();
+
+        var getCantidad = $('#cantidad').val();
+        if (estaVacio(getCantidad)) {
+            getCantidad = 1;
+        }
+    
+        var getMonto = $('#total_producto').val();
+    
+        var getPromoAplica = $('#promo_aplica').val();
+        var getIdpromocion = "";
+        if (!estaVacio(getPromoAplica)) {
+            getIdpromocion = $('#id_promocion').val();
+        }
+    
+        listaDetalle[indice]["cantidad"] = listaDetalle[indice]["cantidad"]*1 + getCantidad*1;
+        listaDetalle[indice]["monto"] = listaDetalle[indice]["monto"]*1+getMonto*1;
+        listaDetalle[indice]["idpromocion"] = getIdpromocion;
+
+        // listaDetalle[indice].monto = listaDetalle[indice].monto*1 + getPrecio*1;
+        // listaDetalle[indice].cantidad = listaDetalle[indice].cantidad*1 +1;
+
+
+        // if (indice == listaDetalle.length-1){
+
+        //     listaDetalle[indice].monto = listaDetalle[indice].monto*1 + getPrecio*1;
+        //     listaDetalle[indice].cantidad = listaDetalle[indice].cantidad*1 +1;
+
+        // }
+        //  else {
+            
+        //     console.log('no hace nada.. se supone que no es el ultimo');
+            
+        //     // listaDetalle[indice].monto = listaDetalle[indice].monto*1 + getMonto*1;
+        //     // listaDetalle[indice].cantidad = listaDetalle[indice].cantidad*1 + getCantidad*1;
+        
+        // }
+        
+
+    } else {
+        
+        var lineaDetalle = {
+            
+            codigo: getCodigo,
+            nombre: getNombre,
+            precio: getPrecio,
+            cantidad: getCantidad,
+            monto: getMonto,
+            idproducto: getIdproducto,
+            unidad: getnombreunidad,
+            idunidad: getIdunidad,
+            idpromocion: getIdpromocion
+            
+        }
+        
+        listaDetalle.push(lineaDetalle);
+        
+    }
+
+    // deshabilitado fix
+    // $('#codigo').val('');
+    // buscarProducto();
+
+// acaaaaa
+
+
+                // agregado fix
+                document.getElementById("codigo").value = "";
+                document.getElementById("codigo").focus();
+                // fin agregado fix
+
     listarDetalle();
-    $('#precio-item').collapse('hide');
+
+        // deshabilitado fix
+    // $('#precio-item').collapse('hide');
+
+
+
     calcular_total_venta();
+
+}
+
+
+function modificarLinea() {
+
+    var indice = 0;
+    var existeLinea = 0;
+    var getCodigo = $('#cod_hidden').val();
+
+    for (indice; indice<listaDetalle.length; indice++){
+        if (listaDetalle[indice].codigo == getCodigo) {
+            existeLinea++;
+            break;
+        }
+    }
+
+
+
+    if (estaVacio($('#cantidad').val())) {
+        $('#cantidad').val('1');
+    }
+
+    var getCantidad = $('#cantidad').val()*1 -1;
+    $('#cantidad').val(getCantidad);
+    calcular_total_producto();
+
+    var getMonto = $('#total_producto').val();
+
+    var getPromoAplica = $('#promo_aplica').val();
+    var getIdpromocion = "";
+    if (!estaVacio(getPromoAplica)) {
+        getIdpromocion = $('#id_promocion').val();
+    }
+
+        listaDetalle[indice]["cantidad"] = listaDetalle[indice]["cantidad"]*1 + getCantidad*1;
+        listaDetalle[indice]["monto"] = listaDetalle[indice]["monto"]*1+getMonto*1;
+        listaDetalle[indice]["idpromocion"] = getIdpromocion;
+
+    listarDetalle();
+
+
+
 
 
 }
+
+
+
+
 
 
 function listarDetalle() {
@@ -65,9 +233,9 @@ function listarDetalle() {
             html += '<tr>'
             html += '<th scope="row"><span id="t-numfila">'+(i+1)+'</span></th>';
             html +='<td><span id="t-nombre">'+listaDetalle[i].nombre+'</span></td>';
-            html +='<td><span id="t-precioun">'+listaDetalle[i].precio+'</span></td>';
+            html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalle[i].precio)+'</span></td>';
             html +='<td><span id="t-cantidad">'+listaDetalle[i].cantidad+'</span> <span id="t-unidad">'+listaDetalle[i].unidad+'</span></td>';
-            html +='<td><span id="t-preciototalprod">'+listaDetalle[i].monto+'</span></td>';
+            html +='<td><span id="t-preciototalprod">$'+separadorMiles(listaDetalle[i].monto)+'</span></td>';
             // html +='<td><button class="btn btn-danger btn-borrar-detalle" onclick="borrarLineaDetalle('+i+')">X</button></td>';
             html +='<td><i class="fa fa-times x-detalle" aria-hidden="true"  onclick="borrarLineaDetalle('+i+')">';
             html +='</tr>';
@@ -83,6 +251,8 @@ function listarDetalle() {
 
 
 function buscarProducto() {
+
+
     
     var codigo  = document.getElementById('codigo').value;
     document.getElementById("codigo").readOnly = false;
@@ -96,6 +266,8 @@ function buscarProducto() {
     var json  = true;
 
     
+
+    document.getElementById('cod_hidden').value = codigo;
 
     document.getElementById('nombre').value = "";
     document.getElementById('promo').value = "";
@@ -115,20 +287,19 @@ function buscarProducto() {
     
     
     ajax(ruta, params, metodo, async,json,function(respuesta){
-        console.log(respuesta);
+        // console.log(respuesta);
         var filas = Object.keys(respuesta).length;
-        console.log(filas);
+        // console.log(filas);
 
         if (filas == 1) {
-
-
-
-            document.getElementById("codigo").readOnly = true;
-            document.getElementById("nombre").readOnly = true;
+            // deshabilitado fix
+            // document.getElementById("codigo").readOnly = true;
+            // document.getElementById("nombre").readOnly = true;
 
             // hidden
             document.getElementById('idproducto').value = respuesta[0]["idproducto"];
             document.getElementById('idunidad').value = respuesta[0]["idunidad"];
+            
             // data promo hidden
             document.getElementById('id_promocion').value = respuesta[0]["id_promocion"];
             document.getElementById('promo_cantidad').value = respuesta[0]["cantidad"];
@@ -139,9 +310,11 @@ function buscarProducto() {
 
             document.getElementById('nombre').value = respuesta[0]["nombreproducto"];
             $('#precio_producto').val(respuesta[0]["precio"]);
+            formatearDinero('#precio_producto','');
             $('#unidad_producto').text(respuesta[0]["nombreunidad"]);
             $('#nombreunidad').val(respuesta[0]["nombreunidad"]);
 
+            
             // $('#div1-2').show('slow');
 
             // $('#img-producto').show();
@@ -160,22 +333,39 @@ function buscarProducto() {
 
 
             $('#precio-item').collapse('show');
-            console.log('show');
+            // console.log('show');
 
 
             if (respuesta[0].idunidad == "1") {
                 document.getElementById("total_producto").readOnly = false;
+                document.getElementById("total_producto").value = "";
                 document.getElementById("total_producto").focus();
-
+                document.getElementById("prod_pesado").value = "1";
+                
+                
             } else {
-                document.getElementById("cantidad").focus();
+                document.getElementById("total_producto").readOnly = true;
+                document.getElementById("prod_pesado").value = "";
+
+                // TODO AQUI ESTOY TRABAJANDO
+                
+                // deshabilitado fix
+                // document.getElementById("cantidad").focus();
+
+
+
                 calcular_total_producto();
+
+                // agregado fix
+                agregarLinea();
+                // fin agregado fix
             }
 
 
             
         } else {
-            console.log('producto no encontrado');
+            
+            // console.log('producto no encontrado');
             $('#precio-item').collapse('hide');
             $('.descuento').collapse('hide');
             $("#img-producto").attr("src","../../img/logopanaderia.PNG");
@@ -207,9 +397,9 @@ function aplicarDescuento () {
 
         document.getElementById('monto_descuento').value = promo_monto_desc * veces;
 
-        console.log('cantidad: '+cantidad);
-        console.log('promocanti: '+promo_cantidad);
-        console.log('veces: '+veces);
+        // console.log('cantidad: '+cantidad);
+        // console.log('promocanti: '+promo_cantidad);
+        // console.log('veces: '+veces);
 
         if (veces > 0) {
             $('.descuento').collapse('show');
@@ -234,8 +424,8 @@ function calcular_total_producto () {
     if (cantidad == "") {
         cantidad = 1;
     }
-    var total_producto = Math.round($('#precio_producto').val() * cantidad) - descuento;
-    console.log(total_producto);
+    var total_producto = Math.round(limpiarNumero($('#precio_producto').val()) * cantidad) - descuento;
+    // console.log(total_producto);
 
     $('#total_producto').val(total_producto);
 
@@ -243,10 +433,10 @@ function calcular_total_producto () {
 
 function calcular_kilos_producto () {
     var totalProducto = $('#total_producto').val()*1;
-    var precioProducto = $('#precio_producto').val()*1;
+    var precioProducto = limpiarNumero($('#precio_producto').val())*1;
 
     var kilos = totalProducto / precioProducto;
-    console.log(kilos);
+    // console.log(kilos);
 
     $('#cantidad').val(kilos.toFixed(2));
 
@@ -255,13 +445,16 @@ function calcular_kilos_producto () {
 
 
 function calcular_total_venta () {
+
     var totalVenta = 0;
 
     for (var i=0; i < listaDetalle.length; i++) {
         totalVenta = totalVenta + listaDetalle[i].monto*1;
     }
     
+    // $('#total-venta').val(separadorMiles(totalVenta));
     $('#total-venta').val(totalVenta);
+    formatearDinero($('#total-venta'), '');
 }
 
 
@@ -311,19 +504,20 @@ function terminarVenta() {
 
     if (listaDetalle.length > 0) {
 
-        var totalVenta = $('#total-venta').val();
+        var totalVenta = limpiarNumero($('#total-venta').val());
 
         // var dataString = 'key='+key;
         $.ajax({
                 type: "POST",
                 url: "../command.php",
                 data: {
-                    'cmd': 'ingresar-venta-temporal-meson',
+                    // 'cmd': 'ingresar-venta-temporal-meson',
+                    'cmd': 'ingresar-venta-temporal-meson-idletra',
                     'total': totalVenta,
                     'detalle':JSON.stringify(listaDetalle)},
                 success: function(data) {
 
-                    console.log(data);
+                    // console.log(data);
 
                     // imprimirTicket(data, totalVenta); FIXME volver a habilitar
 
@@ -409,6 +603,7 @@ function terminarVenta() {
 
 
 $(function() {
+    verificarCajaAbierta();
 
     document.getElementById("codigo").focus();
     calcular_total_venta();
@@ -442,30 +637,41 @@ $(function() {
         calcular_kilos_producto();
     });
 
-    //  $(document).on('click', '#btn-mas', function(event) {
-    //     $('#cantidad').val($('#cantidad').val()*1+1);
-    //     calcular_total_producto();
-    // });
-
-    // $(document).on('click', '#btn-menos', function(event) {
-    //      if ($('#cantidad').val()*1 >= 1) {
-    //         $('#cantidad').val($('#cantidad').val()*1-1);
-    //      } else {
-    //         $('#cantidad').val('0');
-    //      }
-    //      calcular_total_producto();
-    // });
 
 
-    
     $(document).on('click', '#btn-agregar', function(event) {
-        agregarLinea();
+
+
+        // fix
+        // agregarLinea();
+        // document.getElementById("codigo").focus();
+
+        var prod_pesado = $('#prod_pesado').val();
+        if (prod_pesado == 1){
+            agregarLinea();
+        } else {
+            modificarLinea();
+        }
+
+        $('#codigo').val('');
+        buscarProducto();
+        calcular_total_venta();
         document.getElementById("codigo").focus();
+
    });
 
+//    TODO ver por qué cantidades enteras quedan con y sin decimales
 
-    $(document).on('click', '#btn-buscar', function(event) {
-        
+
+    $(document).on('focus', '#nombre', function(event) {
+        $('#nombre').val('');
+   });
+    $(document).on('focus', '#cantidad', function(event) {
+        $('#cantidad').val('');
+   });
+
+    $(document).on('focus', '#codigo', function(event) {
+        $('#codigo').val('');
    });
 
 

@@ -42,10 +42,12 @@ $printer = new Printer($connector);
 $printer->setJustification(Printer::JUSTIFY_CENTER);
 
 // $logo = EscposImage::load("logopanaderia.jpg", false);
+
+
 $logo = EscposImage::load("logopanaderia2.jpg", false);
 
-
-$printer->bitImage($logo);
+// volver a habilitar
+// $printer->bitImage($logo);
 
 /*
 Imprimimos un mensaje. Podemos usar
@@ -53,48 +55,52 @@ el salto de línea o llamar muchas
 veces a $printer->text()
  */
 
-$printer->text(date("d/m/Y H:i:s") . "\n");
-$printer->feed();
+// volver a habilitar
+// $printer->text(date("d/m/Y H:i:s") . "\n");
+// $printer->feed();
 
-$detalle1 = json_decode($_POST['detalle1'], true);
-$detalle2 = json_decode($_POST['detalle2'], true);
-$total = $_POST['total'];
+// $detalle1 = json_decode($_POST['detalle1'], true);
+// $detalle2 = json_decode($_POST['detalle2'], true);
+// $total = $_POST['total'];
 
-foreach ($detalle1 as $linea) {
+// foreach ($detalle1 as $linea) {
 
-        /*Alinear a la izquierda para la cantidad y el nombre*/
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->text(number_format($linea['cantidad'], 2, ',', '') . " x " . $linea['nombre'] . "\n");
+//         /*Alinear a la izquierda para la cantidad y el nombre*/
+//         $printer->setJustification(Printer::JUSTIFY_LEFT);
+//         $printer->text(number_format($linea['cantidad'], 2, ',', '') . " x " . $linea['nombre'] . "\n");
      
-        /*Y a la derecha para el importe*/
-        $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        $printer->text(' $' . $linea['monto'] . "\n");
+//         /*Y a la derecha para el importe*/
+//         $printer->setJustification(Printer::JUSTIFY_RIGHT);
+//         $printer->text(' $' . $linea['monto'] . "\n");
 
-}
-foreach ($detalle2 as $linea) {
+// }
+// foreach ($detalle2 as $linea) {
 
-        /*Alinear a la izquierda para la cantidad y el nombre*/
-        $printer->setJustification(Printer::JUSTIFY_LEFT);
-        $printer->text(number_format($linea['cantidad'], 2, ',', '') . " x " . $linea['nombre'] . "\n");
+//         /*Alinear a la izquierda para la cantidad y el nombre*/
+//         $printer->setJustification(Printer::JUSTIFY_LEFT);
+//         $printer->text(number_format($linea['cantidad'], 2, ',', '') . " x " . $linea['nombre'] . "\n");
      
-        /*Y a la derecha para el importe*/
-        $printer->setJustification(Printer::JUSTIFY_RIGHT);
-        $printer->text(' $' . $linea['monto'] . "\n");
+//         /*Y a la derecha para el importe*/
+//         $printer->setJustification(Printer::JUSTIFY_RIGHT);
+//         $printer->text(' $' . $linea['monto'] . "\n");
 
-}
+// }
 
-$printer->text("--------\n");
-$printer->text("TOTAL: $". $total ."\n");
-$printer->feed(2);
-
-
-// timbre temporal---------------------
-$timbre = EscposImage::load("cbimage.png", false);
-$printer->bitImage($timbre);
-//------------------------------------------
+// $printer->text("--------\n");
+// $printer->text("TOTAL: $". $total ."\n");
+// $printer->feed(2);
 
 
-$printer->feed(2);
+// // timbre temporal---------------------
+// $timbre = EscposImage::load("cbimage.png", false);
+// $printer->bitImage($timbre);
+// //------------------------------------------
+
+
+// $printer->feed(2);
+// hasta aqui
+
+
 $printer->setJustification(Printer::JUSTIFY_CENTER);
 $printer->text("Gracias por su preferencia :)\n");
 
@@ -106,7 +112,9 @@ $printer->text("Gracias por su preferencia :)\n");
 Hacemos que el papel salga. Es como
 dejar muchos saltos de línea sin escribir nada
  */
-$printer->feed(5);
+
+//  volver a habilitar
+// $printer->feed(5);
 
 /*
 Cortamos el papel. Si nuestra impresora

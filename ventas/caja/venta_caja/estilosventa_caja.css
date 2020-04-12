@@ -2,6 +2,11 @@
     box-sizing: border-box;
   }
 
+  body {
+    /* background: darkslategrey; */
+    background: rgb(14, 39, 62);
+}
+
   div {
       /* border: 0.0625rem solid red; */
   }
@@ -9,7 +14,7 @@
 #encabezado {
     display: flex;
     justify-content: center;
-    padding: 1rem;
+    padding-bottom: 1rem;
     font-size: 2.5rem;
 }
 
@@ -39,6 +44,7 @@ input {
     /* background-color: darkslategray; */
     box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
     /* border: 0.125rem solid white; */
+    background: #1c354c;
 }
 
 
@@ -155,20 +161,30 @@ th#col-nombre {
 
 div#div2-1{
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
 }
 
 div#div2-1 > * {
-    font-size: 2.9375rem;
-    border-radius: 0.625rem;
+    font-size: 1.9375rem;
+    border-radius: 0.3rem;
 }
 
 div#div2-1 > input {
-    width: 13.5625rem;
-    height: 3.75rem;
     text-align: center;
 }
+input#precio_producto {
+    width: 9rem;
+}
+input#cantidad {
+    width: 6rem;
+}
+
+
+input#monto_descuento {
+    width: 9rem;
+}
+
 
 /* div#div2-1 > button {
     width: 76.4px;
@@ -185,11 +201,12 @@ div#div3-1 > * {
     border-radius: 0.625rem;
 }
 div#div3-1 > :not(button) {
-    font-size: 3.125rem;
+    font-size: 2.125rem;
 }
 
+
 div#div3-1 > input {
-    width: 20rem;
+    width: 16rem;
     text-align: center;
 }
 
@@ -198,7 +215,11 @@ div#div3-1 > input {
     border-radius: 0.25rem;
 }
 
-
+button#btn-agregar {
+    width: 100%;
+    margin-top: 1rem;
+    border-radius: 5px;
+}
 
 .btn-pago {
     height: 6.25rem;

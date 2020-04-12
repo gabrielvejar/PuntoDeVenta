@@ -9,7 +9,7 @@ function buscarVentas () {
             var ventas = JSON.parse(data);
 
             var html='';
-            // var html='<a href="venta_caja/venta_caja.php"><button id="btn-nueva-venta" class="btn btn-info btn-venta hoverceleste">Nueva Venta</button></a>';
+            var html='<a href="venta_caja/venta_caja.php"><button id="btn-nueva-venta" class="btn btn-info btn-venta hoverceleste">Nueva Venta</button></a>';
 
             for (var i=0; i < ventas.length; i++) {
                     html += '<a href="venta_caja/venta_caja.php?id='+ventas[i].id_venta_temp+'"><button class="btn btn-primary btn-venta">'+ventas[i].id_diario+'</button></a>';
@@ -18,7 +18,7 @@ function buscarVentas () {
 
             $('#ventas').html(html);
 
-            cambiarTamanioBotones();
+            // cambiarTamanioBotones();
 
         }
     });
@@ -41,7 +41,7 @@ function cambiarTamanioBotones() {
 $(function() {
 
     buscarVentas();
-    setInterval(buscarVentas, 3000);
+    // setInterval(buscarVentas, 3000);
 
 
 

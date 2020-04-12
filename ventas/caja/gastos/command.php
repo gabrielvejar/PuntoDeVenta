@@ -41,6 +41,25 @@ switch ($cmd) {
 
     break;
 
+    case 'select-custodia':
+
+        $query     = "SELECT id_custodia, nombre FROM public.vw_custodia ORDER BY nombre ASC";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
     case 'ingresar-gasto':
         // _id_apertura           ALIAS FOR $1;
         // _id_tipo_gasto         ALIAS FOR $2;
@@ -69,10 +88,121 @@ switch ($cmd) {
 
     break;
 
+
+    case 'ingresar-dinero-en-custodia':
+
+        $descripcion = $_REQUEST['descripcion'];
+        $monto = $_REQUEST['monto'];
+        $id_usuario = $usuario['id_usuario'];
+        
+        
+        $query     = "SELECT * FROM public.fn_dinero_custodia_i($1,$2,$3)";
+        $params    = array($descripcion, $monto, $id_usuario);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        if(pg_num_rows($result) > 0) {
+            $row = pg_fetch_row($result);
+            echo $row[0];
+        }
+
+    break;
+
+    case 'ingresar-movimiento-custodia':
+
+        $id_custodia = $_REQUEST['id_custodia'];
+        $tipoMov = $_REQUEST['tipoMov'];
+        $monto = $_REQUEST['monto'];
+        $comentario = $_REQUEST['comentario'];
+        $gasto = $_REQUEST['gasto'];
+        $id_usuario = $usuario['id_usuario'];
+
+        if ($tipoMov == 2) {
+            $monto = $monto*-1;
+        }
+        
+        
+        $query     = "SELECT * FROM public.fn_movimiento_dec_i($1,$2,$3,$4, $5)";
+        $params    = array($id_custodia, $monto, $comentario, $id_usuario, $gasto);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        if(pg_num_rows($result) > 0) {
+            $row = pg_fetch_row($result);
+            echo $row[0];
+        }
+
+    break;
+
+    case 'eliminar-dinero-en-custodia':
+
+        $id_custodia = $_REQUEST['id_custodia'];
+        $id_usuario = $usuario['id_usuario'];
+        
+        $query     = "SELECT * FROM public.fn_dinero_custodia_d($1,$2)";
+        $params    = array($id_custodia, $id_usuario);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+        echo $row[0];
+
+    break;
+
+    case 'eliminar-movimiento-custodia':
+
+        $id_movimiento = $_REQUEST['id_movimiento'];
+        $id_usuario = $usuario['id_usuario'];
+        
+        $query     = "SELECT * FROM public.fn_movimiento_dec_d($1,$2)";
+        $params    = array($id_movimiento, $id_usuario);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+        echo $row[0];
+
+    break;
+
     case 'tabla-gastos':
 
         $query     = "SELECT * FROM public.vw_gastos WHERE eliminado IS NOT TRUE AND id_apertura = $1";
         $params    = array($_SESSION['apertura']['id_apertura']);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
+    case 'tabla-dinero-en-custodia':
+
+        $query     = "SELECT * FROM public.vw_dinero_en_custodia WHERE eliminado IS NOT TRUE ORDER BY id_dinero_custodia ASC";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
+    case 'tabla-dinero-en-custodia-movimientos':
+        $id_dinero_custodia = $_REQUEST['id_dc'];
+
+        $query     = "SELECT * FROM public.vw_dinero_custodia_movimientos WHERE id_dinero_custodia=$1 ORDER BY id_movimiento ASC";
+        $params    = array($id_dinero_custodia);
         $result    = pg_query_params($dbconn, $query, $params);
 
         $filas = [];

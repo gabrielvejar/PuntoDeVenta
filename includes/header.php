@@ -13,6 +13,10 @@ if (file_exists ("index.php")) {
     }
 
 
+    $sidebar = 0;
+
+
+
 ?>
 
 
@@ -24,7 +28,7 @@ if (file_exists ("index.php")) {
     <link rel="stylesheet" href="<?php echo $ruta ?>css/bootstrap2.min.css">
     <link rel="stylesheet" href="<?php echo $ruta ?>css/estilos.css">
     <link rel="stylesheet" href="<?php echo $ruta ?>css/animate.css">
-    <link rel="stylesheet" href="<?php echo $ruta ?>css/font-awesome.min.css">
+    <!-- <link rel="stylesheet" href="<?php echo $ruta ?>css/font-awesome.min.css"> -->
     <link rel="stylesheet" href="<?php echo $ruta ?>css/normalize.css">
     <?php if ($css != "") {
         echo '<link rel="stylesheet" href="'.$ruta2.$css.'?v='.rand().'">';
@@ -41,10 +45,20 @@ if (file_exists ("index.php")) {
 
     <link rel="stylesheet" href="<?php echo $ruta?>css/iconate.min.css">
     <script type="text/javascript" src="<?php echo $ruta?>js/iconate.js"></script>
+
+
+    <!-- fontawesome5 -->
+    <!-- <link href="<?php echo $ruta?>vendor/fontawesome5/css/fontawesome.min.css" rel="stylesheet">
+    <link href="<?php echo $ruta?>vendor/fontawesome5/css/brands.min.css" rel="stylesheet">
+    <link href="<?php echo $ruta?>vendor/fontawesome5/css/solid.min.css" rel="stylesheet"> -->
+    <link href="<?php echo $ruta?>vendor/fontawesome5/css/all.css" rel="stylesheet">
+    <!-- <script defer src="<?php echo $ruta?>vendor/fontawesome5/js/all.js"></script> -->
+    <!-- fin fontawesome5 -->
     
 
 </head>
-<body class="animated fadeIn">
+<!-- <body class="animated fadeIn faster"> -->
+<body class="">
 
 <input type="hidden" id="ruta" value="<?php echo $ruta?>">
 

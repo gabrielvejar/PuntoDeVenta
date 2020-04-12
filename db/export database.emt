@@ -1,0 +1,67 @@
+[General]
+Database=puntodeventa on localhost [puntodeventa]
+ExtractCompletely=0
+ExtractMetadata=1
+ExtractData=1
+ExtractAll=1
+ExtractSchema=0
+ExtractSchemaName=information_schema
+ExtractAllData=0
+ExtractDataSame=0
+ScriptOptions=1
+FileName=C:\xampp\htdocs\PuntodeVenta\db\puntodeventa2020-04-01_19-19.sql
+AbortOnError=1
+[Options]
+GenerateCreateDB=1
+GenerateDropStatements=1
+DropIfExistStatements=1
+ShortCharTypes=1
+CommitAfter=500
+InsertCommit=0
+LoadToEditor=1
+FileCharset=Unicode (UTF-8)
+OidInComments=1
+[Tables]
+Count=0
+[Views]
+Count=0
+[Functions]
+Count=0
+[Procedures]
+Count=0
+[Domains]
+Count=0
+[Sequences]
+Count=0
+[Composite Types]
+Count=0
+[Enum Types]
+Count=0
+[Range Types]
+Count=0
+[Base Types]
+Count=0
+[Aggregates]
+Count=0
+[Operators]
+Count=0
+[Collations]
+Count=0
+[Event Triggers]
+Count=0
+[Languages]
+Count=0
+[Schemas]
+Count=0
+[Tablespaces]
+Count=0
+[Foreign Data Wrappers]
+Count=0
+[Foreign Servers]
+Count=0
+[DataTables]
+Count=4
+DataTable_0=public.categoria
+DataTable_1=public.tipo_gasto
+DataTable_2=public.tipo_pago
+DataTable_3=public.unidad

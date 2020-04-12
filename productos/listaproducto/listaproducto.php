@@ -15,11 +15,24 @@ include_once $ruta . "db/conexion.php";
 
 //paginacion
 
-
+// validar que usuario tenga permiso para acceder a pagina
+if ($_SESSION['permisos']['mantenedor_productos'] !='t') {
+    header('Location: '.$ruta);
+ }
 
 ?>
 
-<?php include $ruta . "includes/nav.php"; ?>
+<?php // include $ruta . "includes/nav.php"; ?>
+
+<?php 
+if (isset($_REQUEST['sb'])) {
+    if ($_REQUEST['sb'] != 'no'){
+        include $ruta . "includes/sidebarinicio.php"; 
+    } 
+} else {
+    include $ruta . "includes/sidebarinicio.php"; 
+}
+?>
 
     <div class="container">
 

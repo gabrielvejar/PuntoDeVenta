@@ -30,21 +30,34 @@ function listarDetalle() {
             html += '<tr>'
             html += '<th scope="row"><span id="t-numfila">'+(numFila)+'</span></th>';
             html +='<td><span id="t-nombre">'+listaDetalleDB[i].nombre+'</span></td>';
-            html +='<td><span id="t-precioun">'+listaDetalleDB[i].precio+'</span></td>';
-            html +='<td><span id="t-cantidad">'+parseFloat(listaDetalleDB[i].cantidad).toFixed(2)+'</span> <span id="t-unidad">'+listaDetalleDB[i].unidad+'</span></td>';
-            html +='<td><span id="t-preciototalprod">'+listaDetalleDB[i].monto+'</span></td>';
+            html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalleDB[i].precio)+'</span></td>';
+
+
+            if ( (parseFloat(listaDetalleDB[i].cantidad).toFixed(2) - parseInt(listaDetalleDB[i].cantidad)) > 0 ) {
+                // es un float
+                html +='<td><span id="t-cantidad">'+parseFloat(listaDetalleDB[i].cantidad).toFixed(2)+'</span> <span id="t-unidad">'+listaDetalleDB[i].unidad+'</span></td>';
+            } else {
+                html +='<td><span id="t-cantidad">'+parseInt(listaDetalleDB[i].cantidad)+'</span> <span id="t-unidad">'+listaDetalleDB[i].unidad+'</span></td>';
+            }
+
+            
+           
+           
+           
+            html +='<td><span id="t-preciototalprod">$'+separadorMiles(listaDetalleDB[i].monto)+'</span></td>';
             html +='<td><i class="fa fa-times x-detalle" aria-hidden="true"  onclick="borrarLineaDetalledb('+i+','+listaDetalleDB[i].id_detalle+')">';
             html +='</tr>';
 
     }
+
     for (var i=0; i < listaDetalle.length; i++) {
         numFila++;
             html += '<tr>'
             html += '<th scope="row"><span id="t-numfila">'+(numFila)+'</span></th>';
             html +='<td><span id="t-nombre">'+listaDetalle[i].nombre+'</span></td>';
-            html +='<td><span id="t-precioun">'+listaDetalle[i].precio+'</span></td>';
+            html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalle[i].precio)+'</span></td>';
             html +='<td><span id="t-cantidad">'+listaDetalle[i].cantidad+'</span> <span id="t-unidad">'+listaDetalle[i].unidad+'</span></td>';
-            html +='<td><span id="t-preciototalprod">'+listaDetalle[i].monto+'</span></td>';
+            html +='<td><span id="t-preciototalprod">$'+separadorMiles(listaDetalle[i].monto)+'</span></td>';
             html +='<td><i class="fa fa-times x-detalle" aria-hidden="true"  onclick="borrarLineaDetalle('+i+')">';
             html +='</tr>';
 
@@ -64,17 +77,22 @@ function listarDetalle() {
 
 function agregarLinea() {
     
-    var getCodigo = $('#codigo').val();
+    // var getCodigo = $('#codigo').val();
+    var getCodigo = $('#cod_hidden').val();
     var getNombre = $('#nombre').val();
     if($('#cantidad').val() == "") {
         $('#cantidad').val('1');
     }
-    var getCantidad = parseFloat($('#cantidad').val()).toFixed(2);
-    // if (getCantidad == "") {
-    //     getCantidad = "1";
-    // }
-    var getPrecio = $('#precio_producto').val();
-    var getMonto = $('#total_producto').val();
+
+    if ( (parseFloat($('#cantidad').val()).toFixed(2) - parseInt($('#cantidad').val())) > 0 ) {
+        // es un float
+        var getCantidad = parseFloat($('#cantidad').val()).toFixed(2);
+    } else {
+        var getCantidad = parseInt($('#cantidad').val());
+    }
+
+    var getPrecio = limpiarNumero($('#precio_producto').val());
+    var getMonto = limpiarNumero($('#total_producto').val());
     var getIdproducto = $('#idproducto').val();
     var getIdunidad = $('#idunidad').val();
     var getnombreunidad = $('#nombreunidad').val();
@@ -89,31 +107,126 @@ function agregarLinea() {
 
 
 
+    var existeLinea = 0;
+    var indice = 0;
+    if (listaDetalle != "") {
 
-    var lineaDetalle = {
-
-        codigo: getCodigo,
-        nombre: getNombre,
-        precio: getPrecio,
-        cantidad: getCantidad,
-        monto: getMonto,
-        idproducto: getIdproducto,
-        unidad: getnombreunidad,
-        idunidad: getIdunidad,
-        idpromocion: getIdpromocion
+        for (indice; indice<listaDetalle.length; indice++){
+            if (listaDetalle[indice].codigo == getCodigo) {
+                existeLinea++;
+                // console.log('existe producto');
+                break;
+            }
+        }
 
     }
 
-    listaDetalle.push(lineaDetalle);
+    if (existeLinea > 0) {
 
-    $('#codigo').val('');
-    buscarProducto();
+
+        var getCantidad = $('#cantidad').val();
+        if (estaVacio(getCantidad)) {
+            getCantidad = 1;
+        }
+    
+        var getMonto = $('#total_producto').val();
+    
+        var getPromoAplica = $('#promo_aplica').val();
+        var getIdpromocion = "";
+        if (!estaVacio(getPromoAplica)) {
+            getIdpromocion = $('#id_promocion').val();
+        }
+    
+        listaDetalle[indice]["cantidad"] = listaDetalle[indice]["cantidad"]*1 + getCantidad*1;
+        listaDetalle[indice]["monto"] = listaDetalle[indice]["monto"]*1+getMonto*1;
+        listaDetalle[indice]["idpromocion"] = getIdpromocion;
+
+
+    } else {
+        
+        var lineaDetalle = {
+            
+            codigo: getCodigo,
+            nombre: getNombre,
+            precio: getPrecio,
+            cantidad: getCantidad,
+            monto: getMonto,
+            idproducto: getIdproducto,
+            unidad: getnombreunidad,
+            idunidad: getIdunidad,
+            idpromocion: getIdpromocion
+            
+        }
+        
+        listaDetalle.push(lineaDetalle);
+        
+    }
+
+
+    // $('#codigo').val('');
+    // buscarProducto();
+    // listarDetalle();
+    // $('#precio-item').collapse('hide');
+
+    document.getElementById("codigo").value = "";
+    document.getElementById("codigo").focus();
     listarDetalle();
-    $('#precio-item').collapse('hide');
+
+
     $('#input-total').val( calcular_total_venta());
+    
+    formatearDinero('#input-total', '');
 
 
 }
+
+
+
+function modificarLinea() {
+
+    var indice = 0;
+    var existeLinea = 0;
+    var getCodigo = $('#cod_hidden').val();
+
+    for (indice; indice<listaDetalle.length; indice++){
+        if (listaDetalle[indice].codigo == getCodigo) {
+            existeLinea++;
+            break;
+        }
+    }
+
+
+
+    if (estaVacio($('#cantidad').val())) {
+        $('#cantidad').val('1');
+    }
+
+    var getCantidad = $('#cantidad').val()*1 -1;
+    $('#cantidad').val(getCantidad);
+    calcular_total_producto();
+
+    var getMonto = $('#total_producto').val();
+
+    var getPromoAplica = $('#promo_aplica').val();
+    var getIdpromocion = "";
+    if (!estaVacio(getPromoAplica)) {
+        getIdpromocion = $('#id_promocion').val();
+    }
+
+        listaDetalle[indice]["cantidad"] = listaDetalle[indice]["cantidad"]*1 + getCantidad*1;
+        listaDetalle[indice]["monto"] = listaDetalle[indice]["monto"]*1+getMonto*1;
+        listaDetalle[indice]["idpromocion"] = getIdpromocion;
+
+    listarDetalle();
+
+
+
+
+
+}
+
+
+
 
 function borrarLineaDetalle (indice) {
 
@@ -126,7 +239,9 @@ function borrarLineaDetalle (indice) {
             if (result) {
                 listaDetalle.splice(indice, 1);
                 listarDetalle();
-                calcular_total_venta();
+                // calcular_total_venta();
+                $('#input-total').val( calcular_total_venta());
+                formatearDinero('#input-total','');
             }
         }
     })
@@ -183,7 +298,7 @@ function buscarProducto() {
     var async  = false;
     var json  = true;
 
-    
+    document.getElementById('cod_hidden').value = codigo;
 
     document.getElementById('nombre').value = "";
     document.getElementById('promo').value = "";
@@ -210,9 +325,9 @@ function buscarProducto() {
         if (filas == 1) {
 
 
-
-            document.getElementById("codigo").readOnly = true;
-            document.getElementById("nombre").readOnly = true;
+            // deshabilitado fix
+            // document.getElementById("codigo").readOnly = true;
+            // document.getElementById("nombre").readOnly = true;
 
             // hidden
             document.getElementById('idproducto').value = respuesta[0]["idproducto"];
@@ -227,6 +342,7 @@ function buscarProducto() {
 
             document.getElementById('nombre').value = respuesta[0]["nombreproducto"];
             $('#precio_producto').val(respuesta[0]["precio"]);
+            formatearDinero('#precio_producto','');
             $('#unidad_producto').text(respuesta[0]["nombreunidad"]);
             $('#nombreunidad').val(respuesta[0]["nombreunidad"]);
 
@@ -248,16 +364,26 @@ function buscarProducto() {
 
 
             $('#precio-item').collapse('show');
-            console.log('show');
+            // console.log('show');
 
 
             if (respuesta[0].idunidad == "1") {
+                // document.getElementById("total_producto").readOnly = false;
+                // document.getElementById("total_producto").focus();
                 document.getElementById("total_producto").readOnly = false;
+                document.getElementById("total_producto").value = "";
                 document.getElementById("total_producto").focus();
+                document.getElementById("prod_pesado").value = "1";
 
             } else {
-                document.getElementById("cantidad").focus();
+                // document.getElementById("cantidad").focus();
+                // calcular_total_producto();
+
+                document.getElementById("total_producto").readOnly = true;
+                document.getElementById("prod_pesado").value = "";
+
                 calcular_total_producto();
+                agregarLinea();
             }
 
 
@@ -316,7 +442,7 @@ function calcular_total_producto () {
     if (cantidad == "") {
         cantidad = 1;
     }
-    var total_producto = Math.round($('#precio_producto').val() * cantidad) - descuento;
+    var total_producto = Math.round(limpiarNumero($('#precio_producto').val()) * cantidad) - descuento;
     console.log(total_producto);
 
     $('#total_producto').val(total_producto);
@@ -335,6 +461,7 @@ function calcular_kilos_producto () {
 }
 
 function calcular_total_venta () {
+
     var totalVenta = 0;
 
     for (var i=0; i < listaDetalleDB.length; i++) {
@@ -385,8 +512,8 @@ function sumarBillete (valor) {
 }
 
 function calc_vuelto () {
-    var total = parseInt($('#input-total').val());
-    var efectivo = parseInt($('#input-efectivo').val());
+    var total = parseInt(limpiarNumero($('#input-total').val()));
+    var efectivo = parseInt(limpiarNumero($('#input-efectivo').val()));
     $('#input-vuelto').val('');
 
     if (!(isNaN(total) || isNaN(efectivo))) {
@@ -412,11 +539,12 @@ function imprimir_recibo () {
                     data: {
                         'total': totalVenta,
                         'detalle1':JSON.stringify(listaDetalleDB),
-                        'detalle2':JSON.stringify(listaDetalle)},
+                        'detalle2':JSON.stringify(listaDetalle)
+                    },
                     success: function(data) {
                         
                         console.log(data);
-                        location.replace(rutaraiz+'ventas/caja/caja.php');
+                        // location.replace(rutaraiz+'ventas/caja/caja.php');
 
                         // setTimeout(() => {
                         //     location.replace(rutaraiz+'ventas/caja/caja.php');
@@ -465,12 +593,13 @@ function pagar (id_tipo_pago) {
     if (cantItems > 0) {
 
         var id_venta = document.getElementById('id_venta_temp').value;
-        var monto_venta = document.getElementById('input-total').value;
+        var monto_venta = limpiarNumero(document.getElementById('input-total').value);
         
         if (listaDetalle.length > 0) {
 
                 var datos = {
-                    'cmd': 'ingresar-venta-temporal-caja',
+                    // 'cmd': 'ingresar-venta-temporal-caja',
+                    'cmd': 'ingresar-venta-temporal-caja-idletra',
                     'id_venta_temp': id_venta,
                     'detalle':JSON.stringify(listaDetalle)
                 };
@@ -498,16 +627,23 @@ function pagar (id_tipo_pago) {
             },
             success: function(data) {
 
+                
                 if(data == 0) {
+
                     bootbox.alert({
                         title: "",
                         message: "<b>Imprimiendo recibo...</b>",
                         centerVertical: true,
                         callback: function (result) {
                             
+                            
                         }
                     });
                     imprimir_recibo();
+                    setTimeout(() => {
+                        location.replace(rutaraiz+'ventas/caja/caja.php');
+                    }, 2000);
+                    //TODO volver a habilitar
 
                 } else {
                     bootbox.alert({
@@ -551,6 +687,7 @@ $(function() {
     buscarDetalle();
     listarDetalle();
     $('#input-total').val( calcular_total_venta());
+    formatearDinero('#input-total','');
    
 
     $(document).on('input', '#cantidad', function(event) {
@@ -569,7 +706,20 @@ $(function() {
     });
 
     $(document).on('click', '#btn-agregar', function(event) {
-        agregarLinea();
+
+        var prod_pesado = $('#prod_pesado').val();
+        if (prod_pesado == 1) {
+            agregarLinea();
+        } else {
+            modificarLinea();
+        }
+
+        $('#codigo').val('');
+        buscarProducto();
+        $('#input-total').val( calcular_total_venta());
+        formatearDinero('#input-total','');
+        document.getElementById("codigo").focus();
+
    });
 
 
@@ -584,8 +734,15 @@ $(function() {
         $('#btns-pago-efectivo').collapse('show');
         document.getElementById("input-efectivo").focus();
         $('#input-total').val(leyRedondeo(calcular_total_venta()));
+        formatearDinero('#input-total','');
 
     });
+
+
+    $(document).on('click', '#btn-tarjeta', function(event) {
+        bootbox.alert('Pago con tarjeta no habilitado.');
+    });
+
     $(document).on('click', '#btn-cancelar-pago', function(event) {
         $('#btns1').collapse('show');
         $('#div-boton-detalle').collapse('show');
@@ -595,6 +752,7 @@ $(function() {
         $('#input-vuelto').val('');
 
         $('#input-total').val( calcular_total_venta());
+        formatearDinero('#input-total', '');
     });
 
 //TODO
@@ -644,7 +802,7 @@ $(function() {
             }
         })
     });
-    $(document).on('click', '#btn-cancelar', function(event) {
+    $(document).on('click', '#btn-anular', function(event) {
         bootbox.confirm({ 
             size: "small",
             title: "Anular Venta",
@@ -657,7 +815,6 @@ $(function() {
                     if (id_venta == 0) {
                         window.location.replace('../caja.php');
                     } else {
-                        //TODO reconciderar el tema de anular logicamente
                         $.ajax({
                             type: "POST",
                             url: "../../command.php",

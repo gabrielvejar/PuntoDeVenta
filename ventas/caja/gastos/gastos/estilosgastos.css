@@ -4,14 +4,18 @@
 /* div {
     border: 1px solid red;
 } */
-h1 {
+body {
+    background: rgb(14, 39, 62);
+}
+
+h1, h5 {
     text-align: center;
 }
 
 div#inferior-tabla {
     /* background-color: darkcyan; */
     padding: 1rem;
-    margin: 3rem 0;
+    /* margin: 3rem 0; */
     border-radius: 10px;
 }
 
@@ -64,7 +68,8 @@ table {
 }
 
 thead {
-    background-color: dodgerblue;
+    /* background-color: dodgerblue; */
+    background-color: #165d9f;
 }
 
 tbody {
@@ -74,7 +79,7 @@ tbody {
 
 .table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
     color: white;
-    background-color: darkcyan;
+    background-color: #1e7dd6;
 }
 
 tbody th, td {
@@ -92,3 +97,31 @@ table i:hover {
     margin-left: 10px;
 }
 
+ 
+.lam {
+    margin-top: 1.25rem;
+    margin-bottom: 1.25rem;
+    padding: 3.25rem;
+    border-radius: 0.6rem;
+    box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    background: #1c354c;
+}
+
+.container {
+    /* background: ghostwhite; */
+    /* background: #2B3E50; */
+    /* color: black; */
+}
+
+
+button#btn-ingresar {
+    margin-top: 20px;
+}
+
+button#btn-otro {
+    margin-left: 10px;
+}
+
+div#dec {
+    display: flex;
+}

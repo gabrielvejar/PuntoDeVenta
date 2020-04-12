@@ -12,6 +12,14 @@ include_once $ruta . "includes/header.php";
 
 include_once $ruta . "db/conexion.php";
 
+
+// validar que usuario tenga permiso para acceder a pagina
+if ($_SESSION['permisos']['caja'] !='t') {
+    header('Location: '.$ruta);
+ }
+
+
+ 
 // verificar caja abierta
 // $query     = "SELECT * FROM public.fn_verificar_caja_apertura()";
 // $params    = array();
@@ -53,12 +61,23 @@ if(isset($_SESSION['apertura']['id_apertura'])){
 }
 
 
-// include_once $ruta . "includes/nav.php";
-
-
 
 ?>
-<?php include $ruta . "includes/nav.php"; ?>
+
+
+<?php 
+if (isset($_REQUEST['sb'])) {
+    if ($_REQUEST['sb'] != 'no'){
+        include $ruta . "includes/sidebarinicio.php"; 
+    } 
+} else {
+    include $ruta . "includes/sidebarinicio.php"; 
+}
+?>
+
+
+
+
 <div class="container">
     <h1>Apertura de Caja</h1>
     <div id="" class="flex-container">
@@ -70,7 +89,7 @@ if(isset($_SESSION['apertura']['id_apertura'])){
                     </div>
                     <div class="form-group">
                         <label for="inputEfectivoCierre">Efectivo último cierre</label>
-                        <input type="number" class="form-control" id="inputEfectivoCierre" readonly>
+                        <input type="text" class="form-control" id="inputEfectivoCierre" readonly>
                     </div>
                     <hr>
                     <div class="form-group">

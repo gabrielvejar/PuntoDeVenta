@@ -10,11 +10,17 @@ function ultimoCierre() {
         },
         dataType: "JSON",
         success: function (response) {
-            cierre = response;
 
-            $('#input-fecha-uc').val(response[0]['fecha']);
-            $('#inputEfectivoCierre').val(response[0]['efectivo_cierre']);
-            
+            if (response.length > 0){
+                
+                cierre = response;
+    
+                $('#input-fecha-uc').val(response[0]['fecha']);
+                $('#inputEfectivoCierre').val(response[0]['efectivo_cierre']);
+                formatearDinero('#inputEfectivoCierre', '$');
+
+            }
+                
         }
     });
 }
@@ -44,10 +50,15 @@ function aperturaCaja (fecha, efectivo) {
         },
         success: function (response) {
             if(response == 0){
-                alert('Apertura de caja correcta');
-                location.reload();
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+                bootbox.alert('Apertura de caja correcta', function(){
+                    location.reload();
+                });
+                
             } else {
-                alert('Error en apertura de caja');
+                bootbox.alert('Error en apertura de caja');
             }
         }
     });
@@ -58,52 +69,78 @@ $(function() {
 
     $('#btn-abrir').on('click', function () {
         var fechaApertura = $('#input-fecha').val();
-        var fechaCierre = cierre[0]['fecha'];
+        var efectivoApertura = limpiarNumero($('#inputEfectivo').val());
 
-        var efectivoApertura = $('#inputEfectivo').val();
-        var efectivoCierre = cierre[0]['efectivo'];
+        if (cierre != null) {
+            var fechaCierre = cierre[0]['fecha'];
+            var efectivoCierre = cierre[0]['efectivo_cierre'];
+        }
 
         if(fechaApertura == ""){
-            alert('Ingrese fecha de apertura');
+            bootbox.alert('Ingrese fecha de apertura');
             return false;
         }
         if(!moment(fechaApertura, "DD-MM-YYYY").isValid()){
-            alert('Ingrese fecha de apertura válida');
+            bootbox.alert('Ingrese fecha de apertura válida');
             return false;
         }
         if(efectivoApertura == ""){
-            alert('Ingrese efectivo que hay en caja');
+            bootbox.alert('Ingrese efectivo que hay en caja');
             return false;
         }
         if(isNaN(efectivoApertura)){
-            alert('Ingrese una cantidad válida');
+            bootbox.alert('Ingrese una cantidad válida');
             return false;
         }
 
-        if(!verificarDiaSiguiente(fechaApertura, fechaCierre)) {
-           if(!confirm('La fecha de apertura no es el día siguiente a la fecha de ultimo cierre de caja. Desea continuar?')){
-                return false;
-           }
-        }
 
-        if (efectivoCierre != efectivoApertura){
-            if(!confirm('El monto de efectivo de apertura no coincide con el monto de efectivo del ultimo cierre de caja. Desea continuar?')){
-                return false;
+        if (cierre != null) {
+
+            if(!verificarDiaSiguiente(fechaApertura, fechaCierre)) {
+
+            bootbox.confirm("La fecha de apertura no es el día siguiente a la fecha de ultimo cierre de caja. Desea continuar?", function(result){ 
+                    if(result) {
+
+                        if (efectivoApertura != efectivoCierre){
+
+                            bootbox.confirm("El monto de efectivo de apertura no coincide con el monto de efectivo del ultimo cierre de caja. Desea continuar?", function(result){ 
+                                if(result) {
+                                    aperturaCaja (fechaApertura, efectivoApertura);
+                                }
+                            });
+
+                        } else {
+                            aperturaCaja (fechaApertura, efectivoApertura);
+                        }
+
+                    }
+                });
+            } else {
+
+                if (efectivoApertura != efectivoCierre){
+
+                    bootbox.confirm("El monto de efectivo de apertura no coincide con el monto de efectivo del ultimo cierre de caja. Desea continuar?", function(result){ 
+                        if(result) {
+                            aperturaCaja (fechaApertura, efectivoApertura);
+                        }
+                    });
+
+                } else {
+                    aperturaCaja (fechaApertura, efectivoApertura);
+                }
+
+
             }
+
+        } else {
+            aperturaCaja (fechaApertura, efectivoApertura);
         }
-
-        // llamar a funcion que abre caja
-        aperturaCaja (fechaApertura, efectivoApertura);
-
 
     });
 
-    // para validar fecha
-    // var fechaApertura = $('#input-fecha').val();
-    // var fechaCierre = cierre[0]['fecha'];
-    // moment($('#input-fecha').val(), "DD-MM-YYYY").isValid()
-
-    
+    $('#inputEfectivo').on('input', function (e) {
+        formatearDinero('#'+e.target.id, '$');
+    });
 
     $('#form-apertura').on('submit', function (event) {
         event.preventDefault();

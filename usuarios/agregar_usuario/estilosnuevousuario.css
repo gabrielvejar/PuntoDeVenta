@@ -1,0 +1,37 @@
+body {
+    background: rgb(14, 39, 62);
+}
+
+
+h1 {
+    text-align: center;
+}
+#contenedor{
+    margin-top: 2rem;
+    background: #1c354c;
+}
+
+.lam {
+    margin-bottom: 1.25rem;
+    padding: 3.25rem;
+    border-radius: 0.6rem;
+    box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    /* border: 2px solid; */
+}
+
+
+.input-sumador {
+    width: 100%;
+    background: transparent;
+    color: white;
+    border:none;
+    border-bottom: 2px solid white;
+    padding: 7px;
+    /* border-radius: 10px; */
+}
+
+
+
+.pt {
+    padding-top: 19px !important;
+}

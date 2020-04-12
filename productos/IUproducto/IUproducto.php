@@ -11,9 +11,16 @@ while (!(file_exists ($ruta . "index.php"))) {
 
 
 
+include_once $ruta . "includes/header.php";
+
 include_once $ruta . "db/conexion.php";
 
+// validar que usuario tenga permiso para acceder a pagina
+if ($_SESSION['permisos']['mantenedor_productos'] !='t') {
+    header('Location: '.$ruta);
+ }
 
+ 
 
 if (isset($_REQUEST['producto'])){
     if ($_REQUEST['producto'] == '1'){
@@ -46,10 +53,8 @@ if (isset($_REQUEST['producto'])){
     die();
 }
 
+
 $titulo = $accion." Producto - Punto de Venta";
-
-include_once $ruta . "includes/header.php";
-
 
 ?>
 <div id="wrapper-tabla" class="center container">

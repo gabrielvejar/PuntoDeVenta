@@ -9,6 +9,19 @@ function valoresCierre () {
         success: function (response) {
             console.log(response);
             jsonvalores = response;
+
+            if(jsonvalores.total_ventas_efectivo == null){
+                jsonvalores.total_ventas_efectivo = 0;
+            }
+            if(jsonvalores.total_ventas_tarjeta == null){
+                jsonvalores.total_ventas_tarjeta = 0;
+            }
+            if(jsonvalores.total_gastos == null){
+                jsonvalores.total_gastos = 0;
+            }
+            
+            console.log(jsonvalores);
+
             $('#td-efectivo-apertura').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.efectivo_apertura));
             $('#td-ventas-efectivo').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_ventas_efectivo));
             $('#td-ventas-tarjeta').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_ventas_tarjeta));
@@ -22,30 +35,48 @@ function valoresCierre () {
 }
 
 
-function cerrarCaja () {
-
-    var efectivo_cierre = $('#input-efectivo').val();
-    efectivo_cierre = limpiarNumero (efectivo_cierre);
-
-    var entrega = $('#input-efectivo').val();
-    entrega = limpiarNumero (entrega);
-
-    var datos = {
-        'cmd': 'cerrar-caja',
-        'efectivo_apertura': jsonvalores.efectivo_apertura,
-        'efectivo_cierre': efectivo_cierre,
-        'ventas_efectivo': jsonvalores.total_ventas_efectivo,
-        'ventas_tarjetas': jsonvalores.total_ventas_tarjeta,
-        'entrega': entrega,
-        'gastos': jsonvalores.total_gastos
-    }
-
-
+function valoresApertura () {
     $.ajax({
         type: "POST",
         url: "../../command.php",
-        data: datos,
+        data: {
+            'cmd': 'datos-apertura'
+        },
+        dataType: 'JSON',
         success: function (response) {
+            console.log(response);
+            var mensaje = ""
+            mensaje += '<h4>Datos de apertura de caja</h4>';
+            mensaje += '<table style="width: 100%;"><tbody>';
+            mensaje += '<tr>';
+            mensaje += "<td>Apertura de caja ID:</td><td>"+response[0].id_apertura+"</td>";
+            mensaje += '</tr>';
+            mensaje += '<tr>';
+            mensaje += "<td>Fecha de apertura:</td><td>"+response[0].fecha+"</td>";
+            mensaje += '</tr>';
+            mensaje += '<tr>';
+            mensaje += "<td>Hora de apertura:</td><td>"+response[0].hora+"</td>";
+            mensaje += '</tr>';
+            mensaje += '<tr>';
+            mensaje += "<td>Usuario apertura:</td><td>"+response[0].usuario+"</td>";
+            mensaje += '</tr>';
+            mensaje += '<tr>';
+            mensaje += "<td>Efectivo apertura:</td><td>$"+separadorMiles(response[0].efectivo)+"</td>";
+            mensaje += '</tr>';
+            // mensaje += "Fecha de apertura: "+response[0].fecha+"<br>";
+            // mensaje += "Hora de apertura: "+response[0].hora+"<br>";
+            // mensaje += "Usuario apertura: "+response[0].usuario+"<br>";
+            // mensaje += "Efectivo apertura: "+response[0].efectivo;
+            
+            mensaje += '</tr></tbody></table>';
+            bootbox.alert({
+                tittle: 'Datos de apertura de caja',
+                message: mensaje,
+                callback: function() {
+
+                }
+            });
+
             
         }
     });
@@ -53,6 +84,187 @@ function cerrarCaja () {
 
 
 
+function buscarVentas () {
+   var ventasPendientes = 20;
+    $.ajax({
+        type: "POST",
+        url: "../../command.php",
+        data: {cmd: 'ventas-temp_impagas'},
+        dataType: 'json',
+        async: false,
+        success: function(data) {
+            
+            ventasPendientes = data.length;
+
+        }
+    });
+
+    return ventasPendientes;
+
+}
+
+function cerrarCaja () {
+
+
+    var efectivo_cierre = $('#input-efectivo').val();
+    efectivo_cierre = limpiarNumero (efectivo_cierre);
+
+    var entrega = $('#input-efectivo').val();
+    entrega = limpiarNumero (entrega);
+
+
+    bootbox.prompt({
+        title: "<p>Cierre de caja debe se autorizado por un administrador</p><p><b>Ingrese nombre de usuario administrador</b></p>",
+        inputType: 'text',
+        callback: function (result) {
+            console.log(result);
+            if (result == null) {
+                return;
+            }
+            // console.log('callback');
+            if (result == '') {
+                bootbox.alert('Ingrese los datos solicitados', function () {
+                })
+                return; // alert de ingrese usuario
+            }
+
+            var usuario_autoriza = result;
+            bootbox.prompt({
+                title: "<p>Cierre de caja debe se autorizado por un administrador</p><p><b>Ingrese contraseña de usuario administrador</b></p>",
+                inputType: 'password',
+                callback: function (result) {
+                    console.log(result);
+                    if (result == null) {
+                        return;
+                    }
+                    // console.log('callback');
+                    if (result == '') {
+                        bootbox.alert('Ingrese los datos solicitados', function () {
+                        })
+                        return; // alert de ingrese contraseña
+                    }
+        
+                    var pass_autoriza = result;
+
+
+                    var datos = {
+                        'cmd': 'cerrar-caja',
+                        'efectivo_apertura': jsonvalores.efectivo_apertura,
+                        'efectivo_cierre': efectivo_cierre,
+                        'ventas_efectivo': jsonvalores.total_ventas_efectivo,
+                        'ventas_tarjetas': jsonvalores.total_ventas_tarjeta,
+                        'entrega': entrega,
+                        'gastos': jsonvalores.total_gastos,
+                        'username_autoriza': usuario_autoriza,
+                        'pass_autoriza': pass_autoriza
+                    }
+                
+                
+                    $.ajax({
+                        type: "POST",
+                        url: "../../command.php",
+                        data: datos,
+                        success: function (response) {
+                            if (isNaN(response)) {
+                                bootbox.alert(response);
+                            } else {
+                                setTimeout(() => {
+                                    location.reload();
+                                }, 5000);
+                                bootbox.alert('Caja cerrada correctamente!', function(){
+                                    location.reload();
+                                });
+                            }
+                        }
+                    });
+
+        
+                    
+        
+                }
+            });
+
+
+        }
+    });
+
+
+}
+
+var estadoIconoActual = '';
+var primeraVez = true;
+function switchIcono (estado) {
+
+    if (estado != estadoIconoActual ) {
+        
+        if (estado == 'bien') {
+            $('#icon-balance').show();
+
+            var iconElement = document.getElementById('icon-balance');
+            // var options = {
+            //     from: 'fa-times-circle-o',
+            //     to: 'fa-check-circle-o',
+            //     animation: 'tada',
+            //     duration: 300
+            // };
+            var options = {
+                from: 'fa-times',
+                to: 'fa-check',
+                animation: 'tada',
+                duration: 500
+            };
+            
+            // document.getElementById('icon-balance').style.color="green";
+            iconate(iconElement, options);
+
+            if (primeraVez) {
+                primeraVez = false;
+            } else {
+
+                var audio = document.getElementById("audio-bien");
+                audio.play();
+
+                var objDiv = document.getElementById("contenedor");
+                objDiv.scrollTop = objDiv.scrollHeight;
+
+
+
+            }
+
+        } else if (estado == 'mal') {
+
+            var iconElement = document.getElementById('icon-balance');
+            // var options = {
+            //     from: 'fa-check-circle-o',
+            //     to: 'fa-times-circle-o',
+            //     animation: 'tada',
+            //     duration: 300
+            // };
+            var options = {
+                from: 'fa-check',
+                to: 'fa-times',
+                animation: 'tada',
+                duration: 500
+            };
+
+            // document.getElementById('icon-balance').style.color="red";
+            iconate(iconElement, options);
+
+            if (primeraVez) {
+                primeraVez = false;
+            } else {
+
+                var audio = document.getElementById("audio-mal");
+                audio.play();
+            }
+
+        }
+
+        estadoIconoActual = estado;
+
+    }
+
+ }
 
 
 
@@ -77,34 +289,42 @@ function calcularBalance () {
 
             $('#input-balance').css('border-color', 'green');
 
-            var iconElement = document.getElementById('icon-balance');
-            var options = {
-                from: 'fa-times',
-                to: 'fa-check',
-                animation: 'tada',
-                duration: 300
-            };
-            document.getElementById('icon-balance').style.color="green";
-            iconate(iconElement, options);
+            // var iconElement = document.getElementById('icon-balance');
+            // var options = {
+            //     from: 'fa-times',
+            //     to: 'fa-check',
+            //     animation: 'tada',
+            //     duration: 300
+            // };
+            
+            // document.getElementById('icon-balance').style.color="green";
+            // iconate(iconElement, options);
+
+            switchIcono('bien');
+
+            
 
         } else {
 
             $('#input-balance').css('border-color', 'coral');
 
-            var iconElement = document.getElementById('icon-balance');
-            var options = {
-                from: 'fa-check',
-                to: 'fa-times',
-                animation: 'tada',
-                duration: 300
-            };
-            document.getElementById('icon-balance').style.color="red";
-            iconate(iconElement, options);
+            // var iconElement = document.getElementById('icon-balance');
+            // var options = {
+            //     from: 'fa-check',
+            //     to: 'fa-times',
+            //     animation: 'tada',
+            //     duration: 300
+            // };
+            // document.getElementById('icon-balance').style.color="red";
+            // iconate(iconElement, options);
+
+            switchIcono('mal');
+
 
         }
 
     }
-    formatearDinero('#input-balance');
+    formatearDinero('#input-balance', '$');
 
 }
 
@@ -150,7 +370,7 @@ function sumarEfectivo() {
 
 
     $('#input-efectivo').val(suma);
-    formatearDinero('#input-efectivo');
+    formatearDinero('#input-efectivo', '$');
 
 }
 
@@ -169,7 +389,14 @@ function limpiarInputsSumador() {
 
 
 
-
+function playAudio() {
+    if (estadoIconoActual == 'bien') {
+        var audio = document.getElementById("audio-bien");
+    } else if(estadoIconoActual == 'mal') {
+        var audio = document.getElementById("audio-mal");
+    }
+    audio.play();
+}
 
 
 
@@ -178,6 +405,8 @@ $(function() {
     valoresCierre();
     $('#input-efectivo').val('$0');
     $('#input-entrega').val('$0');
+
+    $('#icon-balance').hide();
 
     limpiarInputsSumador();
 
@@ -230,8 +459,13 @@ $(function() {
 
     });
 
+   
 
 
+    // $('#input-efectivo').change(function (e) { 
+    //     // $('#icon-balance').show();
+    //     playAudio();
+    // });
 
     $('#input-efectivo').keydown(function (e) { 
         limpiarInputsSumador();
@@ -245,14 +479,14 @@ $(function() {
     $('.inputs-bal').on('input change', function (e) {
         console.log('entró al on input change');
         
-        formatearDinero('#'+e.target.id);
+        formatearDinero('#'+e.target.id, '$');
         calcularBalance();
     });
 
 
 
     $('.prod-mult').on('input change', function (e) {
-        formatearDinero('#'+e.target.id);
+        formatearDinero('#'+e.target.id, '$');
     });
 
     $('#div-sumador').on('shown.bs.collapse', function () {
@@ -333,6 +567,45 @@ $(function() {
     //     console.log('cambió');
     // });
 
+    $('#btn-cierre').click(function (e) { 
+        e.preventDefault();
+        // let ventasPendientes = buscarVentas();
+
+        // console.log(ventasPendientes);
+        
+        if(buscarVentas() > 0){
+            bootbox.confirm({
+                title: "Ventas pendientes de pago",
+                message: "<p>Se encontraron ventas pendientes de pago. Si continua éstas serán anuladas.</p><p>Desea continuar con el cierre de caja?</p>",
+                callback: function (result) {
+                    if (result) {
+
+                        bootbox.confirm({
+                            title: "Cerrar Caja",
+                            message: "<p>El balance de caja es: <b>"+balance+"</b></p><p>Realmente quiere realizar el cierre de caja?</p>",
+                            callback: function (result) {
+                                if (result) {
+                                    cerrarCaja();
+                                }
+                            }
+                        });
+
+                    }
+                }
+            });
+        }
+
+
+
+        var balance = $('#input-balance').val();
+
+        $('#icon-balance').show();
+
+
+
+
+        
+    });
 
 
 });

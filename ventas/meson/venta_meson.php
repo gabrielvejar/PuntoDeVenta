@@ -13,6 +13,11 @@ include_once $ruta . "includes/header.php";
 
 include_once $ruta . "db/conexion.php";
 
+// validar que usuario tenga permiso para acceder a pagina
+if ($_SESSION['permisos']['meson'] !='t') {
+    header('Location: '.$ruta);
+}
+
 
 
 ?>
@@ -49,12 +54,15 @@ include_once $ruta . "db/conexion.php";
             <input type="hidden" id="promo_monto_desc" value="">
             <input type="hidden" id="promo_activo" value="">
             <input type="hidden" id="promo_aplica" value="">
+            <input type="hidden" id="prod_pesado" value="">
+            <input type="hidden" id="cod_hidden" value="">
         </div>
 
 
 
         <div id="div1-3">
             <!-- <button id="btn-buscar" class="btn btn-primary">Buscar</button> -->
+            
 
             <a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
                 <button id="btn-buscar" class="btn btn-primary">Buscar</button>
@@ -73,7 +81,7 @@ include_once $ruta . "db/conexion.php";
     <div id="fila2" class="fila">
         <div id="div2-1">
             <!-- <label for="">$</label><input type="number" id="precio_producto" class="calctotal"><label for="">x</label><button class="btn btn-primary" id="btn-menos">-</button><input type="number" id="cantidad" class="calctotal" min=0 step="0.001"><button class="btn btn-primary" id="btn-mas">+</button> -->
-            <label for="">$</label><input type="number" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>
+            <label for="">$</label><input type="text" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>
         </div>
     </div>
     <div id="fila2" class="fila descuento collapse">
@@ -103,7 +111,7 @@ include_once $ruta . "db/conexion.php";
                             <th scope="col" id="col-nombre">Nombre</th>
                             <th scope="col">Precio</th>
                             <th scope="col">Cantidad</th>
-                            <th scope="col">Total</th>
+                            <th scope="col">Valor</th>
                             <th scope="col"></th>
                         </tr>
                     </thead>
@@ -118,13 +126,13 @@ include_once $ruta . "db/conexion.php";
 
     <div id="fila5" class="fila">
         <div id="div5-1">
-            <label for="">Total $</label><input id="total-venta" type="number" readonly>
+            <label for="">Total $</label><input id="total-venta" type="text" readonly>
         </div>
     </div>    
 
     <div id="fila6" class="fila">
         <div id="div6-1">
-        <button id="btn-imprimir" class="btn btn-success btn-abajo" value="<?php echo $ruta?>">Imprimir</button>
+        <button id="btn-imprimir" class="btn btn-success btn-abajo" value="<?php echo $ruta?>"><i class="fas fa-print"></i> Imprimir</button>
         <button id="btn-cancelar" class="btn btn-danger btn-abajo" value="<?php echo $ruta?>">Cancelar</button>
         </div>
     </div>    
