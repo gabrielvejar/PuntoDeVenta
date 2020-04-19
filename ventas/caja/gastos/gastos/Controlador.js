@@ -37,14 +37,28 @@ function selectDineroCustodia() {
     });
   }
 function tablaGastos() {
+    var datos = {
+        'cmd': 'tabla-gastos'
+    }
+
+    var id_apertura = getUrlParam('id','0');
+
+    if (id_apertura != '0') {
+        datos['id_apertura'] = id_apertura;
+
+        $('#id_apertura').text('Caja ID: '+id_apertura);
+    }
+
     $.ajax({
         type: "POST",
         url: "../command.php",
-        data: "cmd=tabla-gastos",
+        data: datos,
         dataType: 'JSON',
         success: function (response) {
 
             console.log(response);
+
+            var total = 0;
             
             if (response.length > 0) {
 
@@ -61,19 +75,26 @@ function tablaGastos() {
                     
                 var i = 0;
                 response.forEach(element => {
+                    total += parseInt(element['monto']);
                     i++;
                     // html += '<option value="'+element['id_tipo_gasto']+'">'+element['nombre_tipo_gasto']+'</option>';
                     html += '<tr>';
                     html += '<th scope="row">'+i+'</th>';
-                    html += '<td class="td-descripcion nowrap txt-left">'+element['descripcion']+'</th>';
-                    html += '<td>$'+separadorMiles(element['monto'])+'</th>';
+                    html += '<td class="nowrap">'+element['fecha']+'</td>';
+                    html += '<td>'+element['hora']+'</td>';
+                    html += '<td class="td-descripcion txt-left">'+element['descripcion']+'</th>';
+                    html += '<td>$'+separadorMiles(element['monto'])+'</td>';
                     
                     if (element['id_dinero_custodia'] == null) {
                         html += '<td>No</th>';
                     } else {
-                        html += '<td><a class="iframe" data-fancybox="" data-type="iframe" data-src="../dinero_en_custodia/movimientos/movimientos.php?id='+element['id_dinero_custodia']+'&amp;sb=no" href="javascript:;"><button type="button" class="btn btn-success btn-sm"><i class="fas fa-archive"></i> Ver</button></a></th>';
+                        html += '<td><a class="iframe" data-fancybox="" data-type="iframe" data-src="../dinero_en_custodia/movimientos/movimientos.php?id='+element['id_dinero_custodia']+'&amp;sb=no" href="javascript:;"><button type="button" class="btn btn-success btn-sm">Ver</button></a></th>';
                     }
-                    html += '<td class="td-acciones"><i class="fa fa-user usuario"  data-toggle="tooltip" aria-hidden="true" title="'+element['usuario_ingreso']+'"></i><i class="fas fa-edit cursor modificar" aria-hidden="true" value="'+element['id_gasto']+'" title="Modificar"></i><i class="fas fa-trash-alt cursor eliminar" aria-hidden="true" value="'+element['id_gasto']+'" title="Eliminar"></i></th>';
+                    // html += '<td class="td-acciones"><i class="fa fa-user usuario"  data-toggle="tooltip" aria-hidden="true" title="'+element['usuario_ingreso']+'"></i><i class="fas fa-edit cursor modificar" aria-hidden="true" value="'+element['id_gasto']+'" title="Modificar"></i><i class="fas fa-trash-alt cursor eliminar" aria-hidden="true" onclick="elim('+element['id_gasto']+', '+element['id_gasto']+'" title="Eliminar"></i></th>';
+                    html += '<td class="td-acciones">';
+                    html += '<i class="fa fa-user usuario"  data-toggle="tooltip" aria-hidden="true" title="'+element['usuario_ingreso']+'"></i>';
+                    // html += '<i class="fas fa-edit cursor modificar" aria-hidden="true" value="'+element['id_gasto']+'" title="Modificar"></i>';
+                    html += '<i class="fas fa-trash-alt cursor eliminar" data-toggle="tooltip" aria-hidden="true" onclick="elim('+element['id_gasto']+', '+element['id_mov_custodia']+')" title="Eliminar"></i></th>';
                     html += '</tr>';
                 });
                 tabla.html(html);
@@ -84,6 +105,9 @@ function tablaGastos() {
                 // $('table').collapse('hide');
                 // $('#msg-sin-gastos').collapse('show');
             }
+            $('#total-gastos').text('Total: $'+separadorMiles(total));
+
+
             $('[data-toggle="tooltip"]').tooltip();
 
             $(".iframe").fancybox({
@@ -140,7 +164,11 @@ function ingresarGasto() {
             data: datosCustodia,
             async: false,
             success: function (response) {
-                if(response == '1') {
+                if(!isNaN(response) && response != '0') {
+                    console.log('response id mov: '+response);
+                    
+                    datos['id_movimiento'] = response;
+
                     $.ajax({
                         type: "POST",
                         url: "../command.php",
@@ -180,6 +208,7 @@ function ingresarGasto() {
     } else {
         datos['dinero_en_custodia'] = 'f';
         datos['id_dinero_custodia'] = 0;
+        datos['id_movimiento'] = 0;
 
         $.ajax({
             type: "POST",
@@ -209,6 +238,107 @@ function ingresarGasto() {
 
     }
 }
+
+
+function elim (idGasto, idMovCust) {
+
+    if (idGasto == "" || idGasto == null) {return false};
+    
+    var mensaje = "";
+
+    if (idMovCust != null) {
+        mensaje += '<p>Este gasto tiene un movimiento en dinero en custodia, si lo eliminas también se eliminará ese movimiento.</p>';
+    };
+    
+    mensaje += '<p>Estás seguro que deseas eliminar este gasto?</p>';
+
+    bootbox.confirm({ 
+        // size: "small",
+        title: "Eliminar",
+        message: mensaje,
+        callback: function(result){ 
+            if (result) {
+                eliminarGasto(idGasto);
+            }
+        }
+    })
+}
+
+function eliminarGasto(idGasto) {
+
+    if (idGasto == "" || idGasto == null) {return false};
+
+    var datos = {
+        'cmd': 'eliminar-gasto',
+        'id_gasto': idGasto
+    }
+
+    $.ajax({
+        type: "POST",
+        url: "../command.php",
+        data: datos,
+        async: false,
+        success: function (response) {
+            console.log(response);
+
+            if(response == '1') {
+                bootbox.alert({
+                    title: "",
+                    message: "Gasto eliminado correctamente.",
+                    callback: function (result) {
+                        tablaGastos();
+                    }
+                });
+            } else if(response == '2') {
+                bootbox.alert({
+                    title: "",
+                    message: "Gasto y movimiento de dinero en custodia eliminados correctamente.",
+                    callback: function (result) {
+                        tablaGastos();
+                    }
+                });
+            } else if(response == '0') {
+                bootbox.alert({
+                    title: "",
+                    message: "Gasto no encontrado.",
+                    callback: function (result) {
+                    }
+                });
+            } else {         
+
+                bootbox.alert('Error al eliminar dinero en custodia.');
+            }
+   
+        }
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 $(function() {
     selectTipoGasto();

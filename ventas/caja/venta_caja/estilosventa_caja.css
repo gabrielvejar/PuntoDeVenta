@@ -16,6 +16,7 @@
     justify-content: center;
     padding-bottom: 1rem;
     font-size: 2.5rem;
+    min-width: max-content;
 }
 
 
@@ -24,6 +25,7 @@
 }
 #btn-cerrar {
     /* float: right; */
+    display: none;
     border-radius: 3.125rem;
     font-size: 1.25rem;
     width: 2.8125rem;
@@ -53,7 +55,7 @@ input, img, button {
 }
  #contenedor{
      display: flex;
-     width: 64rem;
+     width: 61rem;
  }
  .columna {
     /* padding: 0 16px; */
@@ -278,7 +280,7 @@ button#billete-10000 {
     box-shadow: 0.625rem 0.625rem 1.25rem 0.125rem rgba(0,0,0,0.3);
     height: auto;
     position: absolute;
-    top: 16.75rem;
+    top: 14.75rem;
     z-index: 9999;
     width: 17.5rem;
 }
@@ -307,7 +309,6 @@ button#billete-10000 {
 }
 
 
-
 @media only screen and (min-width: 1025px), (orientation: landscape){
     /* .flex-container {
         display: flex;
@@ -318,10 +319,10 @@ button#billete-10000 {
         justify-content: center;
       }
 }
-@media only screen and (max-width: 767px) and (orientation: portrait){
+/* @media only screen and (max-width: 767px) and (orientation: portrait){
     /* html {
         font-size: 12px;
-    } */
+    }
     #contenedor {
         flex-direction: column;
     }
@@ -331,4 +332,12 @@ button#billete-10000 {
     #columna2 {
         width: 100%;
     }
+} */
+button#btn-otra-cant {
+    width: 100%;
+    border-radius: 5px;
+}
+
+div#contcont {
+    min-width: max-content;
 }

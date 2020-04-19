@@ -80,7 +80,14 @@ if (isset($_REQUEST['sb'])) {
                             <th scope="row">4</th>
                             <td>Gastos</td>
                             <td id="td-gastos">12312213</td>
-                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\caja\gastos\gastos\gastos.php?sb=no" href="javascript:;">Ver más</a></td>
+                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\caja\gastos\gastos\gastos.php?id=<?php echo $_SESSION['apertura']['id_apertura'] ?>&sb=no" href="javascript:;">Ver más</a></td>
+                        </tr>
+                        <tr>
+                            <th scope="row">4</th>
+                            <td>Dinero en custodia</td>
+                            <!-- TODO valor dinero en custodia -->
+                            <td id="td-custodia">12312213</td>
+                            <td><a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>ventas\caja\gastos\dinero_en_custodia\custodia.php?sb=no" href="javascript:;">Ver más</a></td>
                         </tr>
                     
                     </tbody>

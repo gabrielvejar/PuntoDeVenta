@@ -46,11 +46,12 @@ if (isset($_REQUEST['sb'])) {
 
 
 <div class="container lam">
-    <h1 class=""><i class="fas fa-file-invoice-dollar"></i> Gastos </h1>
-    <h5>Caja ID: <?php echo $_SESSION['apertura']['id_apertura'] ?> / <?php echo date('d-m-Y') ?></h5>
+    <!-- <h1 class=""><i class="fas fa-share"></i> Gastos </h1> -->
+    <h1 class=""><i class="fas fa-share-square"></i> Gastos </h1>
+    <h5 id="id_apertura"></h5>
     <div id="superior-ingreso" class="">
         <!-- <h4>Ingreso / modificación de gasto</h4> -->
-
+        <h4 id="total-gastos">Total: $</h4>
         <div class="row">
 
             <div id="col-form-custodia" class="col-md-2">
@@ -131,6 +132,8 @@ if (isset($_REQUEST['sb'])) {
             <thead>
                 <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Fecha</th>
+                    <th scope="col">Hora</th>
                     <th scope="col">Descripción</th>
                     <th scope="col">Monto</th>
                     <th scope="col">Custodia</th>
@@ -139,6 +142,8 @@ if (isset($_REQUEST['sb'])) {
             </thead>
             <tbody id="tabla-gastos-body" class="" style="font-size: 16px;">
             <tr>
+                <td></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>

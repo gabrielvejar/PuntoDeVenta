@@ -8,7 +8,7 @@ body {
     background: rgb(14, 39, 62);
 }
 
-h1, h5 {
+h1, h4, h5 {
     text-align: center;
 }
 
@@ -23,7 +23,7 @@ div#inferior-tabla {
     /* display: flex;
     justify-content: space-between; */
     font-size: 20px;
-    min-width: 180px;
+    min-width: 192px;
 }
 /* .td-descripcion {
     min-width: 180px;
@@ -65,6 +65,7 @@ div#inferior-tabla {
 
 table {
     min-height: 77px;
+    text-align: center;
 }
 
 thead {

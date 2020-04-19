@@ -27,42 +27,11 @@
                     <a class="nav-link" href="<?php echo $ruta?>">Inicio</a>
                 </li>
 
-<?php  if ($_SESSION['permisos']['caja'] =='t') { ?>
-                <li class="nav-item">
-                <a class="nav-link" href="<?php echo $ruta?>ventas/caja/caja.php">Caja</a>
-                </li>
-<?php } ?>
-
 <?php  if ($_SESSION['permisos']['meson'] =='t') { ?>
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo $ruta?>ventas/meson/venta_meson.php">Mesón</a>
                 </li>
 <?php } ?>
-
-<?php  if ($_SESSION['permisos']['mantenedor_productos'] =='t' || $_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="menuDesplegable" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Administrar</a>
-                    <div class="dropdown-menu" aria-labelledby="menuDesplegable">
-
-                    <?php  if ($_SESSION['permisos']['mantenedor_productos'] =='t') { ?>
-                        <a class="dropdown-item" href="<?php echo $ruta?>productos/listaproducto/listaproducto.php">Productos</a>
-                    <?php } ?>
-
-                    <?php //  if ($_SESSION['permisos']['mantenedor_productos'] =='t' && $_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
-                        <div class="dropdown-divider"></div>
-                    <?php // } ?>
-
-
-
-                    <?php  if ($_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
-                        <a class="dropdown-item" href="<?php echo $ruta?>usuarios/agregar_usuario/nuevo_usuario.php">Agregar Usuario</a>
-                    <?php } ?>
-
-                        <!-- <a class="dropdown-item" href="#">2</a> -->
-                    </div>
-                </li>
-<?php } ?>
-
 
 
 

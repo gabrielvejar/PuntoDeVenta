@@ -3,7 +3,7 @@ body {
 }
 
 
-h1 {
+h1, h5 {
     text-align: center;
 }
 #contenedor, th, td {
@@ -13,6 +13,7 @@ h1 {
 }
 #contenedor {
     background: #1c354c;
+    min-width: max-content;
 }
 
 .lam {
@@ -53,6 +54,7 @@ h1 {
 
 table {
     min-height: 77px;
+    text-align: center;
 }
 
 thead {

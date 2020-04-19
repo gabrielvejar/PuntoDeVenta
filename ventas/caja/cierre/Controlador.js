@@ -26,6 +26,7 @@ function valoresCierre () {
             $('#td-ventas-efectivo').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_ventas_efectivo));
             $('#td-ventas-tarjeta').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_ventas_tarjeta));
             $('#td-gastos').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_gastos));
+            $('#td-custodia').text("$"+new Intl.NumberFormat("de-DE").format(jsonvalores.total_custodia));
             
             
             calcularBalance();
@@ -85,7 +86,7 @@ function valoresApertura () {
 
 
 function buscarVentas () {
-   var ventasPendientes = 20;
+   var ventasPendientes = 0;
     $.ajax({
         type: "POST",
         url: "../../command.php",
@@ -570,7 +571,7 @@ $(function() {
     $('#btn-cierre').click(function (e) { 
         e.preventDefault();
         // let ventasPendientes = buscarVentas();
-
+        var balance = $('#input-balance').val();
         // console.log(ventasPendientes);
         
         if(buscarVentas() > 0){
@@ -593,11 +594,21 @@ $(function() {
                     }
                 }
             });
+        } else{
+            bootbox.confirm({
+                title: "Cerrar Caja",
+                message: "<p>El balance de caja es: <b>"+balance+"</b></p><p>Realmente quiere realizar el cierre de caja?</p>",
+                callback: function (result) {
+                    if (result) {
+                        cerrarCaja();
+                    }
+                }
+            });
         }
 
 
 
-        var balance = $('#input-balance').val();
+        
 
         $('#icon-balance').show();
 

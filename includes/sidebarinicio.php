@@ -13,7 +13,7 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
         <nav id="sidebar">
             <div class="sidebar-header">
                 <!-- <h3>Bootstrap Sidebar</h3> -->
-                <a class="navbar-brand" href="<?php echo $ruta?>"><img src="<?php echo $ruta?>img/logopanaderia.PNG" alt="" style="border-radius: 4px;"></a>
+                <a class="navbar-brand" href="<?php echo $ruta?>"><img src="<?php echo $ruta?>img/logopanaderia.png" alt="" style="border-radius: 4px;"></a>
             </div>
 
             <ul class="list-unstyled components">
@@ -38,8 +38,16 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
                                 <li>
                                     <a href="<?php echo $ruta?>ventas/registro_ventas/registro_ventas.php?id=<?php echo $id_apertura ?>">Ventas pagadas</a>
                                 </li>
-                                <li>
-                                    <a href="<?php echo $ruta?>ventas/registro_ventas/ventas_temp_anuladas/ventas_temp_anuladas.php?id_ap=<?php echo $id_apertura ?>">Ventas anuladas</a>
+                                <li class="">
+                                    <a href="#anuladasSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Ventas anuladas</a>
+                                    <ul class="collapse list-unstyled" id="anuladasSubmenu">
+                                    <li>
+                                        <a href="<?php echo $ruta?>ventas/registro_ventas/ventas_temp_anuladas/ventas_temp_anuladas.php?id_ap=<?php echo $id_apertura ?>">Temporales</a>
+                                    </li>
+                                    <li>
+                                        <a href="<?php echo $ruta?>ventas\registro_ventas\ventas_pagadas_anuladas\pagadas_anuladas.php?id_ap=<?php echo $id_apertura ?>">Pagadas</a>
+                                    </li>
+                                    </ul>
                                 </li>
                             </ul>
                         </li>
@@ -47,7 +55,7 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
                             <a href="#egresosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle">Salidas de dinero</a>
                             <ul class="collapse list-unstyled" id="egresosSubmenu">
                                 <li>
-                                    <a href="<?php echo $ruta?>ventas/caja/gastos/gastos/gastos.php">Gastos</a>
+                                    <a href="<?php echo $ruta?>ventas/caja/gastos/gastos/gastos.php?id=<?php echo $_SESSION['apertura']['id_apertura'] ?>">Gastos</a>
                                 </li>
                                 <li>
                                     <a href="<?php echo $ruta?>ventas/caja/gastos/dinero_en_custodia/custodia.php">Dinero en custodia</a>
@@ -67,9 +75,28 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
                 <li>
                     <a href="<?php echo $ruta?>ventas/meson/venta_meson.php"><i class="fas fa-shopping-basket"></i> Mesón</a>
                 </li>
+
+
+
                 <li>
                     <a href="#mantSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-sliders-h"></i> Mantenedor</a>
                     <ul class="collapse list-unstyled" id="mantSubmenu">
+
+
+                        <li>
+                            <a href="<?php echo $ruta?>productos\listaproducto\listaproducto.php"><i class="fas fa-box-open"></i> Productos</a>
+                        </li>
+
+
+
+                    </ul>
+                </li>
+
+
+                <?php  if ($_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
+                <li>
+                    <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-key"></i> Administrador</a>
+                    <ul class="collapse list-unstyled" id="adminSubmenu">
 
                         <li>
                             <a href="#usuariosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user"></i> Usuarios</a>
@@ -80,16 +107,15 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
                             </ul>
                         </li>
 
-                        <li>
-
-                        <li>
-                            <a href="<?php echo $ruta?>productos\listaproducto\listaproducto.php"><i class="fas fa-box-open"></i> Productos</a>
-                        </li>
-
-
-
                     </ul>
                 </li>
+                <?php } ?>
+
+
+
+
+
+
                 <li>
                     <a href="#usuarioSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user"></i> <?php echo $_SESSION['usuario']['nombre'] ?></a>
                     <ul class="collapse list-unstyled" id="usuarioSubmenu">

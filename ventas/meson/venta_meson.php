@@ -77,6 +77,17 @@ if ($_SESSION['permisos']['meson'] !='t') {
     </div>
 
 
+<div id="otraCantidad" class="collapse">
+
+    <div id="filaM" class="fila">
+        <div id="divM-1">
+            <button id="btn-otra-cant" class="btn btn-primary">Otra cantidad</button>
+        </div>
+    </div>    
+</div>
+
+
+
 <div id="precio-item" class="collapse">
     <div id="fila2" class="fila">
         <div id="div2-1">
@@ -93,7 +104,7 @@ if ($_SESSION['permisos']['meson'] !='t') {
 
     <div id="fila3" class="fila">
         <div id="div3-1">
-        <label for="">= $</label><input type="number" id="total_producto" readonly><button id="btn-agregar" class="btn btn-primary">Agregar</button>
+        <label for="">= $</label><input type="number" id="total_producto" readonly><button id="btn-agregar" class="btn btn-primary">Listo</button>
         </div>
     </div>    
 </div>

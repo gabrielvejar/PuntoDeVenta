@@ -182,7 +182,9 @@ function ingresarMovimientoCustodia() {
         success: function (response) {
             console.log(response);
 
-            if(response == '1') {
+            if(response == '0') {
+                bootbox.alert('Error al agregar movimiento de dinero en custodia.');
+            } else {                
                 bootbox.alert({
                     title: "",
                     message: "Movimiento de dinero en custodia agregado correctamente.",
@@ -195,8 +197,6 @@ function ingresarMovimientoCustodia() {
                         }
                     }
                 });
-            } else {                
-                bootbox.alert('Error al agregar movimiento de dinero en custodia.');
             }
    
         }

@@ -640,21 +640,21 @@ switch ($cmd) {
     case 'ventas-temp_impagas_anuladas':
         //TODO implementar ventas impagas anuladas
 
-        $id_apertura = $_REQUEST['id_apertura'];
-
-        $query     = "SELECT 
-                                id_venta_temp,
-                                id_diario,
-                                id_usuario,
-                                nombre_usuario,
-                                time_creado,
-                                anulado,
-                                total
+        $query     = "SELECT *
                             FROM 
                                 public.vw_ventas_temporales_anuladas2
-                            WHERE anulado IS TRUE
-                            AND id_apertura = $1";
-        $params    = array($id_apertura);
+                            WHERE anulado IS TRUE";
+
+        $params    = array();
+
+        $filtros = 0;
+        if(isset($_REQUEST['id_apertura'])) {
+            $filtros ++;
+            $query .= " AND id_apertura = $".$filtros;
+            $id_apertura = $_REQUEST['id_apertura'];
+            array_push($params, $id_apertura);
+        }
+
         $result    = pg_query_params($dbconn, $query, $params);
 
         $filas = [];
@@ -744,6 +744,7 @@ switch ($cmd) {
         $total_ventas_efectivo;
         $total_ventas_tarjeta;
         $total_gastos;
+        $total_custodia;
 
         // efectivo apertura
         $query     = "SELECT id_apertura, efectivo FROM public.vw_efectivo_apertura WHERE id_apertura = $1";
@@ -777,6 +778,14 @@ switch ($cmd) {
         $result    = pg_query_params($dbconn, $query, $params);
         
         $total_gastos = pg_fetch_assoc($result);
+
+
+        // total custodia
+        $query     = "SELECT SUM(saldo) as total_custodia FROM public.vw_dinero_en_custodia WHERE eliminado IS NOT TRUE";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+        
+        $total_custodia = pg_fetch_assoc($result);
         
         
         
@@ -787,7 +796,8 @@ switch ($cmd) {
             'efectivo_apertura' => $efectivo_apertura['efectivo'], 
             'total_ventas_efectivo' => $total_ventas_efectivo['total_ventas'],
             'total_ventas_tarjeta' => $total_ventas_tarjeta['total_ventas'],
-            'total_gastos' => $total_gastos['total_gastos']      
+            'total_gastos' => $total_gastos['total_gastos'],
+            'total_custodia' => $total_custodia['total_custodia']
         );
 
         $json = json_encode($valores);
@@ -895,6 +905,17 @@ switch ($cmd) {
         $params    = array();
 
         $filtros = 0;
+
+        //filtro ventas anuladas
+        if(isset($_REQUEST['anulado'])) {
+            if ($_REQUEST['anulado'] == 't'){
+                $query .= " AND anulado IS TRUE";
+            } elseif ($_REQUEST['anulado'] == 'f') {
+                $query .= " AND anulado IS NOT TRUE";
+            }
+        }
+
+        //filtro apertura
         if(isset($_REQUEST['id_apertura'])) {
             $filtros ++;
             $query .= " AND id_apertura = $".$filtros;

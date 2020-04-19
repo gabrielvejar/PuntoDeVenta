@@ -1,0 +1,86 @@
+body {
+    background: rgb(14, 39, 62);
+}
+
+
+h1, h5 {
+    text-align: center;
+}
+
+#contenedor {
+    background: #1c354c;
+}
+
+#contenedor, th, td {
+    margin-top: 2rem;
+
+    /* color: black;
+    background: ghostwhite; */
+}
+
+.lam {
+    margin-bottom: 1.25rem;
+    padding: 3.25rem;
+    border-radius: 0.6rem;
+    box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+    /* border: 2px solid; */
+}
+
+
+.input-sumador {
+    width: 100%;
+    background: transparent;
+    color: white;
+    border:none;
+    border-bottom: 2px solid white;
+    padding: 7px;
+    /* border-radius: 10px; */
+}
+
+table {
+    min-width: 1000px;
+    text-align: center;
+}
+
+.row {
+    overflow: auto;
+}
+
+.pt {
+    padding-top: 19px !important;
+}
+
+/* 
+.total-venta {
+    text-align: right;
+} */
+
+
+
+
+table {
+    min-height: 77px;
+}
+
+thead {
+    /* background-color: dodgerblue; */
+    background-color: #165d9f;
+}
+
+tbody {
+    color: black;
+    background-color: lavender;
+}
+
+.table-hover tbody tr:hover td, .table-hover tbody tr:hover th {
+    color: white;
+    background-color: #1e7dd6;
+}
+
+tbody th, td {
+    padding: 0.5rem 1rem !important;
+}
+
+table i:hover {
+    color: white;
+}

@@ -26,8 +26,6 @@ if ($_SESSION['permisos']['caja'] !='t') {
 
 include_once $ruta . "/ventas/caja/includes/v_caja_abierta.php";
 
-echo "id apertura: ".$_SESSION['apertura']['id_apertura'];
-
 if(!isset($_REQUEST['id'])) {
     $id_venta_temp = 0;
 } else {
@@ -81,7 +79,7 @@ if (isset($_REQUEST['sb'])) {
 
 <div class="container">
     <div id="encabezado">
-            <span id="titulo">CAJA - N° DE ATENCIÓN: <span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
+            <span id="titulo">CAJA - Nueva Venta<span><b id="idatencion"></span></b></span><button id="btn-cerrar" class="btn btn-danger">X</button>
     </div>
     
     <div id="contcont">   
@@ -164,8 +162,20 @@ if (isset($_REQUEST['sb'])) {
     
             <div id="columna2" class="columna">
     
+
+            
+            <div id="otraCantidad" class="lam collapse">
+
+                <div id="filaM" class="fila">
+                    <div id="divM-1">
+                        <button id="btn-otra-cant" class="btn btn-primary">Otra cantidad</button>
+                    </div>
+                </div>    
+            </div>
+
+
     <!-- inicio -->
-    <div id="precio-item" class="lam collapse">
+                <div id="precio-item" class="lam collapse">
                     <div id="fila2" class="fila">
                         <div id="div2-1">
                             <label for="">$</label><input type="text" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>
@@ -182,7 +192,7 @@ if (isset($_REQUEST['sb'])) {
                         <label for="">= $</label><input type="number" id="total_producto" readonly>
                         </div>
                     </div>
-                    <button id="btn-agregar" class="btn btn-primary">Agregar</button>
+                    <button id="btn-agregar" class="btn btn-primary">Listo</button>
                 </div>
     
     <!-- 

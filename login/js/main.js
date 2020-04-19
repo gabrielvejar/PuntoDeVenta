@@ -13,8 +13,21 @@ jQuery(document).on('submit','#formLg',function(event){
               .done(function(respuesta){
                 console.log(respuesta);
                 if (!respuesta.error) {
+
+                  // if(respuesta.tipo == 'caja'){
+
+                  //   location='ventas/caja/caja.php';
+
+                  // } else if(respuesta.tipo == 'meson'){
+
+                  //   location='ventas/meson/venta_meson.php';
+
+                  // } else{
+
+                    location='index2.php';
+
+                  // }
                   
-                  location='index2.php';
 
                 }else {
                   $('.error').slideDown('slow');

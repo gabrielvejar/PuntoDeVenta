@@ -45,7 +45,8 @@ function tablaVentas() {
 
 
     datos['cmd'] = 'ventas';
-
+    
+    datos['anulado'] = 'f';
 
 
 
@@ -74,7 +75,8 @@ function tablaVentas() {
                 response.forEach(element => {
                     
                     html += '<tr>';
-                    html += '<th scope="row">'+element.id_venta+'</td>';
+                    html += '<td>'+element.id_apertura+'</td>';
+                    html += '<td>'+element.id_venta+'</td>';
                     html += '<td>'+element.id_diario+'</td>';
                     html += '<td>'+element.fecha2+'</td>';
                     html += '<td>'+element.hora_pago+'</td>';
@@ -84,7 +86,13 @@ function tablaVentas() {
                     html += '<td>'+element.nombre_usuario_venta_temp+' <i class="far fa-clock" aria-hidden="true" data-toggle="tooltip" title="Hora ingreso venta: '+element.hora_venta_temp+'"></i></td>';
                     html += '<th class="total-venta">$'+separadorMiles(element.monto_venta)+'</td>'; //formatear
                     // html += '<td><a value="'+element.id_venta_temp+'"><i class="fa fa-list" aria-hidden="true" title="Ver detalle" value="'+element.id_venta_temp+'"></i></a></td>';
-                    html += '<td><i class="fa fa-list cursor" aria-hidden="true" data-toggle="tooltip" title="Ver detalle" onclick="verDetalle('+element.id_venta_temp+');"></i></td>';
+                    html += '<td>';
+                    html += '<i class="fa fa-list cursor" aria-hidden="true" data-toggle="tooltip" title="Ver detalle" onclick="verDetalle('+element.id_venta_temp+');"></i>';
+                    
+                    //TODO activar cuando se pueda anular ventas
+                    // html += '<i class="fas fa-ban cursor" aria-hidden="true" data-toggle="tooltip" title="Anular venta" onclick="elim('+element.id_venta+');"></i>';
+                    
+                    html += '</td>';
 
                     
                     total += parseInt(element.monto_venta);
@@ -94,7 +102,7 @@ function tablaVentas() {
                 });
 
                 html += '<tr>';
-                html += '<td colspan="6"></td>';
+                html += '<td colspan="7"></td>';
                 html += '<th scope="row">Total: </td>';
                 html += '<th scope="row">$'+separadorMiles(total)+'</td>';
                 html += '<td></td>';
@@ -252,4 +260,9 @@ function verDetalle(id_venta_temp) {
           }
         });
       
+}
+
+
+function elim(id) {
+    bootbox.alert ('Anular venta id: '+id);
 }

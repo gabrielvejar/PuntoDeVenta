@@ -41,7 +41,7 @@ function cambiarTamanioBotones() {
 $(function() {
 
     buscarVentas();
-    // setInterval(buscarVentas, 3000);
+    setInterval(buscarVentas, 3000);
 
 
 

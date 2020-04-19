@@ -72,10 +72,10 @@ if (isset($_REQUEST['sb'])) {
 <div id="contenedor" class="container lam">
 
 
-    <h1><i class="fa fa-list-alt" aria-hidden="true"></i> Registro ventas <?php if ($id_ap != 0) {echo ' / ID: '.$id_ap;} ?>  </h1>
-
+    <h1><i class="fas fa-file-invoice-dollar"></i> Ventas pagadas</h1>
+    <h5><?php if ($id_ap != 0) {echo 'Caja ID: '.$id_ap;} ?></h5>
     <div id="filtros">
-            <!-- TODO agregar funcionalidad a los filtros. recordar inputs ocultos dinamicos-->
+        
     <form action="">
         
                     <div class="form-row">
@@ -135,12 +135,12 @@ if (isset($_REQUEST['sb'])) {
         // nombre_usuario_pago,
         // hora_pago -->
                     <tr>
-                    <th scope="col">ID venta</th>
+                    <th scope="col">Caja</th>
+                    <th scope="col">Venta</th>
                     <th scope="col">ID diario</th>
                     <th scope="col">Fecha</th>
                     <th scope="col">Hora pago</th>
-                    <th scope="col">Medio de pago</th>
-                    <!-- <th scope="col">Hora ingreso venta</th> -->
+                    <th scope="col">M. de pago</th>
                     <th scope="col">Cajero/a</th>
                     <th scope="col">Vendedor/a</th>
                     <th scope="col">Total venta</th>

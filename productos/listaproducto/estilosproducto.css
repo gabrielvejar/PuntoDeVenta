@@ -4,7 +4,18 @@
     background-color: rgb(5, 105, 187);
     color: white;
   } */
-
+  body {
+    background: rgb(14, 39, 62);
+}
+.lam {
+  margin-bottom: 1.25rem;
+  padding: 1.25rem;
+  border-radius: 0.3125rem;
+  box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
+  background: #1c354c;
+  
+  min-width: 700px;
+}
   #col-codbarras{
       /* width: 133px; */
       width: 12%;

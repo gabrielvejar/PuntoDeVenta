@@ -17,7 +17,7 @@ include_once $ruta . "db/conexion.php";
 // validar que usuario tenga permiso para acceder a pagina
 if ($_SESSION['permisos']['caja'] !='t') {
     header('Location: '.$ruta);
- }
+}
 
 
 ?>
@@ -66,7 +66,8 @@ foreach ($_REQUEST as $key => $value) {
 <div id="contenedor" class="container lam">
 
 
-    <h1><i class="fas fa-trash-alt"></i> Ventas anuladas <?php if ($id_ap != 0) {echo ' / ID: '.$id_ap;} ?></h1>
+    <h1><i class="fas fa-trash-alt"></i> Ventas temporales anuladas</h1>
+    <h5><?php if ($id_ap != 0) {echo 'Caja ID: '.$id_ap;} ?></h5>
 
     <div class="row">
         <!-- <div class="col"></div> -->
@@ -79,6 +80,7 @@ foreach ($_REQUEST as $key => $value) {
 
                     <tr>
                     <th scope="col">#</th>
+                    <th scope="col">Fecha</th>
                     <th scope="col">Hora</th>
                     <th scope="col">Total</th>
                     <th scope="col">Vendedor</th>

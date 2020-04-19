@@ -8,7 +8,22 @@ while (!(file_exists ($ruta . "index.php"))) {
 
 include_once "includes/header.php";
 include_once $ruta . "includes/nav.php";
+
+if ($_SESSION['usuario']['tipo_usuario'] == 'meson') {
+    header('Location: ventas/meson/venta_meson.php');
+} else {
+    header('Location: ventas/caja/caja.php');
+}
+
+
+
 ?>
+
+
+
+
+
+
 
 <!-- <div>
     <span>Bienvenido <?php echo $_SESSION['usuario']['nombre'] ?></span><span> - </span><span><a href="<?php echo $ruta?>login/main_app/logout.php">Cerrar Sesión</a></span>

@@ -49,9 +49,9 @@
 
                 //modificar y eliminar con botones
                 var btnMod1 = '<a class="iframe" data-fancybox data-type="iframe" data-src="../IUproducto/IUproducto.php?producto=2&codigo=';
-                var btnMod2 = '" href="javascript:;"><button class="btn btn-info mx-2" title="Modificar"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></button></a>';
+                var btnMod2 = '" href="javascript:;"><button class="btn btn-info mx-2" title="Modificar"><i class="fas fa-edit"></i></button></a>';
                 var btnElim1 = '<button class="btn btn-danger mx-2" title="Eliminar" onClick="elim(';
-                var btnElim2 = ')"><i class="fa fa-trash-o" aria-hidden="true"></i></button>'
+                var btnElim2 = ')"><i class="fas fa-trash-alt"></i></button>'
                 
                 cuerpo += '<td class="col-accion">' + btnMod1 + respuesta[i][2] +btnMod2 +btnElim1 + respuesta[i][2] +btnElim2 + "</td>";
                 
@@ -60,11 +60,11 @@
                 if (respuesta[i][4] == ""){
                     // cuerpo += '<td></td>';
                     // cuerpo += ' <div class="img-producto" id="'+respuesta[i][2]+'"><div><img src="/puntodeventa/img/productos/sinimagen.jpg"  width="70%"></div><div><button class="btn btn-info mod" value="' + respuesta[i][2] +'">Modificar</button></div></div>';
-                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/puntodeventa/img/productos/sinimagen.jpg"  width="50%"></div></td></tr>';
+                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/PuntodeVenta/img/productos/sinimagen.jpg"  width="50%"></div></td></tr>';
                 } else {
                     // cuerpo += "<tr>";
                     // cuerpo += ' <div class="img-producto" id="'+respuesta[i][2]+'"><div><img src="/puntodeventa/img/productos/' + respuesta[i][4] +'"  width="70%"></div><div><button class="btn btn-info mod" value="' + respuesta[i][2] +'">Modificar</button></div></div>';
-                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/puntodeventa/img/productos/' + respuesta[i][4] +'"  width="50%"></div></td></tr>';
+                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/PuntodeVenta/img/productos/' + respuesta[i][4] +'"  width="50%"></div></td></tr>';
                     // cuerpo += "</tr>";
                 }
             

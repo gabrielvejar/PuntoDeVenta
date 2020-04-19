@@ -75,10 +75,11 @@ switch ($cmd) {
         $dinero_en_custodia = $_REQUEST['dinero_en_custodia'];
         $id_dinero_custodia = $_REQUEST['id_dinero_custodia'];
         $id_usuario = $usuario['id_usuario'];
+        $id_movimiento = $_REQUEST['id_movimiento'];
         
         
-        $query     = "SELECT * FROM public.fn_gastos_caja_i($1,$2,$3,$4,$5,$6,$7)";
-        $params    = array($id_apertura, $id_tipo_gasto, $descripcion, $monto, $dinero_en_custodia, $id_dinero_custodia, $id_usuario);
+        $query     = "SELECT * FROM public.fn_gastos_caja_i($1,$2,$3,$4,$5,$6,$7,$8)";
+        $params    = array($id_apertura, $id_tipo_gasto, $descripcion, $monto, $dinero_en_custodia, $id_dinero_custodia, $id_usuario, $id_movimiento);
         $result    = pg_query_params($dbconn, $query, $params);
 
         if(pg_num_rows($result) > 0) {
@@ -132,6 +133,20 @@ switch ($cmd) {
 
     break;
 
+    case 'eliminar-gasto':
+
+        $id_gasto = $_REQUEST['id_gasto'];
+        $id_usuario = $usuario['id_usuario'];
+        
+        $query     = "SELECT * FROM public.fn_gastos_caja_d($1,$2)";
+        $params    = array($id_gasto, $id_usuario);
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $row = pg_fetch_row($result);
+        echo $row[0];
+
+    break;
+    
     case 'eliminar-dinero-en-custodia':
 
         $id_custodia = $_REQUEST['id_custodia'];
@@ -162,8 +177,19 @@ switch ($cmd) {
 
     case 'tabla-gastos':
 
-        $query     = "SELECT * FROM public.vw_gastos WHERE eliminado IS NOT TRUE AND id_apertura = $1";
-        $params    = array($_SESSION['apertura']['id_apertura']);
+        $query     = "SELECT * FROM public.vw_gastos WHERE eliminado IS NOT TRUE";
+
+        $params    = array();
+
+        $filtros = 0;
+        if(isset($_REQUEST['id_apertura'])) {
+            $filtros ++;
+            $query .= " AND id_apertura = $".$filtros;
+            $id_apertura = $_REQUEST['id_apertura'];
+            array_push($params, $id_apertura);
+        }
+
+
         $result    = pg_query_params($dbconn, $query, $params);
 
         $filas = [];

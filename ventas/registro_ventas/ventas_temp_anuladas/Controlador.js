@@ -13,8 +13,11 @@ function tablaVentasTempAnuladas() {
 
 
     var datos = {
-        'cmd': 'ventas-temp_impagas_anuladas',
-        'id_apertura': id_apertura
+        'cmd': 'ventas-temp_impagas_anuladas'
+    }
+
+    if (id_apertura != 0) {
+      datos['id_apertura'] = id_apertura;
     }
 
     $.ajax({
@@ -36,11 +39,12 @@ function tablaVentasTempAnuladas() {
                     
                     html += '<tr>';
                     html += '<th scope="row">'+element.id_diario+'</td>';
+                    html += '<td>'+element.fecha+'</td>';
                     html += '<td>'+element.time_creado+'</td>';
                     html += '<td>$'+separadorMiles(element.total)+'</td>';
                     html += '<td>'+element.nombre_usuario+'</td>';
 
-                    html += '<td><i class="fas fa-recycle" data-toggle="tooltip" aria-hidden="true" title="Recuperar" onclick="recuperar('+element.id_venta_temp+');"></i></td>';
+                    html += '<td><i class="fas fa-recycle cursor" data-toggle="tooltip" aria-hidden="true" title="Recuperar" onclick="recuperar('+element.id_venta_temp+');"></i></td>';
 
                     html += '</tr>';
                     

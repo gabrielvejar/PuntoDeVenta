@@ -65,7 +65,7 @@ function listarDetalle() {
     tabla.html(html);
 
     if (listaDetalleDB.length > 0) {
-        $('#idatencion').text(listaDetalleDB[0].id_diario);
+        $('#titulo').text('CAJA - N° DE ATENCIÓN: '+listaDetalleDB[0].id_diario);
     }
 
     // scroll final del div
@@ -363,11 +363,12 @@ function buscarProducto() {
             }
 
 
-            $('#precio-item').collapse('show');
-            // console.log('show');
+
 
 
             if (respuesta[0].idunidad == "1") {
+                $('#precio-item').collapse('show');
+                $('#otraCantidad').collapse('hide');
                 // document.getElementById("total_producto").readOnly = false;
                 // document.getElementById("total_producto").focus();
                 document.getElementById("total_producto").readOnly = false;
@@ -376,6 +377,8 @@ function buscarProducto() {
                 document.getElementById("prod_pesado").value = "1";
 
             } else {
+                $('#otraCantidad').collapse('show');
+                $('#precio-item').collapse('hide');
                 // document.getElementById("cantidad").focus();
                 // calcular_total_producto();
 
@@ -689,6 +692,16 @@ $(function() {
     $('#input-total').val( calcular_total_venta());
     formatearDinero('#input-total','');
    
+    $('#otraCantidad').click(function (e) { 
+        e.preventDefault();
+        $('#otraCantidad').collapse('hide');
+        $('#precio-item').collapse('show');
+        document.getElementById("cantidad").focus();
+    });
+
+    $(document).on('focus', '#cantidad', function(event) {
+        $('#cantidad').val('');
+   });
 
     $(document).on('input', '#cantidad', function(event) {
         if(event.keyCode==13){ //enter
@@ -793,7 +806,7 @@ $(function() {
         bootbox.confirm({ 
             size: "small",
             title: "Volver",
-            message: '<p>Desea volver a la ventana anterior?</b></p>',
+            message: '<p>Desea volver a la ventana principal de Caja?</b></p>',
             centerVertical: true,
             callback: function(result){ 
                 if (result) {

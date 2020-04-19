@@ -183,7 +183,7 @@ $( document ).ready(function() {
                 comboUnidad();
 
                 if (imagen != ""){
-                    document.getElementById('imagenactual').innerHTML = ' <a id="eliminar-imagen" class="cursor">Eliminar Imagen</a> <div class="img-producto" id="'+imagen+'"><img src="/puntodeventa/img/productos/' + imagen +'"  width="50%" > </div>';
+                    document.getElementById('imagenactual').innerHTML = ' <a id="eliminar-imagen" class="cursor">Eliminar Imagen</a> <div class="img-producto" id="'+imagen+'"><img src="/PuntodeVenta/img/productos/' + imagen +'"  width="50%" > </div>';
                     $('#row-subir').hide();
                     $( "#eliminar-imagen" ).click(function() {
                         $( "#imagenactual" ).hide();

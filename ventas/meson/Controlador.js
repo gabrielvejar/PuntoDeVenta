@@ -332,11 +332,16 @@ function buscarProducto() {
             }
 
 
-            $('#precio-item').collapse('show');
+
+
+
+            
             // console.log('show');
 
 
             if (respuesta[0].idunidad == "1") {
+                $('#precio-item').collapse('show');
+                $('#otraCantidad').collapse('hide');
                 document.getElementById("total_producto").readOnly = false;
                 document.getElementById("total_producto").value = "";
                 document.getElementById("total_producto").focus();
@@ -344,6 +349,9 @@ function buscarProducto() {
                 
                 
             } else {
+
+                $('#otraCantidad').collapse('show');
+                $('#precio-item').collapse('hide');
                 document.getElementById("total_producto").readOnly = true;
                 document.getElementById("prod_pesado").value = "";
 
@@ -660,7 +668,11 @@ $(function() {
 
    });
 
-//    TODO ver por qué cantidades enteras quedan con y sin decimales
+$('#otraCantidad').click(function (e) { 
+    e.preventDefault();
+    $('#otraCantidad').collapse('hide');
+    $('#precio-item').collapse('show');
+});
 
 
     $(document).on('focus', '#nombre', function(event) {

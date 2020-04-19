@@ -34,7 +34,7 @@ if (isset($_REQUEST['sb'])) {
 }
 ?>
 
-    <div class="container">
+    <div class="container lam">
 
 
         <div id="encabezado" class=" mt-5">
