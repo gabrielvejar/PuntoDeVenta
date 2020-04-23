@@ -34,7 +34,7 @@ if ($_SESSION['permisos']['meson'] !='t') {
 
 
         <div id="div1-2">
-            <img id ="img-producto" src="<?php echo $ruta?>img/logopanaderia.PNG" alt="logo">
+            <img id ="img-producto" src="<?php echo $ruta?>img/productos/productos.png" alt="logo">
         </div>
 
         <div id="div1-1">
@@ -64,7 +64,7 @@ if ($_SESSION['permisos']['meson'] !='t') {
             <!-- <button id="btn-buscar" class="btn btn-primary">Buscar</button> -->
             
 
-            <a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
+            <a id="a-buscar" class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
                 <button id="btn-buscar" class="btn btn-primary">Buscar</button>
             </a>
 
@@ -89,7 +89,7 @@ if ($_SESSION['permisos']['meson'] !='t') {
 
 
 <div id="precio-item" class="collapse">
-    <div id="fila2" class="fila">
+    <div id="fila2" class="fila collapse show">
         <div id="div2-1">
             <!-- <label for="">$</label><input type="number" id="precio_producto" class="calctotal"><label for="">x</label><button class="btn btn-primary" id="btn-menos">-</button><input type="number" id="cantidad" class="calctotal" min=0 step="0.001"><button class="btn btn-primary" id="btn-mas">+</button> -->
             <label for="">$</label><input type="text" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>

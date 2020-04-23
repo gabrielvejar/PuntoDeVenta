@@ -179,9 +179,9 @@ div#div3-1 > input {
     text-align: center;
 }
 
-div#div3-1 > button {
+/* div#div3-1 > button {
     height: 106.8px;
-}
+} */
 
 div#div5-1 > * {
     font-size: 60px;
@@ -301,4 +301,11 @@ button#btn-otra-cant {
     height: 100%;
     /* background: none; */
 
+}
+
+
+
+/* TODO desactivar cuando se implemente el buscador */
+#a-buscar {
+    display: none;
 }

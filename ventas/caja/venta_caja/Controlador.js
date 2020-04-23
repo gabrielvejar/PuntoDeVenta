@@ -11,8 +11,8 @@ function buscarDetalle() {
     var metodo = "GET";
     var async  = false;
     var json  = true;
-    
-    ajax(ruta, params, metodo, async,json,function(respuesta){
+
+    ajax(ruta, params, metodo, async, json,function(respuesta){
 
         listaDetalleDB = respuesta;
 
@@ -121,7 +121,7 @@ function agregarLinea() {
 
     }
 
-    if (existeLinea > 0) {
+    if (existeLinea > 0 && getCodigo != '0000') {
 
 
         var getCantidad = $('#cantidad').val();
@@ -156,6 +156,10 @@ function agregarLinea() {
             idunidad: getIdunidad,
             idpromocion: getIdpromocion
             
+        }
+
+        if (getCodigo == '0000'){
+            lineaDetalle['precio'] = getMonto;
         }
         
         listaDetalle.push(lineaDetalle);
@@ -286,6 +290,8 @@ function borrarLineaDetalledb (indice, id) {
 
 
 function buscarProducto() {
+    $('#total_producto').val('');
+    $('#otraCantidad').collapse('hide');
     
     var codigo  = document.getElementById('codigo').value;
     document.getElementById("codigo").readOnly = false;
@@ -323,6 +329,7 @@ function buscarProducto() {
         console.log(filas);
 
         if (filas == 1) {
+            $('#fila2').collapse('show');
 
 
             // deshabilitado fix
@@ -353,7 +360,8 @@ function buscarProducto() {
             if (respuesta[0]["imagen"] != '' ) {
                 $("#img-producto").attr("src","../../../img/productos/"+respuesta[0]["imagen"]);
             } else {
-                $("#img-producto").attr("src","../../../img/productos/sinimagen.jpg");
+                // $("#img-producto").attr("src","../../../img/productos/sinimagen.jpg");
+                $("#img-producto").attr("src","../../../img/productos/productos.png");
             }
 
             if (respuesta[0]["id_promocion"] != '' && respuesta[0]["promo_activo"] == 't') {
@@ -363,39 +371,50 @@ function buscarProducto() {
             }
 
 
-
-
-
-            if (respuesta[0].idunidad == "1") {
-                $('#precio-item').collapse('show');
-                $('#otraCantidad').collapse('hide');
-                // document.getElementById("total_producto").readOnly = false;
-                // document.getElementById("total_producto").focus();
+            if (respuesta[0].idproducto == "0") {
                 document.getElementById("total_producto").readOnly = false;
-                document.getElementById("total_producto").value = "";
-                document.getElementById("total_producto").focus();
                 document.getElementById("prod_pesado").value = "1";
+                $('#fila2').collapse('hide');
+                $('#precio-item').collapse('show');
+                document.getElementById("total_producto").focus();
+            } else {  
 
-            } else {
-                $('#otraCantidad').collapse('show');
-                $('#precio-item').collapse('hide');
-                // document.getElementById("cantidad").focus();
-                // calcular_total_producto();
-
-                document.getElementById("total_producto").readOnly = true;
-                document.getElementById("prod_pesado").value = "";
-
-                calcular_total_producto();
-                agregarLinea();
+                if (respuesta[0].idunidad == "1") {
+                    $('#precio-item').collapse('show');
+                    $('#otraCantidad').collapse('hide');
+                    // document.getElementById("total_producto").readOnly = false;
+                    // document.getElementById("total_producto").focus();
+                    document.getElementById("total_producto").readOnly = false;
+                    document.getElementById("total_producto").value = "";
+                    document.getElementById("total_producto").focus();
+                    document.getElementById("prod_pesado").value = "1";
+                    
+                    
+                    
+                } else {
+                    
+                    
+                    document.getElementById("prod_pesado").value = "";
+                    $('#otraCantidad').collapse('show');
+                    $('#precio-item').collapse('hide');
+                    // document.getElementById("cantidad").focus();
+                    // calcular_total_producto();
+                    
+                    document.getElementById("total_producto").readOnly = true;
+                    
+                    calcular_total_producto();
+                    agregarLinea();
+                    
+                }
+                
             }
-
-
-            
-        } else {
+                
+                
+            } else {
             console.log('producto no encontrado');
             $('#precio-item').collapse('hide');
             $('.descuento').collapse('hide');
-            $("#img-producto").attr("src","../../../img/logopanaderia.PNG");
+            $("#img-producto").attr("src","../../../img/productos/productos.png");
             $("#precio_producto").val('');
             $("#cantidad").val('');
             $("#total_producto").val('');
@@ -453,8 +472,8 @@ function calcular_total_producto () {
 }
 
 function calcular_kilos_producto () {
-    var totalProducto = $('#total_producto').val()*1;
-    var precioProducto = $('#precio_producto').val()*1;
+    var totalProducto = limpiarNumero($('#total_producto').val())*1;
+    var precioProducto = limpiarNumero($('#precio_producto').val())*1;
 
     var kilos = totalProducto / precioProducto;
     console.log(kilos);
@@ -692,29 +711,39 @@ $(function() {
     $('#input-total').val( calcular_total_venta());
     formatearDinero('#input-total','');
    
-    $('#otraCantidad').click(function (e) { 
+    $('#btn-otra-cant').click(function (e) { 
         e.preventDefault();
         $('#otraCantidad').collapse('hide');
         $('#precio-item').collapse('show');
         document.getElementById("cantidad").focus();
     });
 
+    $(document).on('focus', '#nombre', function(event) {
+        $('#nombre').val('');
+   });
     $(document).on('focus', '#cantidad', function(event) {
         $('#cantidad').val('');
    });
 
-    $(document).on('input', '#cantidad', function(event) {
+    $(document).on('focus', '#codigo', function(event) {
+        $('#codigo').val('');
+   });
+
+    $(document).on('input keydown', '#cantidad', function(event) {
         if(event.keyCode==13){ //enter
-            event.preventDefault();
-            agregarLinea();
-            document.getElementById("codigo").focus();
+            document.getElementById('btn-agregar').click()
          }
          // aplicar promocion
          aplicarDescuento();
          calcular_total_producto();
      });
 
-     $(document).on('input', '#total_producto', function(event) {
+     $(document).on('input keydown', '#total_producto', function(event) {
+        if(event.keyCode==13){ //enter
+            document.getElementById('btn-agregar').click()
+         }
+         // aplicar promocion
+         aplicarDescuento();
         calcular_kilos_producto();
     });
 
@@ -906,8 +935,13 @@ $(function() {
         
      }
  });
-
-
+   $(document).on('keyup input', '#total_producto', function(event) {
+    if(event.keyCode==13){ //enter
+        event.preventDefault();
+        buscarProducto();
+        
+     }
+ });
 
 
 

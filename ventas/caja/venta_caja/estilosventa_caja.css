@@ -341,3 +341,10 @@ button#btn-otra-cant {
 div#contcont {
     min-width: max-content;
 }
+
+
+
+/* TODO desactivar cuando se implemente el buscador */
+#a-buscar {
+    display: none;
+}

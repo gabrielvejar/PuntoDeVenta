@@ -47,7 +47,7 @@ $printer->setJustification(Printer::JUSTIFY_CENTER);
 $logo = EscposImage::load("logopanaderia2.jpg", false);
 
 // volver a habilitar
-// $printer->bitImage($logo);
+$printer->bitImage($logo);
 
 /*
 Imprimimos un mensaje. Podemos usar

@@ -92,7 +92,7 @@ if (isset($_REQUEST['sb'])) {
                     <div id="fila1" class="lam">
     
                         <div id="div1-2">
-                            <img id ="img-producto" src="<?php echo $ruta?>img/logopanaderia.PNG" alt="logo">
+                            <img id ="img-producto" src="<?php echo $ruta?>img/productos/productos.png" alt="Imagen productos">
                         </div>
     
                         <div id="div1-1">
@@ -119,7 +119,7 @@ if (isset($_REQUEST['sb'])) {
                         <div id="div1-3">
                             <!-- <button id="btn-buscar" class="btn btn-primary">Buscar</button> -->
     
-                            <a class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
+                            <a id="a-buscar" class="iframe" data-fancybox data-type="iframe" data-src="<?php echo $ruta?>productos\listaproducto\listaproducto.php" href="javascript:;">
                                 <button id="btn-buscar" class="btn btn-primary">Buscar</button>
                             </a>
                             <button id="btn-borrar" class="btn btn-primary">Limpiar</button>
@@ -176,7 +176,7 @@ if (isset($_REQUEST['sb'])) {
 
     <!-- inicio -->
                 <div id="precio-item" class="lam collapse">
-                    <div id="fila2" class="fila">
+                    <div id="fila2" class="fila collapse show">
                         <div id="div2-1">
                             <label for="">$</label><input type="text" id="precio_producto" class="calctotal" readonly><label for="">x</label><input type="number" id="cantidad" class="calctotal" min=0 step="0.01" placeholder="1"><span id="unidad_producto"></span>
                         </div>

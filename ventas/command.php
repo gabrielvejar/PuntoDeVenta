@@ -601,7 +601,7 @@ switch ($cmd) {
 
         $id_venta_temp = $_REQUEST['id_venta_temp'] ;
 
-        $query     = "SELECT * FROM public.vw_detalle_venta_temp WHERE id_venta_temp = $1";
+        $query     = "SELECT * FROM public.vw_detalle_venta_temp WHERE id_venta_temp = $1 ORDER BY id_detalle ASC";
         $params    = array($id_venta_temp);
         $result    = pg_query_params($dbconn, $query, $params);
 
