@@ -34,6 +34,7 @@ if (isset($_REQUEST['sb'])) {
 }
 ?>
 
+
     <div class="container lam">
 
 
@@ -53,17 +54,19 @@ if (isset($_REQUEST['sb'])) {
             </div>
         </a>
         
-            <div id="filtros" class="form-group collapse">
+            <div id="filtros" class="form-group collapse show">
 
                 <div class="row align-items-end d-flex justify-content-between">
                     <div class="col-sm">
-                        <label for="codigo">Código</label> <input type="number" name="codigo" id="codigo" class="form-control" onkeyup="filtroCodigo()">
+                        <label for="codigo">Código</label> <input type="text" name="codigo" id="codigo" class="form-control">
+                        <!-- <label for="codigo">Código</label> <input type="number" name="codigo" id="codigo" class="form-control" onkeyup="filtroCodigo()"> -->
                     </div>
                     <div class="col-sm">
                         <label for="categoria">Categoría </label> <select name="categoria" id="categoria" class="form-control" onchange="ir(1)"></select>
                     </div>
                     <div class="col-sm">
-                        <label for="nombre">Nombre </label> <input type="text" name="nombre" id="nombre" class="form-control" onkeyup="ir(1)">
+                        <!-- <label for="nombre">Nombre </label> <input type="text" name="nombre" id="nombre" class="form-control" onkeyup="ir(1)"> -->
+                        <label for="nombre">Nombre </label> <input type="text" name="nombre" id="nombre" class="form-control">
                     </div>
                     <div class="col-sm">
                         <label for=""></label><button type="button" class="btn btn-secondary mx-2" onclick="limpiarFiltros()">Limpiar</button>
@@ -120,11 +123,7 @@ if (isset($_REQUEST['sb'])) {
 
 
 
-
     <input type="hidden" id="paginaactual" name="paginaactual" value="1" />
     <input type="hidden" id="prodxpag" name="prodxpag" value="15" />
-
-    
-
 
 <?php include_once $ruta . "includes/footer.php" ?>

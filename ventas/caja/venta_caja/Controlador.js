@@ -30,7 +30,12 @@ function listarDetalle() {
             html += '<tr>'
             html += '<th scope="row"><span id="t-numfila">'+(numFila)+'</span></th>';
             html +='<td><span id="t-nombre">'+listaDetalleDB[i].nombre+'</span></td>';
-            html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalleDB[i].precio)+'</span></td>';
+
+            if (listaDetalleDB[i].precio == 0) {
+                html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalleDB[i].monto)+'</span></td>';
+            } else {
+                html +='<td><span id="t-precioun">$'+separadorMiles(listaDetalleDB[i].precio)+'</span></td>';
+            }
 
 
             if ( (parseFloat(listaDetalleDB[i].cantidad).toFixed(2) - parseInt(listaDetalleDB[i].cantidad)) > 0 ) {
@@ -548,57 +553,47 @@ function calc_vuelto () {
 }
 
 
-function imprimir_recibo () {
+function imprimir_recibo (id) {
 
-        if (listaDetalle.length > 0 || listaDetalleDB.length > 0) {
-    
-            var totalVenta = $('#input-total').val();
-    
-            // var dataString = 'key='+key;
-            $.ajax({
-                    type: "POST",
-                    url: rutaraiz+"print/recibo_venta.php",
-                    data: {
-                        'total': totalVenta,
-                        'detalle1':JSON.stringify(listaDetalleDB),
-                        'detalle2':JSON.stringify(listaDetalle)
-                    },
-                    success: function(data) {
-                        
-                        console.log(data);
-                        // location.replace(rutaraiz+'ventas/caja/caja.php');
-
-                        // setTimeout(() => {
-                        //     location.replace(rutaraiz+'ventas/caja/caja.php');
-                        // }, 5000);
-
-                        // bootbox.alert({
-                        //     title: "",
-                        //     message: "<b>Recibo impreso</b>",
-                        //     centerVertical: true,
-                        //     callback: function (result) {
-                        //         location.replace(rutaraiz+'ventas/caja/caja.php');
-                        //     }
-                        // });
-    
-                    }
-                });
-    
-    
-            // bootbox.alert("Ticket impreso", function(){
-    
-            //     // location.reload();
-                
-            //     var ruta = $('#btn-imprimir').val();
-    
-            //     location.replace(ruta);
-            // })
-    
-        } else {
-    
-            bootbox.alert("No hay productos agregados");
-    
+    // imprimir con javascript
+    $.fancybox.open({
+        src  : '../../../imprimir/recibo_caja/recibo_caja.php?autom=si&id='+id,
+        type : 'iframe',
+        opts : { 
+            iframe : {
+                preload : true, 
+                css: {
+                    width: '200px'
+                }
+            },
+            beforeClose  : function( instance, slide ) {
+                parent.window.location.replace('../caja.php');
+            }
         }
+    });
+    
+
+    // // imprimir por php
+    //     if (listaDetalle.length > 0 || listaDetalleDB.length > 0) {
+    
+    //         var totalVenta = $('#input-total').val();
+
+    //         $.ajax({
+    //                 type: "POST",
+    //                 url: rutaraiz+"print/recibo_venta.php",
+    //                 data: {
+    //                     'total': totalVenta,
+    //                     'detalle1':JSON.stringify(listaDetalleDB),
+    //                     'detalle2':JSON.stringify(listaDetalle)
+    //                 },
+    //                 success: function(data) {
+                        
+    //                     console.log(data);
+                        
+    //                 }
+    //             });
+    
+    //     }
     
     
     
@@ -650,22 +645,21 @@ function pagar (id_tipo_pago) {
             success: function(data) {
 
                 
-                if(data == 0) {
+                if(data != 0) {
 
-                    bootbox.alert({
-                        title: "",
-                        message: "<b>Imprimiendo recibo...</b>",
-                        centerVertical: true,
-                        callback: function (result) {
+                    // bootbox.alert({
+                    //     title: "",
+                    //     message: "<b>Imprimiendo recibo...</b>",
+                    //     centerVertical: true,
+                    //     callback: function (result) {
                             
                             
-                        }
-                    });
-                    imprimir_recibo();
-                    setTimeout(() => {
-                        location.replace(rutaraiz+'ventas/caja/caja.php');
-                    }, 2000);
-                    //TODO volver a habilitar
+                    //     }
+                    // });
+                    imprimir_recibo(data);
+                    // setTimeout(() => {
+                    //     location.replace(rutaraiz+'ventas/caja/caja.php');
+                    // }, 2000);
 
                 } else {
                     bootbox.alert({

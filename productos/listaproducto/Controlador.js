@@ -1,5 +1,10 @@
-  
+  var cantProductos = 0;
     
+  $(function() {
+      document.getElementById('codigo').focus();
+  })
+
+
     //Relleno de listado de productos
     function listarProductos() {
         var tabla  = document.getElementById('tabla-productos');
@@ -28,6 +33,7 @@
         ajax(ruta, params, metodo, async,json,function(respuesta){
             // filas = Object.keys(respuesta).length;
             console.log(respuesta);
+            cantProductos= Object.keys(respuesta).length;
             
             var cuerpo = "";
             for (i in respuesta){
@@ -47,24 +53,30 @@
                 // var btnElim1 = '<a ><i class="fa fa-trash-o" aria-hidden="true" title="Eliminar" onClick="elim(';
                 // var btnElim2 = ')"></i></a>'
 
+
                 //modificar y eliminar con botones
-                var btnMod1 = '<a class="iframe" data-fancybox data-type="iframe" data-src="../IUproducto/IUproducto.php?producto=2&codigo=';
-                var btnMod2 = '" href="javascript:;"><button class="btn btn-info mx-2" title="Modificar"><i class="fas fa-edit"></i></button></a>';
-                var btnElim1 = '<button class="btn btn-danger mx-2" title="Eliminar" onClick="elim(';
-                var btnElim2 = ')"><i class="fas fa-trash-alt"></i></button>'
-                
-                cuerpo += '<td class="col-accion">' + btnMod1 + respuesta[i][2] +btnMod2 +btnElim1 + respuesta[i][2] +btnElim2 + "</td>";
+                if (respuesta[i][0] == '0'){
+                    cuerpo += '<td class="col-accion" style="height: 48.6px;"></td>';
+                } else {
+
+                    var btnMod1 = '<a class="iframe" data-fancybox data-type="iframe" data-src="../IUproducto/IUproducto.php?producto=2&codigo=';
+                    var btnMod2 = '" href="javascript:;"><button class="btn btn-info mx-2" title="Modificar"><i class="fas fa-edit"></i></button></a>';
+                    var btnElim1 = '<button class="btn btn-danger mx-2" title="Eliminar" onClick="elim(';
+                    var btnElim2 = ')"><i class="fas fa-trash-alt"></i></button>'
+                    
+                    cuerpo += '<td class="col-accion">' + btnMod1 + respuesta[i][2] +btnMod2 +btnElim1 + respuesta[i][2] +btnElim2 + "</td>";
+                }
                 
                 cuerpo += "</tr>";
 
                 if (respuesta[i][4] == ""){
                     // cuerpo += '<td></td>';
                     // cuerpo += ' <div class="img-producto" id="'+respuesta[i][2]+'"><div><img src="/puntodeventa/img/productos/sinimagen.jpg"  width="70%"></div><div><button class="btn btn-info mod" value="' + respuesta[i][2] +'">Modificar</button></div></div>';
-                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/PuntodeVenta/img/productos/sinimagen.jpg"  width="50%"></div></td></tr>';
+                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/img/productos/sinimagen.jpg"  width="50%"></div></td></tr>';
                 } else {
                     // cuerpo += "<tr>";
                     // cuerpo += ' <div class="img-producto" id="'+respuesta[i][2]+'"><div><img src="/puntodeventa/img/productos/' + respuesta[i][4] +'"  width="70%"></div><div><button class="btn btn-info mod" value="' + respuesta[i][2] +'">Modificar</button></div></div>';
-                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/PuntodeVenta/img/productos/' + respuesta[i][4] +'"  width="50%"></div></td></tr>';
+                    cuerpo += '<tr class="img-producto" id="'+respuesta[i][2]+'"><td  colspan="5"> <div><div><img src="/img/productos/' + respuesta[i][4] +'"  width="50%"></div></td></tr>';
                     // cuerpo += "</tr>";
                 }
             
@@ -78,8 +90,11 @@
             addRowHandlers();
         });
 
+        document.getElementById('codigo').focus();
 
-        // cmd    = "cmd=cant-filas";
+
+
+        cmd    = "cmd=cant-productos";
         // params = cmd+nombre+codigo+categoria;
         params = cmd+nombre+codigo+categoria;
         metodo = "GET";
@@ -91,29 +106,73 @@
 
         ajax(ruta, params, metodo, async,json,function(respuesta){
 
-            console.log(respuesta.length);
+            console.log(respuesta);
+
+
+            // var totalProductos = Object.keys(respuesta).length;
+            var totalProductos = respuesta[0][0];
             
 
-            var paginas = Math.ceil(Object.keys(respuesta).length/prodXpag);
+            var paginas = Math.ceil(totalProductos/prodXpag);
             // var paginas = Math.ceil(respuesta/prodXpag);
            
-
-            console.log(respuesta);
             // console.log(paginas);
             
             var cuerpo = "";
 
+            //boton primera
+            if (paginaActual == 1)  {
+                cuerpo += '<li class="page-item disabled">';
+                cuerpo += '<a class="page-link" tabindex="-1" ><i class="fas fa-angle-double-left"></i></a></li>'
+            } else {
+                cuerpo += '<li class="page-item">';
+                cuerpo += '<a class="page-link cursor" onclick="ir(1)" tabindex="-1"><i class="fas fa-angle-double-left"></i></a></li>'
+            }
+
             //boton anterior
             if (paginaActual <= 1)  {
                 cuerpo += '<li class="page-item disabled">';
-                cuerpo += '<a class="page-link" tabindex="-1" >Anterior</a></li>'
+                cuerpo += '<a class="page-link" tabindex="-1" ><i class="fas fa-angle-left"></i></a></li>'
             } else {
                 cuerpo += '<li class="page-item">';
-                cuerpo += '<a class="page-link cursor" onclick="anterior()" tabindex="-1">Anterior</a></li>'
+                cuerpo += '<a class="page-link cursor" onclick="anterior()" tabindex="-1"><i class="fas fa-angle-left"></i></a></li>'
             }
             
+
+
+
+
             //paginas
+            var maxVisibles = 9;
+            var mostradas = 0; 
+
             for (var i=0; i<paginas; i++){
+
+                if (mostradas >= maxVisibles){
+                    break;
+                }
+
+                // if (paginaActual > paginas + maxVisibles) {
+                //     if (i<paginaActual-maxVisibles) {
+                //         continue;
+                //     }
+                // } else {
+
+                    
+                    if (i<paginaActual-5) {
+                        continue;
+                    }
+                // }
+                    
+                mostradas++;
+
+
+
+                // if (i>paginaActual+3 || i<paginaActual-5) {
+                //     continue;
+                // }
+                
+
                 if (paginaActual == i+1)  {
                     cuerpo += '<li class="page-item active">';  // active si es la pagina actual
                     cuerpo += '<a class="page-link" style="cursor:default">'+ (i+1) +'</a></li>'
@@ -130,14 +189,34 @@
             //boton siguiente
             if (paginaActual >= paginas)  {
                 cuerpo += '<li class="page-item disabled">';
-                cuerpo += '<a class="page-link" tabindex="-1" >Siguiente</a></li>'
+                cuerpo += '<a class="page-link" tabindex="-1" ><i class="fas fa-angle-right"></i></a></li>'
             } else {
                 cuerpo += '<li class="page-item">';
-                cuerpo += '<a class="page-link cursor" onclick="siguiente()" tabindex="-1">Siguiente</a></li>'
+                cuerpo += '<a class="page-link cursor" onclick="siguiente()" tabindex="-1"><i class="fas fa-angle-right"></i></a></li>'
+                // cuerpo += '<a class="page-link cursor" onclick="siguiente()" tabindex="-1">Siguiente</a></li>'
+            }
+            //boton ultimo
+            if (paginaActual >= paginas)  {
+                cuerpo += '<li class="page-item disabled">';
+                cuerpo += '<a class="page-link" tabindex="-1" ><i class="fas fa-angle-double-right"></i></a></li>'
+            } else {
+                cuerpo += '<li class="page-item">';
+                cuerpo += '<a class="page-link cursor" onclick="ir('+paginas+')" tabindex="-1"><i class="fas fa-angle-double-right"></i></a></li>'
             }
 
             navegacion.innerHTML = cuerpo;
+            document.getElementById('codigo').focus();
+
+
+
+
+
+
+
+
         });
+
+        
         
     }
 
@@ -155,9 +234,10 @@
     }
 
     function filtroCodigo () {
-        if (document.getElementById('codigo').value.length > 2 || document.getElementById('codigo').value.length == 0) {
-            ir(1);
-        }
+        // if (document.getElementById('codigo').value.length > 2 || document.getElementById('codigo').value.length == 0) {
+        //     ir(1);
+        // }
+        ir(1);
     }
 
     function limpiarFiltros() {
@@ -274,7 +354,11 @@
             title: "Buena!",
             message: "Producto guardado correctamente",
             callback: function(){ 
-                listarProductos();
+                // limpiarFiltros();
+                document.getElementById('codigo').value = '';
+                ir(1);
+                document.getElementById('codigo').focus();
+                // listarProductos();
             }
         })
     }
@@ -282,68 +366,17 @@
 
 
 
-    $( document ).ready(function() {
-        
-        listarProductos();
-        comboCategorias()
-        // $('th').addClass("text-center");
-        // $('td').addClass("text-center");
-
-        // setInterval(listarProductos, 5000);
-
-        $(".iframe").fancybox({
-            iframe: {
-                scrolling : 'auto',
-                preload   : false
-    
-            }
-        });
-
-        $(function() {
-            $('.btn-group-fab').on('click', '.btn', function() {
-              $('.btn-group-fab').toggleClass('active');
-            });
-            $('has-tooltip').tooltip();
-          });
-
-        // Acción al cerrar lightbox
-        // $("[data-fancybox]").fancybox({
-        //     afterClose: function( instance, slide ) {
-        //         listarProductos();
-        //         console.log("actualizó al cerrar lightbox");
-                
-        //     }
-        // });
-
-
-        // document.getElementsByClassName("mod").addEventListener("click", function(){
-        //     idProd = this.value;
-        //     console.log(idProd);
-            
-        //   });
-
-        //   $(".mod").on('click', function(event){
-        //     // event.stopPropagation();
-        //     // event.stopImmediatePropagation();
-        //     idProd = this.value;
-        //     console.log(idProd);
-
-        // });
-
-
-    });
-
 
 
       //Relleno de listado de productos
-   function comboCategorias() {
-    var ruta   = "../command.php";
-    var cmd    = "cmd=combo-categorias";
-    var params = cmd;
-    var metodo = "GET";
-    var async  = false;
-    var json  = true;
-    var combo  = document.getElementById('categoria');
+function comboCategorias() {
+var ruta   = "../command.php";
+var cmd    = "cmd=combo-categorias";
+var params = cmd;
+var metodo = "GET";
+var async  = false;
+var json  = true;
+var combo  = document.getElementById('categoria');
 
     ajax(ruta, params, metodo, async,json,function(respuesta){
 
@@ -362,3 +395,92 @@
     });
 
 }
+
+
+
+
+
+$( document ).ready(function() {
+        
+    listarProductos();
+    comboCategorias()
+    // $('th').addClass("text-center");
+    // $('td').addClass("text-center");
+
+    // setInterval(listarProductos, 5000);
+
+    $(".iframe").fancybox({
+        iframe: {
+            scrolling : 'auto',
+            preload   : false
+
+        }
+    });
+
+
+    $('.btn-group-fab').on('click', '.btn', function() {
+        $('.btn-group-fab').toggleClass('active');
+    });
+    $('has-tooltip').tooltip();
+
+
+    $('#codigo').keydown(function (e) { 
+        if ( event.which == 13 ) {
+            event.preventDefault();
+            filtroCodigo();
+            if ($('#codigo').val().length > 3 && cantProductos == 0){
+                bootbox.confirm('No se ha encontrado el producto código: '+$('#codigo').val()+'. <br>Desea agregarlo?', function(respuesta) {
+                    if (respuesta){
+                        
+                        $.fancybox.open({
+                            src  : '../IUproducto/IUproducto.php?producto=1&codigo='+$('#codigo').val(),
+                            type : 'iframe',
+                            opts : {
+                              afterShow : function( instance, current ) {
+                                console.info( 'done!' );
+                              },
+                              iframe : {
+                                  preload : false
+                              }
+                            }
+                        });
+
+                    }
+                })
+            }
+        }
+    });
+
+    $('#nombre').keydown(function (e) { 
+        if ( event.which == 13 ) {
+            event.preventDefault();
+            filtroCodigo();
+        }
+    });
+
+    // Acción al cerrar lightbox
+    // $("[data-fancybox]").fancybox({
+    //     afterClose: function( instance, slide ) {
+    //         listarProductos();
+    //         console.log("actualizó al cerrar lightbox");
+            
+    //     }
+    // });
+
+
+    // document.getElementsByClassName("mod").addEventListener("click", function(){
+    //     idProd = this.value;
+    //     console.log(idProd);
+        
+    //   });
+
+    //   $(".mod").on('click', function(event){
+    //     // event.stopPropagation();
+    //     // event.stopImmediatePropagation();
+    //     idProd = this.value;
+    //     console.log(idProd);
+
+    // });
+
+
+});

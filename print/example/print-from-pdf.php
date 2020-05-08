@@ -1,6 +1,4 @@
 <?php
-phpinfo();
-die();
 
 require __DIR__ . '/../autoload.php';
 use Mike42\Escpos\Printer;
@@ -43,15 +41,15 @@ try {
  * 
  * Reduce the page width further if necessary: if it extends past the printing area, your prints will be very slow.
  */
-$connector = new FilePrintConnector("php://stdout");
-$printer = new Printer($connector);
-$pdf = 'resources/document.pdf';
-$pages = ImagickEscposImage::loadPdf($pdf, 260);
-foreach ($pages as $page) {
-    $printer -> graphics($page, Printer::IMG_DOUBLE_HEIGHT | Printer::IMG_DOUBLE_WIDTH);
-}
-$printer -> cut();
-$printer -> close();
+// $connector = new FilePrintConnector("php://stdout");
+// $printer = new Printer($connector);
+// $pdf = 'resources/document.pdf';
+// $pages = ImagickEscposImage::loadPdf($pdf, 260);
+// foreach ($pages as $page) {
+//     $printer -> graphics($page, Printer::IMG_DOUBLE_HEIGHT | Printer::IMG_DOUBLE_WIDTH);
+// }
+// $printer -> cut();
+// $printer -> close();
 
 /*
  * 3: PDF printing still too slow? If you regularly print the same files, serialize & compress your
@@ -62,22 +60,22 @@ $printer -> close();
  * 
  * [1]After printing, the pixels are loaded and formatted for the print command you used, so even a raspberry pi can print complex PDF's quickly.
  */
-$connector = new FilePrintConnector("php://stdout");
-$printer = new Printer($connector);
-$pdf = 'resources/document.pdf';
-$ser = 'resources/document.z';
-if (!file_exists($ser)) {
-    $pages = ImagickEscposImage::loadPdf($pdf);
-} else {
-    $pages = unserialize(gzuncompress(file_get_contents($ser)));
-}
+// $connector = new FilePrintConnector("php://stdout");
+// $printer = new Printer($connector);
+// $pdf = 'resources/document.pdf';
+// $ser = 'resources/document.z';
+// if (!file_exists($ser)) {
+//     $pages = ImagickEscposImage::loadPdf($pdf);
+// } else {
+//     $pages = unserialize(gzuncompress(file_get_contents($ser)));
+// }
 
-foreach ($pages as $page) {
-    $printer -> graphics($page);
-}
-$printer -> cut();
-$printer -> close();
+// foreach ($pages as $page) {
+//     $printer -> graphics($page);
+// }
+// $printer -> cut();
+// $printer -> close();
 
-if (!file_exists($ser)) {
-    file_put_contents($ser, gzcompress(serialize($pages)));
-}
+// if (!file_exists($ser)) {
+//     file_put_contents($ser, gzcompress(serialize($pages)));
+// }

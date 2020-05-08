@@ -17,7 +17,7 @@ input, img, button {
     border-radius: 0.3125rem;
     box-shadow: 0rem 0.5625rem 0.9375rem 0.3125rem rgba(0,0,0,0.64);
     background: #1c354c;
-    min-width: max-content;
+    /* min-width: max-content; */
 }
 
 div#div1 {
@@ -27,7 +27,7 @@ div#div1 {
 
 
 .columna {
-    height: 400px;
+    height: 490px;
     overflow: hidden;
 
 }
@@ -90,3 +90,7 @@ div#ventas button {
 .hoverceleste:hover {
     background-color: lightseagreen !important;
 }
+
+/* #ventas a {
+    margin-left: 20px;
+} */

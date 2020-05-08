@@ -119,7 +119,30 @@ if (isset($_REQUEST['sb'])) {
         </div>
         
     </div>
+<?php if (!(isset($_REQUEST['id']))) {?>
+    <div id="filtros">
+        
+        <form action="">
+            <div class="form-row">
+                <div class="form-group col">
+                    <label for="inputFechaInicio">Fecha Inicio</label>
+                    <input type="date" class="form-control filtros" id="inputFechaInicio" placeholder="">
+                </div>
+                <div class="form-group col">
+                    <label for="inputFechaFin">Fecha Fin</label>
+                    <input type="date" class="form-control filtros" id="inputFechaFin" placeholder="">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col">
+                    <button id="btn-filtrar" class="btn btn-primary">Filtrar</button>
+                    <button id="btn-limpiar" class="btn btn-primary">Limpiar</button>
+                </div>
+            </div>
+        </form>
 
+    </div>
+<?php } ?>
     <div id="inferior-tabla" class="table-responsive">
 
         <!-- <div id="btn-fontsize">

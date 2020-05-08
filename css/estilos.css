@@ -91,7 +91,7 @@ border-bottom: 1px solid #47748b;
   max-height: 484px;
   overflow: auto;
 } */
-nav i {
+nav#sidebar i {
   margin: 10px;
 }
 

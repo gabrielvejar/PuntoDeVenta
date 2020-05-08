@@ -1,6 +1,8 @@
 * {
-    font-size: 10px;
+    font-size: 9px;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    /* font-family: Fake Receipt W90 Regular; */
+    font-weight: 550;
     /* font-family: 'Times New Roman'; */
 }
 
@@ -8,7 +10,7 @@ td,
 th,
 tr,
 table {
-    border-top: 1px solid black;
+    /* border-top: 1px solid black; */
     border-collapse: collapse;
 }
 
@@ -63,11 +65,45 @@ span#tit2 {
     padding: 7px;
 }
 
-
+button {
+    font-size: 20px;
+    width: 100%;
+    font-weight: normal;
+}
 
 @media print {
     .oculto-impresion,
     .oculto-impresion * {
         display: none !important;
     }
+}
+
+
+
+table {
+    width: 100%;
+}
+tbody {
+border-top: 1px solid black;
+}
+
+.rowvalores {
+    border-bottom: 1px solid black;
+}
+
+.rowvalores td {
+    padding-bottom: 4px;
+}
+
+.tdtotal {
+    text-align: right;
+}
+
+#total {
+    font-size: 14px;
+    /* text-align: right; */
+}
+#totales {
+    font-size: 11px;
+    /* text-align: right; */
 }

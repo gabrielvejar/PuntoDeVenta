@@ -95,17 +95,50 @@ if (isset($_SESSION['apertura']['id_apertura'])) {
 
                 <?php  if ($_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
                 <li>
-                    <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-key"></i> Administrador</a>
-                    <ul class="collapse list-unstyled" id="adminSubmenu">
-
+                    <a href="#registrosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-chart-bar"></i> Registros</a>
+                    <ul class="collapse list-unstyled" id="registrosSubmenu">
                         <li>
+                            <a href="<?php echo $ruta?>ventas/registro_ventas/registro_ventas.php"><i class="fas fa-file-invoice-dollar"></i> Ventas pagadas</a>
+                        </li>    
+                        <li>
+                            <a href="<?php echo $ruta?>ventas/caja/gastos/gastos/gastos.php"><i class="fas fa-file-invoice-dollar"></i> Gastos</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $ruta?>ventas/caja/gastos/dinero_en_custodia/custodia.php"><i class="fas fa-file-invoice-dollar"></i> Dinero en custodia</a>
+                        </li>
+                        <li>
+                            <a href="<?php echo $ruta?>ventas\registro_ventas\registro_cierres\registro_cierres.php"><i class="fas fa-file-invoice-dollar"></i> Cierres de caja</a>
+                        </li>
+                        <!-- <li>
                             <a href="#usuariosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user"></i> Usuarios</a>
                             <ul class="collapse list-unstyled" id="usuariosSubmenu">
                                 <li>
                                     <a href="<?php echo $ruta?>usuarios/agregar_usuario/nuevo_usuario.php"><i class="fas fa-user-plus"></i> Agregar usuario</a>
                                 </li>
                             </ul>
+                        </li> -->
+
+                    </ul>
+                </li>
+                <?php } ?>
+
+
+                <?php  if ($_SESSION['permisos']['mantenedor_usuarios'] =='t') { ?>
+                <li>
+                    <a href="#adminSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-key"></i> Administrador</a>
+                    <ul class="collapse list-unstyled" id="adminSubmenu">
+
+                        <li>
+                            <a href="<?php echo $ruta?>usuarios\lista_usuarios\lista_usuarios.php"><i class="fas fa-users"></i> Usuarios</a>
                         </li>
+                        <!-- <li>
+                            <a href="#usuariosSubmenu" data-toggle="collapse" aria-expanded="false" class="dropdown-toggle"><i class="fas fa-user"></i> Usuarios</a>
+                            <ul class="collapse list-unstyled" id="usuariosSubmenu">
+                                <li>
+                                    <a href="<?php echo $ruta?>usuarios/agregar_usuario/nuevo_usuario.php"><i class="fas fa-user-plus"></i> Agregar usuario</a>
+                                </li>
+                            </ul>
+                        </li> -->
 
                     </ul>
                 </li>

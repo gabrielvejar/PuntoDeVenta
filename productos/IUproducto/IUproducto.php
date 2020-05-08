@@ -25,9 +25,12 @@ if ($_SESSION['permisos']['mantenedor_productos'] !='t') {
 if (isset($_REQUEST['producto'])){
     if ($_REQUEST['producto'] == '1'){
         $accion = "Agregar";
+        if (isset($_REQUEST['codigo'])){
+            $codigo = $_REQUEST['codigo'] ;
+        }
     } elseif ($_REQUEST['producto'] == '2') {
         $accion = "Modificar";
-        if (isset($_REQUEST['producto'])){
+        if (isset($_REQUEST['codigo'])){
             $codigo = $_REQUEST['codigo'] ;
         }
 
@@ -98,6 +101,14 @@ $titulo = $accion." Producto - Punto de Venta";
                 </select>
                 </td>
             </tr> 
+            <tr>
+                <td>
+                    <div class="custom-control custom-switch">
+                        <input type="checkbox" class="custom-control-input" id="inventariable" name="inventariable">
+                        <label class="custom-control-label" for="inventariable">Inventariable</label>
+                    </div>
+                </td>
+            </tr>
             <tr id="row-subir">
                 <td><label for="fichero_usuario">Imagen (opcional - tamaño máximo 2 MB)</label><br>
                     <input type="hidden" name="MAX_FILE_SIZE" value="2000000" />

@@ -173,7 +173,8 @@ switch ($cmd) {
         }
 
         if (isset($_REQUEST['pass_autoriza'])) {
-            $pass_autoriza = $_REQUEST['pass_autoriza'];
+            // $pass_autoriza = $_REQUEST['pass_autoriza'];
+            $pass_autoriza = hash('sha256', $_REQUEST['pass_autoriza']);
         } else {
             echo "e0";
             die();
@@ -321,6 +322,7 @@ switch ($cmd) {
     break;
     case 'ingresar-venta-temporal-meson-idletra':
 
+        
         // codigo
         // nombre
         // precio
@@ -350,17 +352,22 @@ switch ($cmd) {
         $result    = pg_query_params($dbconn, $query, $params);
         $id_diario = pg_fetch_row($result);
 
-
+        
         $letra_id_diario = $id_diario['0'];
+
+
 
         if ($letra_id_diario == null) {
 
             $letra_id_diario = 'A';
 
         } else {
-
+            
             $indice = array_search($letra_id_diario, $letras);
-            $indice_ultima_letra = array_key_last($letras);
+            $indice_ultima_letra = count($letras) - 1;
+            // $indice_ultima_letra = array_key_last($letras);
+            // echo "3";
+            // die();
             
             if ($id_diario['1'] == '99') { // id volverá a 1 y se debe cambiar a la siguiente letra
                 if ($indice_ultima_letra != $indice) {
@@ -371,6 +378,8 @@ switch ($cmd) {
                 }
             }
         }
+
+        
 
         
         
@@ -531,7 +540,7 @@ switch ($cmd) {
             } else {
     
                 $indice = array_search($letra_id_diario, $letras);
-                $indice_ultima_letra = array_key_last($letras);
+                $indice_ultima_letra = count($letras) - 1;
                 
                 if ($id_diario['1'] == '99') { // id volverá a 1 y se debe cambiar a la siguiente letra
                     if ($indice_ultima_letra != $indice) {
@@ -729,9 +738,9 @@ switch ($cmd) {
 
         $row = pg_fetch_row($result);
         if($row['0'] == '0'){
-            echo "0"; //todo bien.. todo correcto
+            echo "0"; //error al insertar
         } else {
-            echo '2'; //error al insertar
+            echo $row['0']; //todo bien.. todo correcto
         }
 
     break;
@@ -915,6 +924,16 @@ switch ($cmd) {
             }
         }
 
+        //filtro fecha
+        if(isset($_REQUEST['fecha'])) {
+            if ($_REQUEST['fecha'] != ''){
+                $filtros ++;
+                $query .= " AND CAST(fecha AS date) = CAST( $".$filtros." AS date)";
+                $fecha = $_REQUEST['fecha'];
+                array_push($params, $fecha);
+            }
+        }
+
         //filtro apertura
         if(isset($_REQUEST['id_apertura'])) {
             $filtros ++;
@@ -1092,7 +1111,7 @@ switch ($cmd) {
                                         activo
                                     FROM 
                                         public.usuario
-                                    WHERE tipo_usuario IN ('caja')
+                                    WHERE tipo_usuario IN ('caja','admin')
                         ";
 
         $params    = array();
@@ -1112,6 +1131,81 @@ switch ($cmd) {
         echo $json;
 
     break;
+
+    case 'registro-cierres':
+        /*
+        id_cierre,
+        id_apertura,
+        fecha,
+        time_apertura,
+        id_user_apertura,
+        user_apertura,
+        efectivo_apertura,
+        efectivo_cierre,
+        ventas_efectivo,
+        ventas_tarjetas,
+        entrega,
+        gastos,
+        id_user_cierre,
+        user_cierre,
+        time_cierre,
+        id_user_autoriza,
+        user_autoriza
+        */
+
+        $query     = "SELECT * FROM public.vw_cierres_caja WHERE 1=1";
+        $params    = array();
+
+        $filtros = 0;
+
+        //filtro cajero
+        if(isset($_REQUEST['cajero'])) {
+            if ($_REQUEST['cajero'] != ''){
+                $filtros ++;
+                $query .= " AND id_user_cierre = $".$filtros;
+                $cajero = $_REQUEST['cajero'];
+                array_push($params, $cajero);
+            }
+        }
+        //filtro fechainicio
+        if(isset($_REQUEST['fechainicio'])) {
+            if ($_REQUEST['fechainicio'] != ''){
+                $filtros ++;
+                $query .= " AND CAST(fecha AS date) >= CAST( $".$filtros." AS date)";
+                $fechainicio = $_REQUEST['fechainicio'];
+                array_push($params, $fechainicio);
+            }
+        }
+        //filtro fechafin
+        if(isset($_REQUEST['fechafin'])) {
+            if ($_REQUEST['fechafin'] != ''){
+                $filtros ++;
+                $query .= " AND CAST(fecha AS date) <= CAST( $".$filtros." AS date)";
+                $fechafin = $_REQUEST['fechafin'];
+                array_push($params, $fechafin);
+            }
+        }
+
+        // orden resultados
+        $query .= " ORDER BY fecha DESC";
+
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+        $filas[$i] = $row;
+        $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
+
+
 }
 
 ?>

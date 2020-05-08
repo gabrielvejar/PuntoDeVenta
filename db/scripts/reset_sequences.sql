@@ -1,0 +1,14 @@
+ALTER SEQUENCE public.caja_apertura_id_apertura_seq RESTART WITH 1;
+ALTER SEQUENCE public.caja_cierre_id_cierre_seq RESTART WITH 1;
+ALTER SEQUENCE public.dinero_custodia_id_dinero_custodia_seq RESTART WITH 1;
+ALTER SEQUENCE public.dinero_custodia_movimientos_id_movimiento_seq RESTART WITH 1;
+ALTER SEQUENCE public.gastos_caja_id_gasto_seq RESTART WITH 1;
+ALTER SEQUENCE public.producto_id_seq RESTART WITH 1;
+ALTER SEQUENCE public.promociones_id_promocion_seq RESTART WITH 1;
+ALTER SEQUENCE public.tipo_gasto_id_tipo_gasto_seq RESTART WITH 1;
+ALTER SEQUENCE public.tipo_pago_id_tipo_pago_seq RESTART WITH 1;
+ALTER SEQUENCE public."usuario_Cod_usuario_seq" RESTART WITH 1;
+ALTER SEQUENCE public.venta_detalle_id_detalle_seq RESTART WITH 1;
+ALTER SEQUENCE public.venta_id_venta_seq RESTART WITH 1;
+ALTER SEQUENCE public.venta_temporal_id_diario_seq RESTART WITH 1;
+ALTER SEQUENCE public.venta_temporal_id_venta_temp_seq RESTART WITH 1;

@@ -1,4 +1,5 @@
 var id_apertura = document.getElementById('id_ap').value;
+var ruta = document.getElementById('ruta').value;
 
 var datos = {};
 
@@ -14,34 +15,34 @@ $(function() {
 
     $('.filtros').change(function (e) { 
         e.preventDefault();
-
-        var mediodePago = $('#inputMediodePago').val();
-        datos['id_tipo_pago'] = mediodePago;
-
-        var cajero = $('#inputCajero').val();
-        datos['cajero'] = cajero;
-
-        var vendedor = $('#inputVendedor').val();
-        datos['vendedor'] = vendedor;
-
-
-        tablaVentas();
+        filtrar();
     });
     
 })
 
+function filtrar(){
+    var fecha = $('#inputFecha').val();
+    datos['fecha'] = fecha;
 
+    var mediodePago = $('#inputMediodePago').val();
+    datos['id_tipo_pago'] = mediodePago;
+
+    var cajero = $('#inputCajero').val();
+    datos['cajero'] = cajero;
+
+    var vendedor = $('#inputVendedor').val();
+    datos['vendedor'] = vendedor;
+
+
+    tablaVentas();
+}
+
+function handler(e){
+    filtrar();
+}
 
 
 function tablaVentas() {
-
-    // TODO agregar filtros
-
-
-
-    // var datos = {
-    //     'cmd': 'ventas'
-    // }
 
 
     datos['cmd'] = 'ventas';
@@ -88,6 +89,7 @@ function tablaVentas() {
                     // html += '<td><a value="'+element.id_venta_temp+'"><i class="fa fa-list" aria-hidden="true" title="Ver detalle" value="'+element.id_venta_temp+'"></i></a></td>';
                     html += '<td>';
                     html += '<i class="fa fa-list cursor" aria-hidden="true" data-toggle="tooltip" title="Ver detalle" onclick="verDetalle('+element.id_venta_temp+');"></i>';
+                    html += '<i class="fas fa-receipt cursor" aria-hidden="true" data-toggle="tooltip" title="Ver recibo" onclick="verRecibo('+element.id_venta+');"></i>';
                     
                     //TODO activar cuando se pueda anular ventas
                     // html += '<i class="fas fa-ban cursor" aria-hidden="true" data-toggle="tooltip" title="Anular venta" onclick="elim('+element.id_venta+');"></i>';
@@ -265,4 +267,19 @@ function verDetalle(id_venta_temp) {
 
 function elim(id) {
     bootbox.alert ('Anular venta id: '+id);
+}
+
+function verRecibo(id) {
+    $.fancybox.open({
+        src  : ruta+'imprimir/recibo_caja/recibo_caja.php?&id='+id,
+        type : 'iframe',
+        opts : { 
+            iframe : {
+                preload : true, 
+                css: {
+                    width: '200px'
+                }
+            }
+        }
+    });
 }

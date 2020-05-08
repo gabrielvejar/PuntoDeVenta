@@ -193,7 +193,8 @@ class WindowsPrintConnector implements PrintConnector
             if ($this -> userPassword == null) {
                 // No password
                 $command = sprintf(
-                    "smbclient %s -U %s -c %s -N -m SMB2",
+                    // "smbclient %s -U %s -c %s -N -m SMB2",
+                    "smbclient %s -U %s -c %s SMB2",
                     escapeshellarg($device),
                     escapeshellarg($user),
                     escapeshellarg("print -")
@@ -209,7 +210,8 @@ class WindowsPrintConnector implements PrintConnector
                     escapeshellarg("print -")
                 );
                 $redactedCommand = sprintf(
-                    "smbclient %s %s -U %s -c %s -m SMB2",
+                    // "smbclient %s %s -U %s -c %s -m SMB2",
+                    "smbclient %s %s -U %s -c %s -m",
                     escapeshellarg($device),
                     escapeshellarg("*****"),
                     escapeshellarg($user),
@@ -219,7 +221,8 @@ class WindowsPrintConnector implements PrintConnector
         } else {
             // No authentication information at all
             $command = sprintf(
-                "smbclient %s -c %s -N -m SMB2",
+                // "smbclient %s -c %s -N -m SMB2",
+                "smbclient %s -c %s -N -m",
                 escapeshellarg($device),
                 escapeshellarg("print -")
             );

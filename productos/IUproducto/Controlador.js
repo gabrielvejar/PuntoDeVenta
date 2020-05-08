@@ -132,7 +132,13 @@ $( document ).ready(function() {
             categoria = respuesta[0][4];
             imagen = respuesta[0][3];
             activo =  respuesta[0][6];
-     
+
+
+            if (respuesta[0][7] == 't') {
+                inventariable.checked = true
+            } else {
+                inventariable.checked = false
+            }
 
             if (document.getElementById("accion").value == "Agregar") {
 
@@ -183,7 +189,7 @@ $( document ).ready(function() {
                 comboUnidad();
 
                 if (imagen != ""){
-                    document.getElementById('imagenactual').innerHTML = ' <a id="eliminar-imagen" class="cursor">Eliminar Imagen</a> <div class="img-producto" id="'+imagen+'"><img src="/PuntodeVenta/img/productos/' + imagen +'"  width="50%" > </div>';
+                    document.getElementById('imagenactual').innerHTML = ' <a id="eliminar-imagen" class="cursor">Eliminar Imagen</a> <div class="img-producto" id="'+imagen+'"><img src="/img/productos/' + imagen +'"  width="50%" > </div>';
                     $('#row-subir').hide();
                     $( "#eliminar-imagen" ).click(function() {
                         $( "#imagenactual" ).hide();

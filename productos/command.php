@@ -39,7 +39,8 @@ switch ($cmd) {
 
         if (isset($_REQUEST['codigo'])) {
             if ($_REQUEST['codigo'] != ""){
-                $codigo = "%".$_REQUEST['codigo']."%";
+                $codigo = $_REQUEST['codigo'];
+                $codigo = str_replace("*", "%", $codigo);
             }
         }
 
@@ -74,6 +75,76 @@ switch ($cmd) {
         $query     .= " ORDER BY nombreproducto ASC
                             LIMIT $1
                             OFFSET $2";
+
+        $result    = pg_query_params($dbconn, $query, $params);
+
+        $filas      = array();
+
+        $i = 0;
+        while($row = pg_fetch_array($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+        break; 
+
+
+    case "cant-productos":
+
+        $inicio = 0;
+        $cant = 1000;
+        $nombre = "%"."%";
+        $codigo = "%"."%";
+        $categoria = "";
+
+        if (isset($_REQUEST['inicio'])) {
+            if ($_REQUEST['inicio'] != ""){
+                $inicio = $_REQUEST['inicio'];
+            }
+        }
+
+        if (isset($_REQUEST['cant'])) {
+            if ($_REQUEST['cant'] != ""){
+                $cant = $_REQUEST['cant'];
+            }
+        }
+
+        if (isset($_REQUEST['nombre'])) {
+            if ($_REQUEST['nombre'] != ""){
+                $nombre = "%".$_REQUEST['nombre']."%";
+            }
+        }
+
+        if (isset($_REQUEST['codigo'])) {
+            if ($_REQUEST['codigo'] != ""){
+                $codigo = $_REQUEST['codigo'];
+                $codigo = str_replace("*", "%", $codigo);
+            }
+        }
+
+        if (isset($_REQUEST['categoria'])) {
+            if ($_REQUEST['categoria'] != ""){
+                $categoria = $_REQUEST['categoria'];
+            }
+        }
+
+
+        $query     = "SELECT COUNT(idproducto)
+                            FROM public.producto
+                            WHERE activo = TRUE 
+                            AND LOWER(nombreproducto) LIKE LOWER($3)
+                            AND LOWER(codigodebarras) LIKE LOWER($4)";
+        if ($categoria != "") {
+            $query     .= " AND idcategoria = $5";
+            $params    = array($cant, $inicio, $nombre, $codigo, $categoria);
+        } else {
+            $params    = array($cant, $inicio, $nombre, $codigo);
+        }
+        $query     .= " LIMIT $1 OFFSET $2";
 
         $result    = pg_query_params($dbconn, $query, $params);
 
@@ -180,7 +251,7 @@ switch ($cmd) {
         if (isset($_REQUEST['codigo'])){
         $codigo = $_REQUEST['codigo'] ;
 
-        $query     = "SELECT p.idproducto, p.nombreproducto, p.precio, p.imagen, p.idcategoria, p.idunidad, p.activo
+        $query     = "SELECT p.idproducto, p.nombreproducto, p.precio, p.imagen, p.idcategoria, p.idunidad, p.activo, p.inventariable
         FROM public.producto p
         WHERE p.codigodebarras = $1";
         $params    = array($codigo);

@@ -4,14 +4,14 @@ $(function() {
 })
 
 var id_venta = document.getElementById('id_venta_temp').value;
+var datos = {};
 
 function tablaDetalleVenta() {
 
 
-    var datos = {
-        'cmd': 'buscar-venta-temporal',
-        'id_venta_temp': id_venta
-    }
+    datos ['cmd'] = 'buscar-venta-temporal';
+    datos ['id_venta_temp'] = id_venta;
+
 
     $.ajax({
         type: "POST",

@@ -1,14 +1,19 @@
 <?php
+session_start();
 
+
+$num_atencion = "";
+$total = 0;
+$vendedora = explode(" ", $_SESSION['usuario']['nombre'])[0];
 if (isset($_REQUEST['num_atencion'])) {
     $num_atencion = $_REQUEST['num_atencion'];
 } else {
-    die();
+    // die();
 }
 if (isset($_REQUEST['total'])) {
     $total = $_REQUEST['total'];
 } else {
-    die();
+    // die();
 }
 
 require __DIR__ . '/autoload.php'; //Nota: si renombraste la carpeta a algo diferente de "ticket" cambia el nombre en esta línea
@@ -35,7 +40,7 @@ escribe el nombre de la tuya. Recuerda que debes compartirla
 desde el panel de control
  */
 
-$nombre_impresora = "POS58";
+$nombre_impresora = "MESON";
 
 $connector = new WindowsPrintConnector($nombre_impresora);
 $printer = new Printer($connector);
@@ -43,17 +48,25 @@ $printer->setJustification(Printer::JUSTIFY_CENTER);
 
 
 // $logo = EscposImage::load("logopanaderia.jpg", false);
-$logo = EscposImage::load("resized.png", false);
+// $logo = EscposImage::load("resized.png", false);
 
-$printer->bitImage($logo);
+// $printer->bitImage($logo);
 
 /*
 Imprimimos un mensaje. Podemos usar
 el salto de línea o llamar muchas
 veces a $printer->text()
  */
+// date_default_timezone_set("America/Santiago");
 
+$printer->feed(2);
+$printer->setTextSize(2, 1);
+$printer->text("PANADERIA MINGO\n");
+
+$printer->feed(2);
+$printer->setTextSize(1, 1);
 $printer->text(date("d/m/Y H:i:s") . "\n");
+$printer->text("Vendedora: ".$vendedora."\n");
 $printer->feed();
 $printer->setTextSize(2, 2);
 $printer->text($num_atencion);
@@ -61,12 +74,12 @@ $printer->text($num_atencion);
 $printer->feed(2);
 
 $printer->setTextSize(2, 1);
-$printer->text("Total: $".$total);
+$printer->text("Total: $".number_format($total, 0, ',', '.'));
 
-$printer->feed();
+// $printer->feed();
 
-$printer->setTextSize(2, 2);
-$printer->text("Paga ctm!");
+// $printer->setTextSize(2, 2);
+// $printer->text("Paga ctm!");
 
 // $printer->setTextSize(2, 1);
 // $printer->feed();
@@ -75,7 +88,7 @@ $printer->text("Paga ctm!");
 Hacemos que el papel salga. Es como
 dejar muchos saltos de línea sin escribir nada
  */
-$printer->feed(3);
+$printer->feed(6);
 
 /*
 Cortamos el papel. Si nuestra impresora

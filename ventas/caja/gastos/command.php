@@ -182,11 +182,32 @@ switch ($cmd) {
         $params    = array();
 
         $filtros = 0;
+
+        //filtro idapertura
         if(isset($_REQUEST['id_apertura'])) {
             $filtros ++;
             $query .= " AND id_apertura = $".$filtros;
             $id_apertura = $_REQUEST['id_apertura'];
             array_push($params, $id_apertura);
+        }
+
+        //filtro fechainicio
+        if(isset($_REQUEST['fechainicio'])) {
+            if ($_REQUEST['fechainicio'] != ''){
+                $filtros ++;
+                $query .= " AND CAST(fecha AS date) >= CAST( $".$filtros." AS date)";
+                $fechainicio = $_REQUEST['fechainicio'];
+                array_push($params, $fechainicio);
+            }
+        }
+        //filtro fechafin
+        if(isset($_REQUEST['fechafin'])) {
+            if ($_REQUEST['fechafin'] != ''){
+                $filtros ++;
+                $query .= " AND CAST(fecha AS date) <= CAST( $".$filtros." AS date)";
+                $fechafin = $_REQUEST['fechafin'];
+                array_push($params, $fechafin);
+            }
         }
 
 

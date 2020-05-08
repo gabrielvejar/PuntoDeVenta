@@ -1,7 +1,9 @@
 // var rutaraiz = $('#ruta').val();
 
+var nombreaux = ""
+var codigoaux = ""
 
-var listaDetalle = [];
+var listaDetalle = []
 
 
 function verificarCajaAbierta() {
@@ -256,7 +258,7 @@ function listarDetalle() {
 
 function buscarProducto() {
     $('#total_producto').val('');
-    $('#otraCantidad').collapse('hide');
+    // $('#otraCantidad').collapse('hide');
 
     
     var codigo  = document.getElementById('codigo').value;
@@ -291,7 +293,7 @@ function buscarProducto() {
     document.getElementById('promo_activo').value = "";
     
     
-    ajax(ruta, params, metodo, async,json,function(respuesta){
+    ajax(ruta, params, metodo, async,json, function(respuesta){
         // console.log(respuesta);
         var filas = Object.keys(respuesta).length;
         // console.log(filas);
@@ -343,7 +345,7 @@ function buscarProducto() {
 
 
 
-            
+            // debugger;
             // console.log('show');
             if (respuesta[0].idproducto == "0") {
                 document.getElementById("total_producto").readOnly = false;
@@ -351,11 +353,12 @@ function buscarProducto() {
                 // $('#fila2').collapse('hide');
                 $('#fila2').hide();
                 $('#precio-item').collapse('show');
+                $('#otraCantidad').collapse('hide');
                 document.getElementById("total_producto").focus();
             } else {  
 
                 
-                if (respuesta[0].idunidad == "1") {
+                if (respuesta[0].idunidad == "2") {
                     $('#precio-item').collapse('show');
                     $('#otraCantidad').collapse('hide');
                     document.getElementById("total_producto").readOnly = false;
@@ -389,7 +392,6 @@ function buscarProducto() {
                 
             
         } else {
-            
             // console.log('producto no encontrado');
             $('#precio-item').collapse('hide');
             $('.descuento').collapse('hide');
@@ -397,14 +399,17 @@ function buscarProducto() {
             $("#precio_producto").val('');
             $("#cantidad").val('');
             $("#total_producto").val('');
+            $('#otraCantidad').collapse('hide');
 
+            document.getElementById("codigo").focus();
             // $('#img-producto').hide();
         }
         
         
         
     });
-
+    
+    
 
 }
 
@@ -503,7 +508,11 @@ function borrarLineaDetalle (indice) {
                 listaDetalle.splice(indice, 1);
                 listarDetalle();
                 calcular_total_venta();
-                document.getElementById("codigo").focus();
+                $('#codigo').val('');
+                buscarProducto();
+                
+                // document.getElementById("codigo").focus();
+                
             }
         }
     })
@@ -515,6 +524,7 @@ function borrarLineaDetalle (indice) {
 function imprimirTicket(id, total) {
     $.ajax({
         type: "POST",
+        // url: rutaraiz+"print/ticket_atencion_l.php",
         url: rutaraiz+"print/ticket_atencion.php",
         data: {
             'num_atencion': id,
@@ -544,7 +554,7 @@ function terminarVenta() {
 
                     // console.log(data);
 
-                    // imprimirTicket(data, totalVenta); FIXME volver a habilitar
+                    imprimirTicket(data, totalVenta);
 
                     setTimeout(() => {
                         location.reload();
@@ -555,7 +565,7 @@ function terminarVenta() {
                         message: "Número de atencion: <b>"+data+"</b>",
                         centerVertical: true,
                         callback: function (result) {
-                            var ruta = $('#btn-imprimir').val();
+                            // var ruta = $('#btn-imprimir').val();
                             // location.replace(ruta);
                             location.reload();
                         }
@@ -700,7 +710,8 @@ $('#btn-otra-cant').click(function (e) {
 
 
     $(document).on('focus', '#nombre', function(event) {
-        $('#nombre').val('');
+        nombreaux = $('#nombre').val()
+        $('#nombre').val('')
    });
     $(document).on('focus', '#cantidad', function(event) {
         $('#cantidad').val('');
@@ -710,17 +721,21 @@ $('#btn-otra-cant').click(function (e) {
         $('#codigo').val('');
    });
    $('#codigo').focusout(function() {
-    buscarProducto()
+    // buscarProducto()
   })
    $('#nombre').focusout(function() {
-    buscarProducto()
+       if ($('#nombre').val().length == 0) {
+        $('#nombre').val(nombreaux)
+        nombreaux = ""
+       }
+    // buscarProducto()
   })
 
 
     $(document).on('click', '#btn-borrar', function(event) {
         $('#codigo').val('');
         buscarProducto();
-        document.getElementById("codigo").readOnly = true;
+        // document.getElementById("codigo").readOnly = true;
         document.getElementById("codigo").focus();
         document.getElementById("codigo").readOnly = false;
    });

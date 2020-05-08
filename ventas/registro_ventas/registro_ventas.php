@@ -82,7 +82,7 @@ if (isset($_REQUEST['sb'])) {
                         <?php if ($id_ap == 0)  {?>
                             <div class="form-group col">
                                 <label for="inputFecha">Fecha</label>
-                                <input type="date" class="form-control" id="inputFecha" placeholder="">
+                                <input type="date" class="form-control" id="inputFecha" placeholder="" onchange="handler(event);">
                             </div>
                         <?php } ?>
                             <div class="form-group col">

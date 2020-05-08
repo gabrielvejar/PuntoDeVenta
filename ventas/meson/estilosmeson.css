@@ -58,7 +58,7 @@ input, img, button {
 
 #div1-1 {
     height: 188px;
-    width: 392px;
+    width: 472px;
     padding: 10px;
 }
 #div1-2 {
@@ -70,7 +70,7 @@ input, img, button {
 }
 #div1-3 {
     height: 188px;
-    width: 183px;
+    width: 132px;
     padding: 10px;
 }
 #div2-1 {
@@ -123,7 +123,7 @@ input, img, button {
 
 
  #div1-1 > input {
-     margin-bottom: 15px;
+    margin-bottom: 20px;
      padding-left: 10px;
      border-radius: 5px;
      color: black;
@@ -133,7 +133,7 @@ input, img, button {
     border-radius: 10px;
 }
  #nombre {
-    font-size: 26px;
+    font-size: 19px;
 }
 
  #div1-3 > button, #btn-buscar {
@@ -277,7 +277,7 @@ button#btn-otra-cant {
     position: absolute;
     top: 230px;
     z-index: 9999;
-    width: 341px;
+    width: 399px;
 }
  
 #suggestions .suggest-element {

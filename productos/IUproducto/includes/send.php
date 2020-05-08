@@ -1,9 +1,13 @@
 <?php 
 
+
+
 $ruta = "";
 while (!(file_exists ($ruta . "index.php"))) {
     $ruta = "../" . $ruta;
 }
+
+$css ="";
 
 include_once $ruta . "includes/header.php";
 #conexion a base de datos
@@ -18,12 +22,26 @@ $nombre = $_REQUEST["nombre"];
 $precio = $_REQUEST["precio"];
 $unidad = $_REQUEST["unidad"];
 $categoria = $_REQUEST["categoria"];
+
+$inventariable = "f";
+if (isset($_REQUEST["inventariable"])) {
+    if ($_REQUEST["inventariable"] == 'on'){
+        $inventariable = 't';
+    }
+}
+
+
+$id_usuario = $_SESSION['usuario']['id_usuario'];
+
+
 $cambioimagen = "f";
 if ($_REQUEST["cambio-imagen"] == "t"){
     $cambioimagen = $_REQUEST["cambio-imagen"];
 }
 $imagen = $_FILES["fichero_usuario"]['name'];
 $dir_subida = $ruta.'img/productos/';
+
+
 
 $fichero_subido = "";
 // $fichero_subido = $dir_subida . basename($_FILES['fichero_usuario']['name'], $ext) . $ext;
@@ -103,11 +121,12 @@ if ($imagen != ""){
 }
 
 
-
+    
     // $imagen = $_FILES["fichero_usuario"];
     // SELECT public.fn_producto_iu(?nombre, ?codigo, ?precio, ?imagen, ?idcat, ?idun);
-    $query     = "SELECT public.fn_producto_iu($1, $2, $3, $4, $5, $6, $7)";
-    $params    = array($nombre, $codigo, $precio, $fichero_subido, $categoria, $unidad, $cambioimagen);
+    //TODO ultima modificacion de producto
+    $query     = "SELECT public.fn_producto_iu($1, $2, $3, $4, $5, $6, $7, $8, $9)";
+    $params    = array($nombre, $codigo, $precio, $fichero_subido, $categoria, $unidad, $cambioimagen,$inventariable, $id_usuario);
 
     $result    = pg_query_params($dbconn, $query, $params);
 

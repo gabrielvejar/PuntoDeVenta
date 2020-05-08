@@ -31,14 +31,20 @@ if (isset($_REQUEST['sb'])) {
     include $ruta . "includes/sidebarinicio.php"; 
 }
 
+$id = "";
+if (isset($_REQUEST['id'])) {
+    if ($_REQUEST['id'] != ''){
+        $id = $_REQUEST['id'];
+    } 
+} 
 ?>
 
 
-
 <div id="contenedor" class="container lam">
+    
+    <input type="hidden" name="id_user" id="id_user" value="<?php echo $id ?>">
 
-
-    <h1><i class="fa fa-user-plus" aria-hidden="true"></i> Agregar nuevo usuario</h1>
+    <h1><i class="fa fa-user-plus" aria-hidden="true"></i> <span id="titulo">Agregar nuevo usuario</span></h1>
 
     <div class="row">
         <div class="col"></div>
@@ -47,11 +53,11 @@ if (isset($_REQUEST['sb'])) {
             <form autocomplete="off">
                 <div class="form-group">
                     <label for="inputNombre">Nombre</label>
-                    <input type="email" class="form-control" id="inputNombre" placeholder="Nombre Apellido">
+                    <input type="text" class="form-control" id="inputNombre" placeholder="Nombre Apellido">
                 </div>
                 <div class="form-group">
                     <label for="inputUsername">Nombre de usuario</label>
-                    <input type="email" class="form-control" id="inputUsername" placeholder="Nombre de usuario">
+                    <input type="text" class="form-control" id="inputUsername" placeholder="Nombre de usuario">
                 </div>
                 <div class="form-group">
                     <label for="inputPassword">Contraseña</label>

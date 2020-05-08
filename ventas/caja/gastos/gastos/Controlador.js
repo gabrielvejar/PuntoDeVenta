@@ -1,3 +1,6 @@
+var datos = {};
+var id_apertura = getUrlParam('id','0');
+
 function selectTipoGasto() {
     $.ajax({
         type: "POST",
@@ -37,15 +40,14 @@ function selectDineroCustodia() {
     });
   }
 function tablaGastos() {
-    var datos = {
-        'cmd': 'tabla-gastos'
-    }
+    // var datos = {
+    //     'cmd': 'tabla-gastos'
+    // }
 
-    var id_apertura = getUrlParam('id','0');
+    datos['cmd'] = 'tabla-gastos';
 
     if (id_apertura != '0') {
         datos['id_apertura'] = id_apertura;
-
         $('#id_apertura').text('Caja ID: '+id_apertura);
     }
 
@@ -94,7 +96,8 @@ function tablaGastos() {
                     html += '<td class="td-acciones">';
                     html += '<i class="fa fa-user usuario"  data-toggle="tooltip" aria-hidden="true" title="'+element['usuario_ingreso']+'"></i>';
                     // html += '<i class="fas fa-edit cursor modificar" aria-hidden="true" value="'+element['id_gasto']+'" title="Modificar"></i>';
-                    html += '<i class="fas fa-trash-alt cursor eliminar" data-toggle="tooltip" aria-hidden="true" onclick="elim('+element['id_gasto']+', '+element['id_mov_custodia']+')" title="Eliminar"></i></th>';
+                    if (id_apertura != '0') html += '<i class="fas fa-trash-alt cursor eliminar" data-toggle="tooltip" aria-hidden="true" onclick="elim('+element['id_gasto']+', '+element['id_mov_custodia']+')" title="Eliminar"></i>';
+                    html += '</td>';
                     html += '</tr>';
                 });
                 tabla.html(html);
@@ -318,6 +321,20 @@ function eliminarGasto(idGasto) {
 
 
 
+function limpiarFiltros() {
+    $('.filtros').val('');
+}
+
+function filtrar() {
+    var fechainicio = $('#inputFechaInicio').val();
+    datos['fechainicio'] = fechainicio;
+
+    var fechafin = $('#inputFechaFin').val();
+    datos['fechafin'] = fechafin;
+
+    tablaGastos();
+}
+
 
 
 
@@ -345,18 +362,55 @@ $(function() {
     selectDineroCustodia();
     tablaGastos();
 
-    
-    $(".iframe").fancybox({
-        iframe: {
-            scrolling : 'auto',
-            preload   : false
+    if (id_apertura == '0') {
+        document.getElementById("superior-ingreso").remove(); //eliminar div de ingreso de gasto
+    }
 
-        },
-        afterClose: function( instance, slide ) {
-            selectDineroCustodia();
-        }
 
+    $('#btn-filtrar').click(function (e) { 
+        e.preventDefault();
+        filtrar();
     });
+    
+    
+    $('#btn-limpiar').click(function (e) { 
+        e.preventDefault();
+        limpiarFiltros();
+        filtrar();
+    });
+    
+
+$('#btn-otro').click(function (e) { 
+    e.preventDefault();
+    $.fancybox.open({
+        src  : '../dinero_en_custodia/custodia.php?&sb=no',
+        type : 'iframe',
+        opts : {
+          afterShow : function( instance, current ) {
+            console.info( 'done!' );
+          },
+          iframe : {
+              preload : false
+          },
+            afterClose: function( instance, slide ) {
+                selectDineroCustodia();
+            }
+        }
+      });
+});
+
+    
+    // $(".iframe").fancybox({
+    //     iframe: {
+    //         scrolling : 'auto',
+    //         preload   : false
+
+    //     },
+    //     beforeClose: function( instance, slide ) {
+    //         selectDineroCustodia();
+    //     }
+
+    // });
 
 
     $('#agregarGastoSwitch').change(function (e) { 

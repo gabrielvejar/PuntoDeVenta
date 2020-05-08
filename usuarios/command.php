@@ -54,7 +54,8 @@ switch ($cmd) {
 
         $nombre = $_REQUEST['nombre'];
         $username = $_REQUEST['username'];
-        $password = $_REQUEST['password']; //TODO ver si le aplico hash
+        // $password = $_REQUEST['password']; 
+        $password = hash('sha256', $_REQUEST['password']);
         $tipo_usuario = $_REQUEST['tipo_usuario'];
 
         $query     = "SELECT * FROM public.fn_usuario_i($1, $2, $3, $4)";
@@ -65,6 +66,85 @@ switch ($cmd) {
         $row = pg_fetch_row($result);
 
         echo $row['0'];
+
+    break;
+
+
+    case 'modificar-usuario':
+
+        $idUsuario = $_REQUEST['idUsuario'];
+        
+        $nombre = $_REQUEST['nombre'];
+        $modPass = $_REQUEST['modPass'];
+        // $password = $_REQUEST['password'];
+        $password = hash('sha256', $_REQUEST['password']);
+        $tipo_usuario = $_REQUEST['tipo_usuario'];
+
+        $query     = "SELECT * FROM public.fn_usuario_u($1, $2, $3, $4, $5)";
+        $params    = array($idUsuario, $nombre, $modPass, $password, $tipo_usuario);
+        $result    = pg_query_params($dbconn, $query, $params);
+        
+
+        $row = pg_fetch_row($result);
+
+        echo $row['0'];
+
+    break;
+
+    case 'tabla-usuarios':
+
+        $query     = "SELECT 
+                                id_usuario,
+                                nombre,
+                                usuario,
+                                tipo_usuario,
+                                tipo_usuario_completo
+                            FROM 
+                                public.vw_usuarios;";
+        $params    = array();
+        $result    = pg_query_params($dbconn, $query, $params);
+        
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
+
+    break;
+
+    case 'datos-usuario':
+        $id = $_REQUEST['id'];
+
+        $query     = "SELECT 
+                                id_usuario,
+                                nombre,
+                                usuario,
+                                tipo_usuario,
+                                tipo_usuario_completo
+                            FROM 
+                                public.vw_usuarios
+                            WHERE
+                                id_usuario = $1;";
+
+        $params    = array($id);
+
+        $result    = pg_query_params($dbconn, $query, $params);
+        
+        $filas = [];
+        $i = 0;
+        while($row = pg_fetch_assoc($result))
+        {
+            $filas[$i] = $row;
+            $i++;
+        }
+
+        $json = json_encode($filas);
+        echo $json;
 
     break;
 

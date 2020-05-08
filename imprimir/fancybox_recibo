@@ -1,0 +1,4 @@
+$.fancybox.open({
+	src  : 'http://localhost/imprimir/recibo_caja/recibo_caja.php?id=458',
+	type : 'iframe'
+, opts : { iframe : {preload : true, css: {width: '200px'}}}});

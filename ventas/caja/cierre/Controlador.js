@@ -110,7 +110,7 @@ function cerrarCaja () {
     var efectivo_cierre = $('#input-efectivo').val();
     efectivo_cierre = limpiarNumero (efectivo_cierre);
 
-    var entrega = $('#input-efectivo').val();
+    var entrega = $('#input-entrega').val();
     entrega = limpiarNumero (entrega);
 
 
